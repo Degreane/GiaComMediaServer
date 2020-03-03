@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <%- include('partials/head',locals) %>
+  
+  <body>
+    <!-- Header Navbar -->
+    <%- include('partials/navbar',locals) %>
+    
+    <div class="container-fluid" style="margin-bottom: 50px;">
+        
+        <div class="row">
+            <% if (typeof(locals.movies) == "undefined") { %> 
+                
+                <div class="jumbotron">
+                    <div class="container">
+                        <h1 style="text-align: center;text-shadow: 2px 2px 5px #f9f2f2; font-style: italic; color: #3b1ec2; font-weight: bolder; font-variant: small-caps;">Movies</h1>
+                        <div class="alert alert-danger">
+                            <!-- <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> -->
+                            <strong>...</strong> There are currently <strong>no movies</strong> available<br>Please contact site admin for further notice.
+                        </div>
+                        
+                    </div>
+                </div>
+                
+            <% }else if(typeof(locals.movies.years) != "undefined") { %> 
+                <div class="modal fade in " id="modal1" tabindex="-1" role="dialog" aria-hidden="true" style="display:block;background-color: rgba(32,32,32,0.6);" data-keyboard="false" data-show="true" data-backdrop="static"> 
+                    <div class="modal-dialog modal-lg"> 
+                        <div class="modal-content"> 
+                            <div class="modal-header text-center text-primary" style="font-variant: small-caps; text-transform: capitalize; text-shadow: 2px 2px 3px; font-style: italic;"> 
+                                <h4 class="modal-title">Years</h4>
+                            </div>                         
+    
+                            <div class="modal-body"> 
+                                 
+                                 <!-- <div class="container"> -->
+                                     
+                                     <div class="row">
+                                        <% locals.movies.years.forEach(function(item,idx){ %>
+                                            
+                                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 text-center">
+                                                <a href="/movies?list_year=<%= item %>"><%= item %></a>    
+                                            </div>
+                                            
+                                            
+                                        <% }) %>
+                                    </div>
+                                 <!-- </div> -->
+                                 
+                            </div>                         
+    
+                            <div class="modal-footer text-center center-block" style="text-align: center;"> 
+                                <a href="/movies?list_year=any" type="button" class="btn btn-default" data-dismiss="modal">Any</a>                             
+                            </div>                         
+                        </div>                     
+                    </div>                 
+                </div>
+            <% } else { %>
+                <div class="row center-block text-center"> 
+                <% locals.movies.list.forEach(function(item,index){ %>
+                     
+                    <%- include('partials/movie',{'item':item,'text_truncate_padEnd':locals['text_truncate_padEnd']}) %>
+                    <% if ((index+1)%6 == 0 ){ %>
+                    </div>
+                    <div class="row center-block text-center"> 
+                    <% } %> 
+                <%}) %>
+                </div>
+            <% } %>
+                
+                
+                
+                
+        </div>
+        
+    </div>
+    
+    
+    <!-- Footer NavBar  -->
+    <%- include('partials/footer_navbar') %>
+    <!-- Foot Scripts JavaScripts -->
+    <%- include('partials/foot') %>
+  </body>
+  
+</html>

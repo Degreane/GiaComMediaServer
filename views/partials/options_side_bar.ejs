@@ -1,0 +1,52 @@
+<div class="col-lg-2 col-md-3">      
+
+    <div class="panel panel-primary">
+        <div class="panel-heading text-center">
+            <h1 class="panel-title"><b><i>Options :</i></b></h1>
+        </div>         
+
+        <div class="panel-body">
+            <div class="panel-group" role="tablist" id="accordion" aria-multiselectable="true"> 
+                <div class="panel panel-default"> 
+                    <div class="panel-heading text-center" role="tab" id="headingOne"> 
+                        <h4 class="panel-title"> <a href="#collapseOne" role="button" data-toggle="collapse" data-parent="#accordion" aria-expanded="true" aria-controls="collapseOne"> Account Settings </a> </h4> 
+                    </div>                     
+                    <div class="collapse panel-collapse <% if (['account settings','profile','logs','mail box'].indexOf(locals.page) != -1 ) { %> in <% } %>" role="tabpanel" id="collapseOne" aria-labelledby="headingOne"> 
+                        <div class="panel-body">
+                            <div class="list-group">
+                                <a href="/profile" class="list-group-item text-center <% if (locals.page == 'profile') {%> active <% } %>"> Profile </a>
+                                <a href="/logs" class="list-group-item text-center <% if (locals.page == 'logs') {%> active <% } %>">Logs</a> 
+                                <a href="#" class="list-group-item text-center <% if (locals.page == 'mail box') {%> active <% } %>">Mail Box</a> 
+                            </div>
+                        </div>                         
+                    </div>                     
+                </div>                 
+                <div class="panel panel-default"> 
+                    <div class="panel-heading text-center" role="tab" id="headingTwo"> 
+                        <h4 class="panel-title"> <a href="#collapseTwo" class="collapsed text-center" role="button" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" aria-controls="collapseTwo"> Users </a> </h4> 
+                    </div>                     
+                    <div class="collapse panel-collapse" role="tabpanel" id="collapseTwo" aria-labelledby="headingTwo"> 
+                        <div class="panel-body"> Panel2 Body. </div>                         
+                    </div>                     
+                </div>                 
+                <div class="panel panel-default"> 
+                    <div class="panel-heading text-center" role="tab" id="headingThree"> 
+                        <h4 class="panel-title"> <a href="#collapseThree" class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" aria-controls="collapseThree"> System </a> </h4> 
+                    </div>                     
+                    <div class="collapse panel-collapse" role="tabpanel" id="collapseThree" aria-labelledby="headingThree"> 
+                        <div class="panel-body"> Panel3 Body</div>                         
+                    </div>                     
+                </div>                 
+                <div class="panel panel-default"> 
+                    <div class="panel-heading text-center"> 
+                        <h4 class="panel-title"> <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse1">                    Tools                    </a> </h4> 
+                    </div>                     
+
+                    <div id="collapse1" class="panel-collapse collapse"> 
+                        <div class="panel-body">                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.                    </div>                         
+                    </div>                     
+                </div>
+            </div>             
+        </div>         
+    </div>
+</div>

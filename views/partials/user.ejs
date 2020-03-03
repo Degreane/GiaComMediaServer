@@ -1,0 +1,111 @@
+<div class="col-md-8 col-lg-8 col-lg-push-1">
+    <div class="jumbotron">
+        <h4 class="text-center" style="border-radius: 4px; border: 1px solid; box-shadow: 1px 1px 1px 1px #f7f0f0 , 2px 2px 1px 1px; padding-top: 5px;
+        padding-bottom: 5px;"><b><i>User Profile</i></b><span class="bg-info text-primary" style="border-radius: 5px;">&nbsp;<%= locals.loggedInUser.uFirstName %>&nbsp;<%= locals.loggedInUser.uLastName %></span></h4> 
+        <form role="form" class="form-horizontal text-primary" action="/profile" name="profile" id="profile" data-pg-name="profile" title="profile" style="border-radius: 5px; box-shadow: 1px 1px 1px 1px #f9f3f3 , 2px 2px 1px 1px #000000; border: 1px solid #000000;" method="POST"> 
+            <div class="form-group"> 
+                <label class="control-label col-sm-2" for="uName">UserName</label>             
+                <div class="col-sm-10" data-pg-name="uName">
+                    <div>
+                        <input type="hidden" id='_id' name='_id' value="<%= locals.loggedInUser._id %>" >
+                        <input type="text" class="form-control text-center" name="uName" id="uName" placeholder="User Name" data-pg-name="uName" value="<%= locals.loggedInUser.uName %>">
+                    </div>
+                </div>             
+            </div>         
+            <div class="form-group"> 
+                <label class="control-label col-sm-2" for="uPass">Password</label>             
+                <div class="col-sm-10">
+                    <div>
+                        <input type="password" class="form-control text-center" id="uPass" name="uPass"  placeholder="Password" value="<%= locals.loggedInUser.uPass %>">
+                    </div>
+                </div>             
+            </div>         
+            <div class="form-group"> 
+                <label class="control-label col-sm-2" for="formInput83">First Name</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control text-center" id="formInput83" placeholder="First Name" name="uFirstName" value="<%= locals.loggedInUser.uFirstName %>">
+                </div>
+            </div>
+            <div class="form-group"> 
+                <label class="control-label col-sm-2" for="uLastName">Last Name</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control text-center" id="uLastName" placeholder="Last Name" name="uLastName" value="<%= locals.loggedInUser.uLastName %>">
+                </div>
+            </div>
+            <div class="form-group"> 
+                <label class="control-label col-sm-2" for="uCreatedBy">Created By</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control text-center" id="uCreatedBy" placeholder="Created By" name="uCreatedBy" value="<%= locals.loggedInUser.uCreatedBy.uName %>" disabled>
+                </div>
+            </div>
+            <div class="form-group"> 
+                <label class="control-label col-sm-2" for="uCreatedAt">Created At</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control text-center" id="createdAt" placeholder="Created At"  value="<%= new Date(locals.loggedInUser.createdAt) %>" disabled>
+                </div>
+            </div>
+            <div class="form-group"> 
+                <label class="control-label col-sm-2" for="uUpdatedAt">Last Updated At</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control text-center" id="updatedAt" placeholder="Updated At" value="<%= new Date(locals.loggedInUser.updatedAt) %>" disabled>
+                </div>
+            </div>
+            <div class="form-group"> 
+                <label class="control-label col-sm-2" for="uInfo">Info</label>             
+    
+                <div class="col-sm-10">
+                    <textarea class="form-control bg-info" rows="3" id="uInfo" name="uInfo" data-pg-name="uInfo"><%= locals.loggedInUser.uInfo %></textarea>
+                </div>
+            </div>
+            <% if(['admin','siteAdmin','sysAdmin'].indexOf(locals.loggedInUser.uType) !== -1) {%>
+            <div class="form-group"> 
+                <label class="control-label col-sm-2" for="uComment">Comment</label>     
+            
+                <div class="col-sm-10">
+                    <textarea class="form-control" rows="3" id="uComment" name="uComment" data-pg-name="uComment"><%= locals.loggedInUser.uComment%></textarea>
+                </div>
+            </div>
+            <% } %>
+            <div class="form-group">
+                
+                    <label class="control-label col-sm-2">
+                        Account Type
+                    </label>
+                    <div class="col-sm-10 text-capitalize">
+                        <div class="radio">
+                        <% ['client','admin','siteAdmin','sysAdmin','guest'].forEach(function(Type){
+                            %> <label class="control-label">
+                                <input type="radio" name="uType" value="<%= Type %>" <% if (Type == locals.loggedInUser.uType) {%> checked="checked" <% } %> <% if (['client','guest'].indexOf(locals.loggedInUser.uType) !== -1 ) {%> disabled <% } %>><%= Type %>
+                            </label> &nbsp;&nbsp;&nbsp;&nbsp;
+                        <% }) %>
+                        
+                            
+                        </div>
+                    </div>
+                
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2">
+                    Account Status
+                </label>
+                <div class="col-sm-10 text-capitalize">
+                    <div class="radio"> 
+                        <label class="control-label"> 
+                            <input type="radio" value=true name='uEnabled' <% if(locals.loggedInUser.uEnabled==true) { %> checked="checked" <% } %> <% if (['client','guest'].indexOf(locals.loggedInUser.uEnabled) !== -1 ) { %> disabled <% } %> > Enabled        
+                        </label> &nbsp;&nbsp;&nbsp;&nbsp;
+                        <label class="control-label"> 
+                            <input type="radio" value=false name='uEnabled' <% if(locals.loggedInUser.uEnabled==false) { %> checked="checked" <% } %> <% if (['client','guest'].indexOf(locals.loggedInUser.uEnabled) !== -1 ) { %> disabled <% } %> > Disabled        
+                        </label>             
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-5 col-sm-2">
+                    <button type="submit" class="btn btn-primary"> 
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Update
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>          
+</div>

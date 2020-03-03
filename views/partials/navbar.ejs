@@ -1,0 +1,54 @@
+<nav class="navbar navbar-inverse"> 
+    <div class="container-fluid"> 
+        <div class="navbar-header"> 
+            <button type="button" class="collapsed navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-9" aria-expanded="false"> 
+                <span class="sr-only">Toggle navigation</span> 
+                <span class="icon-bar"></span> 
+                <span class="icon-bar"></span> 
+                <span class="icon-bar"></span> 
+            </button>                     
+            <a href="/" id="btn_go_home" class="navbar-brand"><img src="/assets/images/logo-old.png" class="img-responsive img-rounded clearfix" style="max-width: 7em;"/></a> 
+        </div>                 
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-9"> 
+            <ul class="nav navbar-nav"> 
+                 
+                <li <% if (locals.page == 'LiveTV' ) { %> class="active" <% } %> >
+                    <a href="/livetv" id="btn_goto_livetv">LiveTV</a>
+                </li>                         
+                <li <% if (locals.page == 'Movies' ) { %> class="active" <% } %> >
+                    <a href="/movies" id="btn_goto_movies">Movies</a>
+                </li>                         
+                <li <% if (locals.page == 'Series' ) { %> class="active" <% } %> >
+                    <a href="/series" id="btn_goto_series">Series</a>
+                </li>                         
+            </ul>
+            <% if (locals.page == 'Movies' ) { %>
+                <ul class="nav navbar-nav text-center" style="margin-left:10%;">
+                    <li style="margin:0px 2px;">
+                        <a class="btn" href="/movies?select_year=true" role="button">Year</a>
+                    </li>
+                    <li style="margin:0px 2px;">
+                        <a class="btn" href="/movies?select_genre=true" role="button">Genre</a>
+                    </li>
+                </ul>
+            <% } %>
+            <% if(typeof(locals.loggedIn) == "undefined" || !locals.loggedIn) { %>
+            <ul class="nav navbar-nav navbar-right">
+                <li <% if (locals.page == 'login' ) { %> class="active" <% } %> >
+                    <a href="/login" id="btn_goto_login">login</a>
+                </li>
+            </ul>
+            <% } else { %>
+            <ul class="nav navbar-nav navbar-right">
+                <li <% if (locals.page == 'options') { %> class="active" <% } %> >
+                    <a href="/options" id="btn_goto_profile"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                    options</a>
+                </li>
+                <li>
+                    <a href="/logout" id="btn_goto_logout">logout</a>
+                </li>
+            </ul>
+            <% } %>
+        </div>                 
+    </div>             
+</nav>

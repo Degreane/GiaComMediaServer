@@ -1,0 +1,10 @@
+<div class="col-sm-6 col-md-2 center-block"> 
+    <div class="thumbnail"> 
+        <img alt="Image For <%= item.title %>" 100%x200 src="<%= item.poster %>" class="img-thumbnail" style="max-height:200px;"> 
+        <div class="caption"> 
+            <h4><%= item.title %> - <%= item.year %></h4> 
+            <p><%- pad(truncate(item.plot,100,'...'),110) %></p> 
+            <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p> 
+        </div>         
+    </div>     
+</div>
