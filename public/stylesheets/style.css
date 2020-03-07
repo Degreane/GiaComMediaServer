@@ -6,3 +6,9 @@ body {
 a {
   color: #00B7FF;
 }
+.text-bolder{
+  font-weight: bolder;
+} 
+.text-italic {
+  font-style: italic;
+}

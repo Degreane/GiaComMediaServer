@@ -1,8 +1,9 @@
 <div class="col-sm-6 col-md-2 center-block"> 
-    <div class="thumbnail"> 
-        <img alt="Image For <%= item.title %>" 100%x200 src="<%= item.poster %>" class="img-thumbnail" style="max-height:200px;"> 
+    <div class="thumbnail" style="box-shadow: black 0px 0px 64px 8px inset;border-radius: 10px;"> 
+        <img alt="<%= item.title %>" 100%x200 src="<%= item.poster %>" class="img-thumbnail" style="max-height:200px;min-height: 200px;"> 
         <div class="caption"> 
-            <h4><%= item.title %> - <%= item.year %></h4> 
+            <h5 class="text-bolder text-italic truncate"><%= item.title %> - <%= item.year %></h5>
+            <h6 class="text-bolder text-italic"> <%= item.genres %> </h6>
             <p><%- pad(truncate(item.plot,100,'...'),110) %></p> 
             <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p> 
         </div>         

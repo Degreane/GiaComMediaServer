@@ -1,0 +1,28 @@
+.text-bolder{
+    font-weight: bolder;
+  } 
+  .text-italic {
+    font-style: italic;
+  }
+  .truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  a.disabled {
+    pointer-events: none;
+    cursor: default;
+    
+  }
+  .text-golden {
+    color:goldenrod !important;
+  }
+  .text-gold {
+    color: gold !important;
+  }
+  .text-lightyellow {
+    color:lightyellow !important;
+  }
+  .thumbnail:hover{
+    box-shadow: darkblue 0px 0px 64px 8px inset , black 0px 0px 12px 8px !important;
+  }

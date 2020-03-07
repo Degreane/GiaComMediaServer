@@ -110,10 +110,19 @@ var getMovieList = async function(req,res,next){
     /*
     to get the movie list we populate based upon req query string or form to check for page, count,year,genre, title regex  
     */
-   var query={}
-   if (typeof(req.session.movies)=='undefined') {
-    req.session.movies={};
-   }
+    var query={}
+    if (typeof(req.session.movies)=='undefined') {
+        /*
+        if no session movies set then set the movies session to hold a dictionary 
+        */
+        req.session.movies={};
+    }
+    if (typeof(res.locals['movies']) == "undefined"){
+        /*
+        if no res locals of movies set then set it to be a dictionary 
+        */
+        res.locals['movies']={};
+    }
    if('select_year' in req.query){
        /*
         if select_year is in the query submitted then we should show a modal of years to select one from.
@@ -130,7 +139,7 @@ var getMovieList = async function(req,res,next){
             next(error);
         }
    }
-//    console.log(res.locals)
+    //    console.log(res.locals)
    if ('select_genre' in req.query){
        try {
             const Movies=require('../models/movies');
@@ -138,23 +147,61 @@ var getMovieList = async function(req,res,next){
                 res.locals['movies']={};
             }
             var theGenres= await Movies.find().select({'genres':1,'_id':0}).distinct('genres');
-            var theGenresConcatenated=_.uniq(_.replace(_.join(theGenres,','),/ /g,'').split(',') )
-            // console.log(theGenresConcatenated);
-            next();
+            res.locals.movies['genres']=await _.uniq(_.replace(_.join(theGenres,','),/ /g,'').split(',') );
+            //next();
        } catch(error){
             next(error);
        }
    }
+   if ('page' in req.query){
+        var skip=(parseInt(req.query.page)-1)*24;
+        res.locals.movies.page=req.query.page;
+        console.log('Skip ',skip);
+   }else{
+       var skip=0;
+       res.locals.movies.page=1;
+       console.log('Skip ',skip);
+   }
    if ('list_year' in req.query && req.query['list_year'] !== 'any' ){
         query['year']=parseInt(req.query['list_year']);
+        res.locals.movies['list_year']=req.query['list_year'];
         req.session.movies['list_year']=query['year'];
    }else if('list_year' in req.session.movies){
+        res.locals.movies['list_year']=req.session.movies['list_year'];
         query['year']=req.session.movies['list_year'];
    }
    if ('list_year' in req.query && req.query['list_year'] == 'any') {
         delete req.session.movies['list_year'];
+        delete res.locals.movies['list_year'];
+        delete query['year'];
    }
-   console.log("The Requested Query ",query); 
+   if ('list_genre' in req.query && req.query['list_genre'] !== 'any'){
+       query['genres']=new RegExp(req.query['list_genre'],"g");
+       res.locals.movies['list_genre']=req.query['list_genre'];
+       req.session.movies['list_genre']=req.query['list_genre'];
+   }else if('list_genre' in req.session.movies){
+       res.locals.movies['list_genre']=req.session.movies['list_genre'];
+       query['genres']=new RegExp(req.session.movies['list_genre'],"g");
+   }
+   if ('list_genre' in req.query && req.query['list_genre'] == 'any') {
+       delete req.session.movies['list_genre'];
+       delete res.locals.movies['list_genre'];
+       delete query['genres'];
+   }
+   if ('s' in req.query && req.query['s'].trim().length > 0){
+       query['title']=new RegExp(req.query['s'],"gi");
+       req.session.movies['s']=req.query['s'];
+       res.locals.movies['s']=req.query['s'];
+   }else if('s' in req.session.movies){
+       query['title']=new RegExp(req.session.movies['s'],"gi");
+       res.locals.movies['s']=req.session.movies['s'];
+   }
+   if ('clear' in req.query) {
+        delete req.session.movies['s'];
+        delete res.locals.movies['s'];
+        delete query['title'];
+   }
+   console.log("The Requested Query ",query,req.session.movies); 
    try {
         const Movies=require('../models/movies');
         if (typeof(res.locals['movies']) == "undefined"){
@@ -163,7 +210,8 @@ var getMovieList = async function(req,res,next){
         
         res.locals.movies['list']=[];
         res.locals['movies']['count']=await Movies.countDocuments(query);
-        res.locals.movies.list=await Movies.find(query).limit(24);
+        res.locals.movies.list=await Movies.find(query).sort({title:'asc'}).skip(skip).limit(24);
+        
     } catch (error) {
         res.locals['movies']={'err':JSON.stringify(error)};
     }

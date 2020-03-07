@@ -37,7 +37,7 @@
                                      <div class="row">
                                         <% locals.movies.years.forEach(function(item,idx){ %>
                                             
-                                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 text-center">
+                                            <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2 text-center">
                                                 <a href="/movies?list_year=<%= item %>"><%= item %></a>    
                                             </div>
                                             
@@ -50,6 +50,38 @@
     
                             <div class="modal-footer text-center center-block" style="text-align: center;"> 
                                 <a href="/movies?list_year=any" type="button" class="btn btn-default" data-dismiss="modal">Any</a>                             
+                            </div>                         
+                        </div>                     
+                    </div>                 
+                </div>
+            <% } else if (typeof(locals.movies.genres) != "undefined") { %> 
+                <div class="modal fade in " id="modal1" tabindex="-1" role="dialog" aria-hidden="true" style="display:block;background-color: rgba(32,32,32,0.6);" data-keyboard="false" data-show="true" data-backdrop="static"> 
+                    <div class="modal-dialog modal-lg"> 
+                        <div class="modal-content"> 
+                            <div class="modal-header text-center text-primary" style="font-variant: small-caps; text-transform: capitalize; text-shadow: 2px 2px 3px; font-style: italic;"> 
+                                <h4 class="modal-title">Genres</h4>
+                            </div>                         
+    
+                            <div class="modal-body"> 
+                                 
+                                 <!-- <div class="container"> -->
+                                     
+                                     <div class="row">
+                                        <% locals.movies.genres.forEach(function(item,idx){ %>
+                                            
+                                            <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2 text-center">
+                                                <a href="/movies?list_genre=<%= item %>"><%= item %></a>    
+                                            </div>
+                                            
+                                            
+                                        <% }) %>
+                                    </div>
+                                 <!-- </div> -->
+                                 
+                            </div>                         
+    
+                            <div class="modal-footer text-center center-block" style="text-align: center;"> 
+                                <a href="/movies?list_genre=any" type="button" class="btn btn-default" data-dismiss="modal">Any</a>                             
                             </div>                         
                         </div>                     
                     </div>                 

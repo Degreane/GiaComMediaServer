@@ -25,10 +25,64 @@
             <% if (locals.page == 'Movies' ) { %>
                 <ul class="nav navbar-nav text-center" style="margin-left:10%;">
                     <li style="margin:0px 2px;">
+                        <% if (typeof(locals.movies['list_year']) !== 'undefined' && locals.movies['list_year'] !== 'any' ) { %>
+                            <a class="btn" href="/movies?select_year=true" role="button">Year (<%= locals.movies['list_year'] %>) </a>
+                        <% } else { %>
                         <a class="btn" href="/movies?select_year=true" role="button">Year</a>
+                        <% } %>
                     </li>
                     <li style="margin:0px 2px;">
-                        <a class="btn" href="/movies?select_genre=true" role="button">Genre</a>
+                        <% if(typeof(locals.movies['list_genre']) !== 'undefined' && locals.movies['list_genre'] !== 'any') { %>
+                            <a class="btn" href="/movies?select_genre=true" role="button">Genre (<%= locals.movies['list_genre'] %> )</a>
+                        <% }else {%>
+                            <a class="btn" href="/movies?select_genre=true" role="button">Genre</a>
+                        <%} %>
+                        
+                    </li>
+                    <li style="margin:0px 2px;">
+                        <a >Found <%= locals.movies['count'] %> Movies</a>
+                    </li>
+                    <!-- <li style="margin:0px 2px;">
+                        
+                        <form class="navbar-form pull-right">
+                            
+                            <input type="number" class="text-center" style="width: 4rem;" min="1" max="<%= locals.movies['count']%24==0 ? parseInt(locals.movies['count']/24) : parseInt(locals.movies['count']/24)+1 ;%>"> 
+                            <label class="text-primary">/<%= locals.movies['count']%24==0 ? parseInt(locals.movies['count']/24) : parseInt(locals.movies['count']/24)+1 %>
+                            </label>
+                            <a  class="active text-success" role="button">go</a>
+                        </form>
+                        
+                    </li> -->
+                    <li>
+                        <% if (parseInt(locals.movies['page'])-1 == 0){ %>
+                            <a href="/movies?page=<%= parseInt(locals.movies['page'])-1 %>" style="padding-right: 0px;" class="disabled text-lightyellow">&laquo;</a>
+                        <% }else{ %>
+                            <a href="/movies?page=<%= parseInt(locals.movies['page'])-1 %>" style="padding-right: 0px;" class="text-gold">&laquo;</a>
+                        <% } %>
+                        
+                    </li>     
+                
+                    <li class="active">
+                        <a href="#" class="disabled text-gold"><%= locals.movies.page %>/<%= locals.movies['count']%24==0 ? parseInt(locals.movies['count']/24) : parseInt(locals.movies['count']/24)+1 %> <span class="sr-only">(current)</span></a>
+                    </li>     
+                    
+                    <li>
+                        <% 
+                            var pageCount= locals.movies['count']%24==0 ? parseInt(locals.movies['count']/24) : parseInt(locals.movies['count']/24)+1; 
+                            if (parseInt(locals.movies['page']) == pageCount ) { %>
+                                <a href="/movies?page=<%= parseInt(locals.movies['page'])+1 %>" style="padding-left: 0px;;" class="disabled text-lightyellow">&raquo;</a>
+                        <% } else { %>
+                            <a href="/movies?page=<%= parseInt(locals.movies['page'])+1 %>" style="padding-left: 0px;;" class="text-gold">&raquo;</a>
+                        <% } %>
+                    </li>
+                    <li>
+                    
+                    <form class="navbar-form pull-right" action="/movies" method="GET" name="Search">
+                        <input name="s" type="text" style="width: 200px; box-shadow: black 1px 1px 24px 6px inset; color: lightgoldenrodyellow; text-align: center; border-radius:5px;" value="<%= typeof(locals.movies['s']) == 'undefined'? '': locals.movies['s'] %>" autofocus>
+                        <button type="submit" class="btn btn-xs btn-default" style="box-shadow: black 1px 1px 24px 6px inset; color: lightgoldenrodyellow; text-align: center; border-radius:5px;">Search</button>
+                        <a href="/movies?clear=true" class="btn btn-xs btn-default" style="box-shadow: black 1px 1px 24px 6px inset; color: lightgoldenrodyellow; text-align: center; border-radius:5px;">Clear</a>
+                    </form>
+                    
                     </li>
                 </ul>
             <% } %>
