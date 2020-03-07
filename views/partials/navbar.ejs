@@ -15,7 +15,7 @@
                 <li <% if (locals.page == 'LiveTV' ) { %> class="active" <% } %> >
                     <a href="/livetv" id="btn_goto_livetv">LiveTV</a>
                 </li>                         
-                <li <% if (locals.page == 'Movies' ) { %> class="active" <% } %> >
+                <li <% if (locals.page == 'Movies' || locals.page == 'Watch') { %> class="active" <% } %> >
                     <a href="/movies" id="btn_goto_movies">Movies</a>
                 </li>                         
                 <li <% if (locals.page == 'Series' ) { %> class="active" <% } %> >
@@ -42,22 +42,14 @@
                     <li style="margin:0px 2px;">
                         <a >Found <%= locals.movies['count'] %> Movies</a>
                     </li>
-                    <!-- <li style="margin:0px 2px;">
-                        
-                        <form class="navbar-form pull-right">
-                            
-                            <input type="number" class="text-center" style="width: 4rem;" min="1" max="<%= locals.movies['count']%24==0 ? parseInt(locals.movies['count']/24) : parseInt(locals.movies['count']/24)+1 ;%>"> 
-                            <label class="text-primary">/<%= locals.movies['count']%24==0 ? parseInt(locals.movies['count']/24) : parseInt(locals.movies['count']/24)+1 %>
-                            </label>
-                            <a  class="active text-success" role="button">go</a>
-                        </form>
-                        
-                    </li> -->
+                    
                     <li>
                         <% if (parseInt(locals.movies['page'])-1 == 0){ %>
-                            <a href="/movies?page=<%= parseInt(locals.movies['page'])-1 %>" style="padding-right: 0px;" class="disabled text-lightyellow">&laquo;</a>
+                            <a href="/movies?page=<%= parseInt(locals.movies['page'])-1 %>" style="padding-right: 0px;" class="disabled text-lightyellow">
+                            <span class="glyphicon glyphicon-backward" aria-hidden="true"></span>
+                            </a>
                         <% }else{ %>
-                            <a href="/movies?page=<%= parseInt(locals.movies['page'])-1 %>" style="padding-right: 0px;" class="text-gold">&laquo;</a>
+                            <a href="/movies?page=<%= parseInt(locals.movies['page'])-1 %>" style="padding-right: 0px;" class="text-gold"><span class="glyphicon glyphicon-backward" aria-hidden="true"></span></a>
                         <% } %>
                         
                     </li>     
@@ -70,9 +62,9 @@
                         <% 
                             var pageCount= locals.movies['count']%24==0 ? parseInt(locals.movies['count']/24) : parseInt(locals.movies['count']/24)+1; 
                             if (parseInt(locals.movies['page']) == pageCount ) { %>
-                                <a href="/movies?page=<%= parseInt(locals.movies['page'])+1 %>" style="padding-left: 0px;;" class="disabled text-lightyellow">&raquo;</a>
+                                <a href="/movies?page=<%= parseInt(locals.movies['page'])+1 %>" style="padding-left: 0px;;" class="disabled text-lightyellow"><span class="glyphicon glyphicon-forward" aria-hidden="true"></span></a>
                         <% } else { %>
-                            <a href="/movies?page=<%= parseInt(locals.movies['page'])+1 %>" style="padding-left: 0px;;" class="text-gold">&raquo;</a>
+                            <a href="/movies?page=<%= parseInt(locals.movies['page'])+1 %>" style="padding-left: 0px;;" class="text-gold"><span class="glyphicon glyphicon-forward" aria-hidden="true"></span></a>
                         <% } %>
                     </li>
                     <li>

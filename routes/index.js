@@ -1,7 +1,7 @@
 var express = require('express');
 var moment=require('moment')
 var router = express.Router();
-var { requiresLogin,isLoggedInUserEnabled,setLoggedInUserSession,userActionLog,getUserActionLog,isLoggedInUser,getMovieList } =require('./middlewares') 
+var { requiresLogin,isLoggedInUserEnabled,setLoggedInUserSession,userActionLog,getUserActionLog,isLoggedInUser,getMovieList,getMovieAttribute } =require('./middlewares') 
 var {text_truncate,pad}= require('./helpers');
 // var {diff} = require('deep-object-diff') 
 
@@ -139,4 +139,9 @@ router.get('/movies',isLoggedInUser,getMovieList, function(req,res,next){
   res.locals['pad']=pad;
   res.render('movies',{locals:res.locals});
 });
+router.get('/watch',isLoggedInUser,getMovieAttribute,function(req,res,next){
+  res.locals['title']='GiaCom Movies ('+res.locals.movie['title']+')';
+  res.locals['page']='Watch';
+  res.render('movie',{locals:res.locals});
+})
 module.exports = router;

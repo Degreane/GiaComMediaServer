@@ -1,4 +1,5 @@
 const _= require('lodash');
+const fs=require('fs');
 
 var requiresLogin = function(req,res,next){
     if (!req.session.loggedIn){
@@ -201,6 +202,7 @@ var getMovieList = async function(req,res,next){
         delete res.locals.movies['s'];
         delete query['title'];
    }
+   
    console.log("The Requested Query ",query,req.session.movies); 
    try {
         const Movies=require('../models/movies');
@@ -217,6 +219,67 @@ var getMovieList = async function(req,res,next){
     }
     next();
 };
+
+var getMovieAttribute = async function(req,res,next){
+    /*
+        actually this comes from watch?movie=_id
+        so:
+        1- search for the movie with the ID specified.
+        2- const Movies=require('../models/movies');
+    */
+    var query= {}
+    if ('movie' in req.query){
+        query['_id']=req.query['movie'];
+        if (typeof(res.locals.movie) == 'undefined'){
+            res.locals['movie']={}
+        }
+        try {
+            const Movies=require('../models/movies');
+            res.locals.movie=await Movies.findOne(query);
+            console.log(res.locals);
+            next();
+        } catch (error) {
+            next(error)
+        }
+    }else if ('id' in req.query){
+        /*
+            if the id is given then we should get the file in hand 
+            for simplicity i shall work on sample file only which is 3.1 GB
+        */
+        const path = 'Videos/MachineLearningwithPython_MachineLearningTutorialforBeginners_MachineLearningTutorial-RnFGwxJwx-0.mp4'
+        const stat = fs.statSync(path)
+        const fileSize = stat.size
+        const range = req.headers.range
+        if (range) {
+            console.log('Range ----------')
+            const parts = range.replace(/bytes=/, "").split("-")
+            const start = parseInt(parts[0], 10)
+            var theEnd=start+2048000 >= fileSize-1 ? fileSize -1: start+2048000
+            const end=parts[1]? parseInt(parts[1],10):  theEnd
+            // const end = parts[1] ? parseInt(parts[1], 10) : fileSize-1
+            const chunksize = (end-start)+1
+            const file = fs.createReadStream(path, {'start':start, 'end':end})
+            const head = {
+            'Content-Range': `bytes ${start}-${end}/${fileSize}`,
+            'Accept-Ranges': 'bytes',
+            'Content-Length': chunksize,
+            'Content-Type': 'video/mp4',
+            }
+            res.writeHead(206, head);
+            file.pipe(res);
+        } else {
+            console.log('Fullllllllllllllll')
+            const head = {
+            'Content-Length': fileSize,
+            'Content-Type': 'video/mp4',
+            }
+            res.writeHead(200, head)
+            fs.createReadStream(path).pipe(res)
+        }
+    }
+    
+};
+exports.getMovieAttribute=getMovieAttribute;
 exports.getMovieList=getMovieList;
 exports.isLoggedInUser=isLoggedInUser;
 exports.requiresLogin=requiresLogin;
