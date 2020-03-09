@@ -10,7 +10,9 @@ var MovieSchema = new mongoose.Schema({
     "languages" : {type:String},
     "country" : {type:String},
     "poster" : {type:String},
-    "fileInDB" : {type:String}
+    "fileInDB" : {type:String},
+    "director": {type:String},
+    "writer": {type:String}
 });
 module.exports = mongoose.model('movies',MovieSchema);
 /*

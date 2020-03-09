@@ -29,3 +29,7 @@
   .thumbnail:hover{
     box-shadow: darkblue 0px 0px 64px 8px inset , black 0px 0px 12px 8px !important;
   }
+  .text-header {
+    color:blue;
+    text-shadow: darkblue 0px 0px 64px, black 0px 0px 12px !important;
+  }

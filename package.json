@@ -13,10 +13,15 @@
     "express": "~4.16.1",
     "express-session": "^1.17.0",
     "http-errors": "~1.6.3",
+    "jplayer": "^2.9.2",
     "lodash": "^4.17.15",
+    "mediaelement": "^4.2.14",
     "moment": "^2.24.0",
     "mongoose": "^5.8.10",
     "morgan": "~1.9.1",
-    "uuid": "^3.4.0"
+    "uuid": "^3.4.0",
+    "video.js": "^7.6.6",
+    "videojs": "^1.0.0",
+    "videojs-flash": "^2.2.1"
   }
 }
