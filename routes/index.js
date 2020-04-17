@@ -1,7 +1,7 @@
 var express = require('express');
 var moment=require('moment')
 var router = express.Router();
-var { requiresLogin,isLoggedInUserEnabled,setLoggedInUserSession,userActionLog,getUserActionLog,isLoggedInUser,getMovieList,getMovieAttribute } =require('./middlewares') 
+var { requiresLogin,isLoggedInUserEnabled,setLoggedInUserSession,userActionLog,getUserActionLog,isLoggedInUser,getMovieList,getMovieAttribute,getChannels } =require('./middlewares') 
 var {text_truncate,pad}= require('./helpers');
 // var {diff} = require('deep-object-diff') 
 
@@ -52,6 +52,7 @@ router.post('/login',function(req,res,next){
 router.get('/logout',requiresLogin,function(req,res,next){
   delete req.session.loggedIn;
   delete req.session.loggedInUser;
+  
   res.redirect('/')
 });
 router.get('/options',requiresLogin,isLoggedInUserEnabled,function(req,res,next){
@@ -144,4 +145,14 @@ router.get('/watch',isLoggedInUser,getMovieAttribute,function(req,res,next){
   res.locals['page']='Watch';
   res.render('movie',{locals:res.locals});
 })
+router.get('/livetv',isLoggedInUser,getChannels,function(req,res,next){
+  res.locals['title']='GiaCom Movies (LiveTV)';
+  res.locals['page']='LiveTV';
+  res.render('livetv',{locals:res.locals});
+})
+router.get('/AddChannel',requiresLogin,isLoggedInUserEnabled,setLoggedInUserSession,function(req,res,next){
+  if (typeof(res.locals.loggedInUser == 'undefined')){
+    res.locals.loggedInUser=req.session.loggedInUser;
+  }
+});
 module.exports = router;

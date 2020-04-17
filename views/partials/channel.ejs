@@ -1,0 +1,18 @@
+<div class="col-sm-6 col-md-2 center-block"> 
+    <div class="thumbnail" style="box-shadow: black 0px 0px 64px 8px inset;border-radius: 10px;"> 
+        <img alt="<%= item.title %>" 100%x200 src="<%= item.poster %>" class="img-thumbnail" style="max-height:200px;min-height: 200px;"> 
+        <div class="caption"> 
+            <h5 class="text-bolder text-italic truncate"><%= item.title %> - <%= item.country %></h5>
+            <h6 class="text-bolder text-italic"> <%= item.genre %> </h6>
+            <p><%- pad(truncate(item.description,100,'...'),110) %></p> 
+            <p><a href="/watch?tv=<%= item._id %> " class="btn btn-default" role="button" style="box-shadow: black 1px 1px 24px 6px inset; color: lightgoldenrodyellow; text-align: center; border-radius:5px;">
+            <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+             Watch</a>
+            <!-- If the logged in user is an Admin,sysAdmin,siteAdmin  then he/she can modify the content attributes of the movie -->
+            <a href="/livetv?edit=<%= item._id %>" class="btn btn-danger" role="button" style="box-shadow: black 1px 1px 24px 6px inset; color: lightgoldenrodyellow; text-align: center; border-radius:5px;">
+            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+            </a>
+            </p> 
+        </div>         
+    </div>     
+</div>

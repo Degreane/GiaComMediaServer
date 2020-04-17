@@ -251,7 +251,7 @@ var getMovieAttribute = async function(req,res,next){
         const fileSize = stat.size
         const range = req.headers.range
         if (range) {
-            console.log('Range ----------')
+            // console.log('Range ----------')
             const parts = range.replace(/bytes=/, "").split("-")
             const start = parseInt(parts[0], 10)
             var theEnd=start+2048000 >= fileSize-1 ? fileSize -1: start+2048000
@@ -268,7 +268,7 @@ var getMovieAttribute = async function(req,res,next){
             res.writeHead(206, head);
             file.pipe(res);
         } else {
-            console.log('Fullllllllllllllll')
+            // console.log('Fullllllllllllllll')
             const head = {
             'Content-Length': fileSize,
             'Content-Type': 'video/mp4',
@@ -279,6 +279,31 @@ var getMovieAttribute = async function(req,res,next){
     }
     
 };
+var getChannels=async function(req,res,next){
+    const Channels=require('../models/channels');
+    if(typeof(res.locals['channels']) == 'undefined'){
+        res.locals['channels']={};
+    }
+    if(typeof(req.session['channels']) == 'undefined'){
+        req.session['channels']={}
+    }
+    if ('page' in req.query){
+        var skip=(parseInt(req.query.page)-1)*24;
+        res.locals.movies.page=req.query.page;
+    }
+    try {
+        // 1- Count Channels
+        var channel_Count=await Channels.find().count();
+        // 2- get the channels list 
+        var list = await Channels.find().skip(skip);
+        res.locals.channels['total_count']=channel_Count;
+        res.locals.channels['list']=list;
+    } catch (err) {
+        next(err);
+    }
+    next();
+}
+exports.getChannels=getChannels;
 exports.getMovieAttribute=getMovieAttribute;
 exports.getMovieList=getMovieList;
 exports.isLoggedInUser=isLoggedInUser;

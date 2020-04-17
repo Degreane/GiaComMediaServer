@@ -77,6 +77,37 @@
                     
                     </li>
                 </ul>
+            <% } else if (locals.page == 'LiveTV') {%>
+                
+                <ul class="nav navbar-nav " style="margin-left:10%;">
+                    <li class="">
+                        <a href="/livetv?search_country=true">Country</a>
+                    </li>
+                    <li>
+                        <a href="/livetv?search_genre=true">Genre</a>
+                    </li>
+                    
+                    <% if(locals.channels.total_count==0) {%>
+                        
+                        <p class="btn btn-xs btn-danger navbar-text"  role="button" style="box-shadow: black 1px 1px 24px 6px inset; color: lightgoldenrodyellow; text-align: center; border-radius:5px;">Channels <span class="badge"><%= locals.channels.total_count %></p>
+                        
+                        
+                    <% } else {%> 
+                        <p class="btn btn-xs btn-default navbar-text" style="box-shadow: black 1px 1px 24px 6px inset; color: lightgoldenrodyellow; text-align: center; border-radius:5px;">Channels <span class="badge"><%= locals.channels.total_count %></span></p>
+                    <%} %> 
+                    
+                    <% if(typeof(locals.loggedIn) !== 'undefined' ) {%>
+                        <%#  if a user is logged in then we can check for loggedInUser.utype and see if we have previlidge to add or remove new channel %>
+                        <% if (['admin','siteAdmin','sysAdmin'].indexOf(locals.loggedInUser.uType) !== -1 ) {%>
+                            
+                            <a class="btn btn-xs navbar-text btn-primary" href="/AddChannel" role="button" style="box-shadow: black 1px 1px 24px 6px inset; color: lightgoldenrodyellow; text-align: center; border-radius:5px;"> Add Channel 
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                            </a>
+                            
+                        <% } %>
+                    <% } %>
+                </ul>
+                
             <% } %>
             <% if(typeof(locals.loggedIn) == "undefined" || !locals.loggedIn) { %>
             <ul class="nav navbar-nav navbar-right">
