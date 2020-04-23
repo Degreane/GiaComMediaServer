@@ -253,7 +253,7 @@ var getMovieAttribute = async function(req,res,next){
         //const path = 'Videos/MachineLearningwithPython_MachineLearningTutorialforBeginners_MachineLearningTutorial-RnFGwxJwx-0.mp4'
         // const path = require('path')
         try {
-            //console.log(req.headers)
+            console.log(req.headers)
             const stat = fs.statSync(videoPath)
             // console.log(stat)
             const fileSize = stat.size
