@@ -249,13 +249,13 @@ var getMovieAttribute = async function(req,res,next){
         */
         const videoBasePath=path.join('/','movies','transcoded')
         const videoPath=path.join(videoBasePath,req.query['id'])+'.mp4'
-        console.log(videoPath);
+        // console.log(videoPath);
         //const path = 'Videos/MachineLearningwithPython_MachineLearningTutorialforBeginners_MachineLearningTutorial-RnFGwxJwx-0.mp4'
         // const path = require('path')
         try {
             //console.log(req.headers)
             const stat = fs.statSync(videoPath)
-            console.log(stat)
+            // console.log(stat)
             const fileSize = stat.size
             const range = req.headers.range
             if (range) {
@@ -266,7 +266,7 @@ var getMovieAttribute = async function(req,res,next){
                 const end=parts[1]? parseInt(parts[1],10):  theEnd
                 // const end = parts[1] ? parseInt(parts[1], 10) : fileSize-1
                 const chunksize = (end-start)+1
-                const file = fs.createReadStream(path, {'start':start, 'end':end})
+                const file = fs.createReadStream(videoPath, {'start':start, 'end':end})
                 const head = {
                 'Content-Range': `bytes ${start}-${end}/${fileSize}`,
                 'Accept-Ranges': 'bytes',
@@ -282,11 +282,11 @@ var getMovieAttribute = async function(req,res,next){
                 'Content-Type': 'video/mp4',
                 }
                 res.writeHead(200, head)
-                fs.createReadStream(path).pipe(res)
+                fs.createReadStream(videoPath).pipe(res)
             }    
         } catch (error) {
             console.log(error);
-            
+
         }
         
     }
