@@ -285,6 +285,7 @@ var getMovieAttribute = async function(req,res,next){
                 fs.createReadStream(path).pipe(res)
             }    
         } catch (error) {
+            console.log(error);
             
         }
         
