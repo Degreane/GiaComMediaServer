@@ -6,13 +6,13 @@ var {text_truncate,pad}= require('./helpers');
 // var {diff} = require('deep-object-diff') 
 
 /* GET home page. */
-router.get('/', requiresLogin,function(req, res, next) {
+router.get('/',function(req, res, next) {
   var locals={
     'title':'GiaCom Media Server (2019)&copy;&reg;',
     'page':'home',
     'loggedIn':req.session.loggedIn || null,
   }
-  res.render('index', { locals:locals });
+  res.redirect('/movies');
 });
 
 /*

@@ -1,5 +1,6 @@
 const _= require('lodash');
 const fs=require('fs');
+const path = require('path');
 
 var requiresLogin = function(req,res,next){
     if (!req.session.loggedIn){
@@ -246,36 +247,45 @@ var getMovieAttribute = async function(req,res,next){
             if the id is given then we should get the file in hand 
             for simplicity i shall work on sample file only which is 3.1 GB
         */
-        const path = 'Videos/MachineLearningwithPython_MachineLearningTutorialforBeginners_MachineLearningTutorial-RnFGwxJwx-0.mp4'
-        const stat = fs.statSync(path)
-        const fileSize = stat.size
-        const range = req.headers.range
-        if (range) {
-            // console.log('Range ----------')
-            const parts = range.replace(/bytes=/, "").split("-")
-            const start = parseInt(parts[0], 10)
-            var theEnd=start+2048000 >= fileSize-1 ? fileSize -1: start+2048000
-            const end=parts[1]? parseInt(parts[1],10):  theEnd
-            // const end = parts[1] ? parseInt(parts[1], 10) : fileSize-1
-            const chunksize = (end-start)+1
-            const file = fs.createReadStream(path, {'start':start, 'end':end})
-            const head = {
-            'Content-Range': `bytes ${start}-${end}/${fileSize}`,
-            'Accept-Ranges': 'bytes',
-            'Content-Length': chunksize,
-            'Content-Type': 'video/mp4',
-            }
-            res.writeHead(206, head);
-            file.pipe(res);
-        } else {
-            // console.log('Fullllllllllllllll')
-            const head = {
-            'Content-Length': fileSize,
-            'Content-Type': 'video/mp4',
-            }
-            res.writeHead(200, head)
-            fs.createReadStream(path).pipe(res)
+        const videoBasePath=path.join('/','movies','transcoded')
+        const videoPath=path.join(videoBasePath,req.query['id'])+'.mp4'
+        //const path = 'Videos/MachineLearningwithPython_MachineLearningTutorialforBeginners_MachineLearningTutorial-RnFGwxJwx-0.mp4'
+        // const path = require('path')
+        try {
+            //console.log(req.headers)
+            const stat = fs.statSync(videoPath)
+            const fileSize = stat.size
+            const range = req.headers.range
+            if (range) {
+                // console.log('Range ----------')
+                const parts = range.replace(/bytes=/, "").split("-")
+                const start = parseInt(parts[0], 10)
+                var theEnd=start+2048000 >= fileSize-1 ? fileSize -1: start+2048000
+                const end=parts[1]? parseInt(parts[1],10):  theEnd
+                // const end = parts[1] ? parseInt(parts[1], 10) : fileSize-1
+                const chunksize = (end-start)+1
+                const file = fs.createReadStream(path, {'start':start, 'end':end})
+                const head = {
+                'Content-Range': `bytes ${start}-${end}/${fileSize}`,
+                'Accept-Ranges': 'bytes',
+                'Content-Length': chunksize,
+                'Content-Type': 'video/mp4',
+                }
+                res.writeHead(206, head);
+                file.pipe(res);
+            } else {
+                // console.log('Fullllllllllllllll')
+                const head = {
+                'Content-Length': fileSize,
+                'Content-Type': 'video/mp4',
+                }
+                res.writeHead(200, head)
+                fs.createReadStream(path).pipe(res)
+            }    
+        } catch (error) {
+            
         }
+        
     }
     
 };

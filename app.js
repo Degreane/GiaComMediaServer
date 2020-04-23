@@ -14,7 +14,8 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 // var g_routes=require('./groutes')
 var app = express();
-
+// port set to 8080
+app.set('port', process.env.PORT || 8080);
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
