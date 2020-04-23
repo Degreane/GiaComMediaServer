@@ -255,6 +255,7 @@ var getMovieAttribute = async function(req,res,next){
         try {
             //console.log(req.headers)
             const stat = fs.statSync(videoPath)
+            console.log(stat)
             const fileSize = stat.size
             const range = req.headers.range
             if (range) {
