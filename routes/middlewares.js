@@ -249,7 +249,7 @@ var getMovieAttribute = async function(req,res,next){
         */
         const videoBasePath=path.join('/','movies','transcoded');
         console.log(req.query['id']);
-        const videoPath=path.join(videoBasePath,b64decode(req.query['id']))+'.mp4'
+        const videoPath=path.join(videoBasePath,res.locals.b64decode(req.query['id']))+'.mp4'
         // console.log(videoPath);
         //const path = 'Videos/MachineLearningwithPython_MachineLearningTutorialforBeginners_MachineLearningTutorial-RnFGwxJwx-0.mp4'
         // const path = require('path')
