@@ -118,7 +118,7 @@
                     ready: function () {
                       $(this).jPlayer("setMedia", {
                         title: "<%= locals.movie.title %>",
-                        m4v: "/watch?id=<%= locals.movie.fileInDB %>",
+                        m4v: "/watch?id='<%= b64encode(locals.movie.fileInDB) %>'",
                         poster: "<%= locals.movie.poster %>"
                       });
                     },
