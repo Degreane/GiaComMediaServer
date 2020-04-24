@@ -123,7 +123,11 @@
                       });
                     },
                     preload: 'metadata',
+                    <% if (twirk==true) {%>
+                    solution: 'flash',
+                    <% } else {%>
                     solution: 'html, flash',
+                    <% } %>
                     cssSelectorAncestor: "#jp_container_1",
                     swfPath: "/assets/swf",
                     supplied: "m4v",

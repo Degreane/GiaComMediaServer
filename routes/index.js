@@ -138,11 +138,19 @@ router.get('/movies',isLoggedInUser,getMovieList, function(req,res,next){
   res.locals['page']='Movies';
   res.locals['truncate']=text_truncate;
   res.locals['pad']=pad;
+  
   res.render('movies',{locals:res.locals});
 });
 router.get('/watch',isLoggedInUser,function(req,res,next){
   res.locals['b64encode']=b64encode;
   res.locals['b64decode']=b64decode;
+  var userAgent=req.headers['user-agent'];
+  var patt=/GStreamer/gi;
+  if (userAgent.match(patt) !== null){
+    res.locals['twirk']=true;
+  }else{
+    res.locals['twirk']=false;
+  }
   next();
 },getMovieAttribute,function(req,res,next){
   res.locals['title']='GiaCom Movies ('+res.locals.movie['title']+')';
