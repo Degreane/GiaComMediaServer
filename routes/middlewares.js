@@ -247,7 +247,8 @@ var getMovieAttribute = async function(req,res,next){
             if the id is given then we should get the file in hand 
             for simplicity i shall work on sample file only which is 3.1 GB
         */
-        const videoBasePath=path.join('/','movies','transcoded')
+        const videoBasePath=path.join('/','movies','transcoded');
+        console.log(req.query['id']);
         const videoPath=path.join(videoBasePath,req.query['id'])+'.mp4'
         // console.log(videoPath);
         //const path = 'Videos/MachineLearningwithPython_MachineLearningTutorialforBeginners_MachineLearningTutorial-RnFGwxJwx-0.mp4'

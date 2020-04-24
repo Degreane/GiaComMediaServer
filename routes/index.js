@@ -2,7 +2,7 @@ var express = require('express');
 var moment=require('moment')
 var router = express.Router();
 var { requiresLogin,isLoggedInUserEnabled,setLoggedInUserSession,userActionLog,getUserActionLog,isLoggedInUser,getMovieList,getMovieAttribute,getChannels } =require('./middlewares') 
-var {text_truncate,pad}= require('./helpers');
+var {text_truncate,pad,b64decode,b64encode}= require('./helpers');
 // var {diff} = require('deep-object-diff') 
 
 /* GET home page. */
@@ -140,7 +140,11 @@ router.get('/movies',isLoggedInUser,getMovieList, function(req,res,next){
   res.locals['pad']=pad;
   res.render('movies',{locals:res.locals});
 });
-router.get('/watch',isLoggedInUser,getMovieAttribute,function(req,res,next){
+router.get('/watch',isLoggedInUser,function(req,res,next){
+  res.locals['b64encode']=b64encode;
+  res.locals['b64decode']=b64decode;
+  next();
+},getMovieAttribute,function(req,res,next){
   res.locals['title']='GiaCom Movies ('+res.locals.movie['title']+')';
   res.locals['page']='Watch';
   res.render('movie',{locals:res.locals});
