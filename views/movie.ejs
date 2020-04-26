@@ -70,10 +70,10 @@
             </div>
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
               <% if (locals.twirk== true) { %>
-                <video autoplay controls class="player" id="player1" height="360" width="100%" loop poster="<%= locals.movie.poster %> " preload="none"  style="max-width: 100%" tabindex="0" title="MediaElement">
+                <video autoplay controls class="player" id="player1" height="360" width="100%" loop poster="<%= locals.movie.poster %> " preload="metadata"  style="max-width: 100%" tabindex="0" title="<%= locals.movie.title %> ">
                   <source type="application/x-mpegURL" src="/watch?id=<%= b64encode(locals.movie.fileInDB) %>" />
-                  <object width="320" height="360" type="application/x-shockwave-flash" data="/js/mediaelement-flash-video.swf">
-                    <param name="movie" value="/assets/js/mediaelement-flash-video.swf" />
+                  <object width="320" height="360" type="application/x-shockwave-flash" data="/assets/swf/mediaelement-flash-video.swf">
+                    <param name="movie" value="/assets/swf/mediaelement-flash-video.swf" />
                     <param name="flashvars" value="controls=true&file=/watch?id=<%= b64encode(locals.movie.fileInDB) %>" />
                     <img src="<%= locals.movie.poster %> " width="320" height="360" title="No video playback capabilities" />
                   </object>
