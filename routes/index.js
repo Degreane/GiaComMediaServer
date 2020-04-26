@@ -6,13 +6,17 @@ var {text_truncate,pad,b64decode,b64encode}= require('./helpers');
 // var {diff} = require('deep-object-diff') 
 
 /* GET home page. */
-router.get('/',function(req, res, next) {
-  var locals={
-    'title':'GiaCom Media Server (2019)&copy;&reg;',
-    'page':'home',
-    'loggedIn':req.session.loggedIn || null,
-  }
-  res.redirect('/movies');
+router.get('/',isLoggedInUser,getMovieList, function(req,res,next){
+  // const inspect=require('util').inspect;
+  // inspect(res.locals,color=true,depth=4);
+  //console.log(res.locals);
+  console.log(req.query);
+  res.locals['title']='GiaCom Movies';
+  res.locals['page']='Movies';
+  res.locals['truncate']=text_truncate;
+  res.locals['pad']=pad;
+  
+  res.render('movies',{locals:res.locals});
 });
 
 /*
