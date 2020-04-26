@@ -111,6 +111,9 @@ router.post('/profile',requiresLogin,isLoggedInUserEnabled,function(req,res,next
   // console.log(locals)
   res.render('profile',{locals:locals});
 });
+router.post('/addChannel',requiresLogin,isLoggedInUser,isLoggedInUserEnabled,function(req,res,next){
+
+})
 router.get('/logs',requiresLogin,isLoggedInUserEnabled,getUserActionLog,function(req,res,next){
   /*
     Here We collect the logs from the userlogs and is loggedInUser.uType is one of ['admin','sysAdmin','siteAdmin'] then we view all 
