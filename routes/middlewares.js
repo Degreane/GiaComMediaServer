@@ -252,7 +252,7 @@ var getMovieAttribute = async function(req,res,next){
             for simplicity i shall work on sample file only which is 3.1 GB
         */
         const videoBasePath=path.join('/','movies','transcoded');
-        console.log(req.query['id']);
+        //sssssssssssconsole.log(req.query['id']);
         const videoPath=path.join(videoBasePath,res.locals.b64decode(req.query['id']))+'.mp4'
         // console.log(videoPath);
         //const path = 'Videos/MachineLearningwithPython_MachineLearningTutorialforBeginners_MachineLearningTutorial-RnFGwxJwx-0.mp4'
@@ -263,13 +263,13 @@ var getMovieAttribute = async function(req,res,next){
             // console.log(stat)
             const fileSize = stat.size
             const range = req.headers.range
-            if (range) {
+            if (range && res.locals.twirk == false) {
                 // console.log('Range ----------')
                 const parts = range.replace(/bytes=/, "").split("-")
                 const start = parseInt(parts[0], 10)
                 var theEnd=start+2048000 >= fileSize-1 ? fileSize -1: start+2048000
-                const end=parts[1]? parseInt(parts[1],10):  theEnd
-                // const end = parts[1] ? parseInt(parts[1], 10) : fileSize-1
+                //const end=parts[1]? parseInt(parts[1],10):  theEnd
+                const end = parts[1] ? parseInt(parts[1], 10) : fileSize-1
                 const chunksize = (end-start)+1
                 const file = fs.createReadStream(videoPath, {'start':start, 'end':end})
                 const head = {
