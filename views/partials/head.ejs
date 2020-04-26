@@ -29,8 +29,16 @@
     <!--SCRIPTS END-->
     <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
     <% if (typeof(locals.movie) !== 'undefined') { %>
-        <link type="text/css" href="/assets/styles/blue.monday/css/jplayer.blue.monday.css" rel="stylesheet" />
-        <script src="/assets/js/jquery.jplayer.min.js" ></script>
+        <%# If we have a twirk then we apply mediaelement  %>
+        <% if (locals.twirk == true) { %>
+            <script src="/assets/js/mediaelement-and-player.js"></script>
+            <!-- <link rel="stylesheet" href="/assets/stylesheets/normalize.css"> -->
+            <link href="/assets/stylesheets/mediaelementplayer.css" rel="stylesheet">
+         
+        <% } else { %>
+            <link type="text/css" href="/assets/styles/blue.monday/css/jplayer.blue.monday.css" rel="stylesheet" />
+            <script src="/assets/js/jquery.jplayer.min.js" ></script>
+        <% } %>
     <% } %>
     
 </head>

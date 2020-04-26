@@ -69,6 +69,38 @@
               
             </div>
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+              <% if (locals.twirk== true) { %>
+                <video autoplay controls class="player" id="player1" height="360" width="100%" loop poster="<%= locals.movie.poster %> " preload="none"  style="max-width: 100%" tabindex="0" title="MediaElement">
+                  <source type="application/x-mpegURL" src="/watch?id=<%= b64encode(locals.movie.fileInDB) %>" />
+                  <object width="320" height="360" type="application/x-shockwave-flash" data="/js/mediaelement-flash-video.swf">
+                    <param name="movie" value="/assets/js/mediaelement-flash-video.swf" />
+                    <param name="flashvars" value="controls=true&file=/watch?id=<%= b64encode(locals.movie.fileInDB) %>" />
+                    <img src="<%= locals.movie.poster %> " width="320" height="360" title="No video playback capabilities" />
+                  </object>
+            <!--                src="/vod/webcam.m3u8" -->
+                  </video>
+                  <script>
+                    $(function(){
+                            var player = new MediaElementPlayer('player1', {
+                                    features: ['playpause', 'current', 'progress', 'duration', 'volume', 'fullscreen','preview','backlight'],
+                                    clickToPlayPause: false,
+                                    hideVolumeOnTouchDevices: false,
+                                    pluginPath:'/js',
+                                    forceLive:true
+                              });
+                  var link2play=$('.theplayer');
+                  link2play.on('click',function(e){
+                    e.preventDefault();
+                    var which=$(this)
+                    console.log(which.attr('data-target'))
+                    player.pause()
+                    player.setSrc(which.attr('data-target'))
+                    player.load()
+                    player.play()
+                  });
+                })
+                        </script>
+              <% } %>
               <div id="jp_container_1" class="jp-video center-block" role="application" aria-label="media player">
                 <div class="jp-type-single">
                   <div id="jquery_jplayer_1" class="jp-jplayer"></div>
@@ -123,11 +155,7 @@
                       });
                     },
                     preload: 'metadata',
-                    <% if (twirk==true) {%>
-                    solution: 'flash',
-                    <% } else {%>
                     solution: 'html, flash',
-                    <% } %>
                     cssSelectorAncestor: "#jp_container_1",
                     swfPath: "/assets/swf",
                     supplied: "m4v",
