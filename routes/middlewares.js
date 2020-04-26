@@ -270,9 +270,9 @@ var getMovieAttribute = async function(req,res,next){
                 
                 var theEnd=start+2048000 >= fileSize-1 ? fileSize -1: start+2048000
                 if (res.locals.twirk == false) {
-                    const end=parts[1]? parseInt(parts[1],10):  theEnd
+                    var end=parts[1]? parseInt(parts[1],10):  theEnd
                 }else {
-                    const end = parts[1] ? parseInt(parts[1], 10) : fileSize-1
+                    var end = parts[1] ? parseInt(parts[1], 10) : fileSize-1
                 }
                 const chunksize = (end-start)+1
                 const file = fs.createReadStream(videoPath, {'start':start, 'end':end})
