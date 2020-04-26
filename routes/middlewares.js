@@ -27,6 +27,7 @@ var setLoggedInUserSession = function(req,res,next){
             }else{
                 console.log(user);
                 req.session.loggedInUser=user;
+                res.locals.loggedInUser=req.session.loggedInUser;
                 next();
             }
         })
