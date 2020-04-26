@@ -270,7 +270,7 @@ var getMovieAttribute = async function(req,res,next){
                 
                 var theEnd=start+2048000 >= fileSize-1 ? fileSize -1: start+2048000
                 if (res.locals.twirk == false) {
-                    var end=parts[1]? parseInt(parts[1],10):  theEnd
+                    var end = parts[1] ? parseInt(parts[1], 10) :  theEnd
                 }else {
                     var end = parts[1] ? parseInt(parts[1], 10) : fileSize-1
                 }
