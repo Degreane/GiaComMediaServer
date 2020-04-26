@@ -263,13 +263,17 @@ var getMovieAttribute = async function(req,res,next){
             // console.log(stat)
             const fileSize = stat.size
             const range = req.headers.range
-            if (range && res.locals.twirk == false) {
+            if (range) {
                 // console.log('Range ----------')
                 const parts = range.replace(/bytes=/, "").split("-")
                 const start = parseInt(parts[0], 10)
+                
                 var theEnd=start+2048000 >= fileSize-1 ? fileSize -1: start+2048000
-                //const end=parts[1]? parseInt(parts[1],10):  theEnd
-                const end = parts[1] ? parseInt(parts[1], 10) : fileSize-1
+                if (res.locals.twirk == false) {
+                    const end=parts[1]? parseInt(parts[1],10):  theEnd
+                }else {
+                    const end = parts[1] ? parseInt(parts[1], 10) : fileSize-1
+                }
                 const chunksize = (end-start)+1
                 const file = fs.createReadStream(videoPath, {'start':start, 'end':end})
                 const head = {
