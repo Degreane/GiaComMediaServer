@@ -9,9 +9,14 @@
             <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
              Watch</a>
             <!-- If the logged in user is an Admin,sysAdmin,siteAdmin  then he/she can modify the content attributes of the movie -->
-            <a href="/movies?edit=<%= item._id %>" class="btn btn-danger" role="button" style="box-shadow: black 1px 1px 24px 6px inset; color: lightgoldenrodyellow; text-align: center; border-radius:5px;">
-            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-            </a>
+            <% if(typeof(locals.loggedIn) !== 'undefined' ) {%>
+                <%#  if a user is logged in then we can check for loggedInUser.utype and see if we have previlidge to add or remove new channel %>
+                <% if (['admin','siteAdmin','sysAdmin'].indexOf(locals.loggedInUser.uType) !== -1 ) {%>
+                    <a href="/movies?edit=<%= item._id %>" class="btn btn-danger" role="button" style="box-shadow: black 1px 1px 24px 6px inset; color: lightgoldenrodyellow; text-align: center; border-radius:5px;">
+                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                    </a>
+                <% } %>
+            <% } %>
             </p> 
         </div>         
     </div>     
