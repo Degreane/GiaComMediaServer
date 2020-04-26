@@ -4,9 +4,9 @@ var ChannelSchema = new mongoose.Schema({
     'description':{type:String},
     'address':{type:String},
     'enabled':{type:Boolean,default:true},
-    'group':{type:Array},
+    'group':{type:Array,default:[]},
     'country':{type:String,default:'Lebanon'},
-    'genre':{type:String},
-    'poster':{type:String}
+    'genre':{type:String,default: 'N/A'},
+    'poster':{type:String, default:'N/A'}
 });
 module.exports = mongoose.model('channels',ChannelSchema);

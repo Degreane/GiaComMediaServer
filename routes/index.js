@@ -170,6 +170,7 @@ router.get('/AddChannel',requiresLogin,isLoggedInUserEnabled,setLoggedInUserSess
   if (typeof(res.locals.loggedInUser == 'undefined')){
     res.locals.loggedInUser=req.session.loggedInUser;
   }
+  res.locals.new_channel=true;
   res.render('addChannel',{locals:res.locals});
 });
 module.exports = router;
