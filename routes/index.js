@@ -132,7 +132,7 @@ router.get('/logs',requiresLogin,isLoggedInUserEnabled,getUserActionLog,function
 router.get('/movies',isLoggedInUser,getMovieList, function(req,res,next){
   // const inspect=require('util').inspect;
   // inspect(res.locals,color=true,depth=4);
-  console.log(res.locals);
+  //console.log(res.locals);
   console.log(req.query);
   res.locals['title']='GiaCom Movies';
   res.locals['page']='Movies';
@@ -145,7 +145,7 @@ router.get('/watch',isLoggedInUser,function(req,res,next){
   res.locals['b64encode']=b64encode;
   res.locals['b64decode']=b64decode;
   var userAgent=req.headers['user-agent'];
-  var patt=/GStreamer|QtEmbedded|tv|smart|falkon/gi;
+  var patt=/GStreamer|QtEmbedded|tv|smart|falkon|lav|/gi;
   if (userAgent.match(patt) !== null){
     res.locals['twirk']=true;
   }else{
