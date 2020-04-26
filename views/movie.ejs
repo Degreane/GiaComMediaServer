@@ -71,7 +71,7 @@
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
               <% if (locals.twirk== true) { %>
                 <video autoplay controls class="player" id="player1" height="360" width="100%" loop poster="<%= locals.movie.poster %> " preload="metadata"  style="max-width: 100%" tabindex="0" title="<%= locals.movie.title %> ">
-                  <source type="application/x-mpegURL" src="/watch?id=<%= b64encode(locals.movie.fileInDB) %>" />
+                  <source type="video/mp4" src="/watch?id=<%= b64encode(locals.movie.fileInDB) %>" />
                   <object width="320" height="360" type="application/x-shockwave-flash" data="/assets/swf/mediaelement-flash-video.swf">
                     <param name="movie" value="/assets/swf/mediaelement-flash-video.swf" />
                     <param name="flashvars" value="controls=true&file=/watch?id=<%= b64encode(locals.movie.fileInDB) %>" />
@@ -79,27 +79,6 @@
                   </object>
             <!--                src="/vod/webcam.m3u8" -->
                   </video>
-                  <script>
-                    $(function(){
-                            var player = new MediaElementPlayer('player1', {
-                                    features: ['playpause', 'current', 'progress', 'duration', 'volume', 'fullscreen','preview','backlight'],
-                                    clickToPlayPause: false,
-                                    hideVolumeOnTouchDevices: false,
-                                    pluginPath:'/assets/js'
-                                    // forceLive:true
-                              });
-                  var link2play=$('.theplayer');
-                  link2play.on('click',function(e){
-                    e.preventDefault();
-                    var which=$(this)
-                    console.log(which.attr('data-target'))
-                    player.pause()
-                    player.setSrc(which.attr('data-target'))
-                    player.load()
-                    player.play()
-                  });
-                })
-                        </script>
               <% } else { %>
               <div id="jp_container_1" class="jp-video center-block" role="application" aria-label="media player">
                 <div class="jp-type-single">
