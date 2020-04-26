@@ -162,11 +162,11 @@ var getMovieList = async function(req,res,next){
    if ('page' in req.query){
         var skip=(parseInt(req.query.page)-1)*24;
         res.locals.movies.page=req.query.page;
-        console.log('Skip ',skip);
+        //console.log('Skip ',skip);
    }else{
        var skip=0;
        res.locals.movies.page=1;
-       console.log('Skip ',skip);
+       //console.log('Skip ',skip);
    }
    if ('list_year' in req.query && req.query['list_year'] !== 'any' ){
         query['year']=parseInt(req.query['list_year']);
