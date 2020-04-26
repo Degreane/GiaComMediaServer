@@ -149,7 +149,19 @@
               </script>
               <% } %>
               
-              <button id="BackButton" type="button" class="btn btn-default">Close</button>
+              <div class="row">
+                <button id="BackButton" type="button" class="btn btn-default center-block">Close</button>
+                <script>
+                  $(function(){
+                    $('#BackButton').on('click',function(e){
+                      e.preventDefault();
+                      window.history.back();
+                    });
+                  });
+                </script> 
+              </div>
+              
+              
               
             </div>
         </div>
