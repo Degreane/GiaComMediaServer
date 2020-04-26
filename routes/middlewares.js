@@ -134,7 +134,7 @@ var getMovieList = async function(req,res,next){
         try {
             const Movies=require('../models/movies');
             res.locals['movies']={};
-            res.locals.movies['years']= await Movies.find().select({'year':1,'_id':0}).distinct('year').sort(1);
+            res.locals.movies['years']= await Movies.find().select({'year':1,'_id':0}).distinct('year');
             // console.log('Requesting List Of Years ')
             // console.log(res.locals);
         } catch (error) {
@@ -148,7 +148,8 @@ var getMovieList = async function(req,res,next){
             if (typeof(res.locals['movies']) == 'undefined'){
                 res.locals['movies']={};
             }
-            var theGenres= await Movies.find().select({'genres':1,'_id':0}).distinct('genres').sort(1);
+            var theGenres= await Movies.find().select({'genres':1,'_id':0}).distinct('genres');
+            console.log(theGenres)
             res.locals.movies['genres']=await _.uniq(_.replace(_.join(theGenres,','),/ /g,'').split(',') );
             //next();
        } catch(error){
