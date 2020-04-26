@@ -9,9 +9,9 @@
             </button>             
             <!-- <a href="#" class="navbar-brand">GiaCom</a> !-->             
         </div>         
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-5">
+        <div class="collapse navbar-collapse text-center" id="bs-example-navbar-collapse-5">
             <% if (locals.page == 'Movies' ) { %>
-                <ul class="nav navbar-nav text-center" style="margin-left:10%;">
+                <ul class="nav navbar-nav text-center" style="display:inline-block;float:none;">
                     <li style="margin:0px 2px;">
                         <% if (typeof(locals.movies['list_year']) !== 'undefined' && locals.movies['list_year'] !== 'any' ) { %>
                             <a class="btn" href="/movies?select_year=true" role="button">Year (<%= locals.movies['list_year'] %>) </a>
