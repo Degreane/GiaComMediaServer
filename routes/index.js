@@ -166,7 +166,7 @@ router.get('/livetv',isLoggedInUser,getChannels,function(req,res,next){
   res.locals['page']='LiveTV';
   res.render('livetv',{locals:res.locals});
 })
-router.get('/AddChannel',requiresLogin,isLoggedInUserEnabled,setLoggedInUserSession,function(req,res,next){
+router.get('/AddChannel',requiresLogin,isLoggedInUser,isLoggedInUserEnabled,setLoggedInUserSession,function(req,res,next){
   if (typeof(res.locals.loggedInUser == 'undefined')){
     res.locals.loggedInUser=req.session.loggedInUser;
   }
