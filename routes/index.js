@@ -1,8 +1,8 @@
 var express = require('express');
 var moment=require('moment')
 var router = express.Router();
-var { requiresLogin,isLoggedInUserEnabled,setLoggedInUserSession,userActionLog,getUserActionLog,isLoggedInUser,getMovieList,getMovieAttribute,getChannels } =require('./middlewares') 
-var {text_truncate,pad,b64decode,b64encode}= require('./helpers');
+var { requiresLogin,isLoggedInUserEnabled,setLoggedInUserSession,userActionLog,getUserActionLog,isLoggedInUser,getMovieList,getMovieAttribute,getChannels,addHelpers } =require('./middlewares') ;
+var {text_truncate,pad,b64decode,b64encode,isIn}= require('./helpers');
 // var {diff} = require('deep-object-diff') 
 
 /* GET home page. */
@@ -36,7 +36,7 @@ router.post('/login',function(req,res,next){
   }
   var userModel=require('../models/users')
   var query=req.body || {};
-  query['uEnabled']=true
+  query['uEnabled']=true;
   userModel.findOne(query).populate('uCreatedBy').exec(function(err,result){
     if(err){
       console.log(err);
@@ -112,7 +112,7 @@ router.post('/profile',requiresLogin,isLoggedInUserEnabled,function(req,res,next
   res.render('profile',{locals:locals});
 });
 router.post('/addChannel',requiresLogin,isLoggedInUser,isLoggedInUserEnabled,function(req,res,next){
-
+  
 })
 router.get('/logs',requiresLogin,isLoggedInUserEnabled,getUserActionLog,function(req,res,next){
   /*
@@ -169,7 +169,7 @@ router.get('/livetv',isLoggedInUser,getChannels,function(req,res,next){
   res.locals['page']='LiveTV';
   res.render('livetv',{locals:res.locals});
 })
-router.get('/AddChannel',requiresLogin,isLoggedInUser,isLoggedInUserEnabled,setLoggedInUserSession,function(req,res,next){
+router.get('/AddChannel',addHelpers, requiresLogin,isLoggedInUser,isLoggedInUserEnabled,setLoggedInUserSession,function(req,res,next){
   if (typeof(res.locals.loggedInUser == 'undefined')){
     res.locals.loggedInUser=req.session.loggedInUser;
   }

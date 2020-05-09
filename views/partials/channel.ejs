@@ -1,4 +1,4 @@
-<% if (typeof(locals.new_channel)!== 'undefined') { %>
+<% if (typeof(locals.new_channel)!== 'undefined' && isIn(locals.loggedInUser.uType,['admin','siteAdmin','sysAdmin'])==true ) { %>
     <div class="col-md-8 col-lg-8 col-md-push-2">
         <div class="jumbotron">
             <h2 class="text-center" style="border-radius: 4px; border: 1px solid; box-shadow: 1px 1px 1px 1px #f7f0f0 , 2px 2px 1px 1px;"><b><i>Channel</i></b><span class="bg-info text-primary" style="border-radius: 5px;">&nbsp;&nbsp;</span></h2> 

@@ -1,5 +1,6 @@
 var moment=require('moment');
 var mongoose=require('mongoose');
+var _=require('lodash');
 var ChannelSchema = new mongoose.Schema({
     'title':{type:String,unique:true,required:true},
     'description':{type:String},
@@ -14,5 +15,9 @@ var ChannelSchema = new mongoose.Schema({
         ref:'users'},
     'createdAt':{type:Date,default:new moment()},
     'updatedAt': {type:Date,default: new moment()},
+    'FileBaseDir':{type: String,default:'N/A'},
+    'File':{type:String,default:'web.m3u8'},
+    'MediaType':{type:String,enum:['file','http'],default:'file'}
 });
+
 module.exports = mongoose.model('channels',ChannelSchema);

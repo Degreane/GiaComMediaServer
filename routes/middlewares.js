@@ -1,6 +1,7 @@
 const _= require('lodash');
 const fs=require('fs');
 const path = require('path');
+var {text_truncate,pad,b64decode,b64encode,isIn}= require('./helpers');
 
 var requiresLogin = function(req,res,next){
     if (!req.session.loggedIn){
@@ -102,10 +103,11 @@ var getUserActionLog = function(req,res,next){
 // }
 var isLoggedInUser = function(req,res,next){
     if (req.session.loggedIn && req.session.loggedInUser){
-        res.locals={
-            'loggedInUser':req.session.loggedInUser,
-            'loggedIn':req.session.loggedIn || null,
-        };
+        res.locals['loggedInUser']=req.session.loggedInUser;
+        res.locals['loggedIn']=req.session.loggedIn || null;
+    }else{
+        delete res.locals['loggedInUser'];
+        delete res.locals['loggedIn'];
     }
     next();
 };
@@ -326,6 +328,17 @@ var getChannels=async function(req,res,next){
     }
     next();
 }
+
+var addHelpers=function(req,res,next){
+    // var {text_truncate,pad,b64decode,b64encode,isIn}= require('./helpers');
+    res.locals['truncate']=text_truncate;
+    res.locals['pad']=pad;
+    res.locals['b64decode']=b64decode;
+    res.locals['b64encode']=b64encode;
+    res.locals['isIn']=isIn;
+    next();
+}
+exports.addHelpers=addHelpers;
 exports.getChannels=getChannels;
 exports.getMovieAttribute=getMovieAttribute;
 exports.getMovieList=getMovieList;
