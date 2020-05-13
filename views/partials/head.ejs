@@ -30,7 +30,7 @@
     <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
     <% if (typeof(locals.movie) !== 'undefined' || typeof(locals.channel) !== 'undefined') { %>
         <%# If we have a twirk then we apply mediaelement  %>
-        <% if (locals.twirk == true) { %>
+        <% if (locals.twirk == true || typeof(locals.channel)!== 'undefined') { %>
             <script src="/assets/js/mediaelement-and-player.js"></script>
             <!-- <link rel="stylesheet" href="/assets/stylesheets/normalize.css"> -->
             <link href="/assets/stylesheets/mediaelementplayer.css" rel="stylesheet">
