@@ -56,6 +56,29 @@
                   </object>
             <!--                src="/vod/webcam.m3u8" -->
                   </video>
+            <script>
+                    $(function(){
+                    
+                    
+                            var player = new MediaElementPlayer('player1', {
+                                    features: ['playpause', 'current', 'progress', 'duration', 'volume', 'fullscreen','preview','backlight'],
+                                    clickToPlayPause: false,
+                                    hideVolumeOnTouchDevices: false,
+                                    pluginPath:'/assets/js',
+                                    forceLive:true
+                              });
+                              var link2play=$('.theplayer');
+                              link2play.on('click',function(e){
+                                e.preventDefault();
+                                var which=$(this)
+                                console.log(which.attr('data-target'))
+                                player.pause()
+                                player.setSrc(which.attr('data-target'))
+                                player.load()
+                                player.play()
+                              });
+                            })
+                        </script>
               
               <div class="row">
                 <button id="BackButton" type="button" class="btn btn-default center-block">Close</button>
