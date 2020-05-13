@@ -14,7 +14,8 @@ var userSchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'users'},
     'uEnabled':{type:Boolean,default:true},
-    'uOnline': {type:Boolean,default:false}
+    'uOnline': {type:Boolean,default:false},
+    'uGroup':{type:Array,default:[]}
 });
 module.exports = mongoose.model('users',userSchema);
 /*

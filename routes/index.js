@@ -1,7 +1,8 @@
 var express = require('express');
+var lo = require('lodash')
 var moment=require('moment')
 var router = express.Router();
-var { requiresLogin,isLoggedInUserEnabled,setLoggedInUserSession,userActionLog,getUserActionLog,isLoggedInUser,getMovieList,getMovieAttribute,getChannels,addHelpers } =require('./middlewares') ;
+var { getChannelAttribute,requiresLogin,isLoggedInUserEnabled,setLoggedInUserSession,userActionLog,getUserActionLog,isLoggedInUser,getMovieList,getMovieAttribute,getChannels,addHelpers } =require('./middlewares') ;
 var {text_truncate,pad,b64decode,b64encode,isIn}= require('./helpers');
 // var {diff} = require('deep-object-diff') 
 
@@ -111,8 +112,30 @@ router.post('/profile',requiresLogin,isLoggedInUserEnabled,function(req,res,next
   // console.log(locals)
   res.render('profile',{locals:locals});
 });
-router.post('/addChannel',requiresLogin,isLoggedInUser,isLoggedInUserEnabled,function(req,res,next){
-  
+router.post('/addChannel',addHelpers,requiresLogin,isLoggedInUser,isLoggedInUserEnabled,function(req,res,next){
+  var channelModel=require('../models/channels');
+  var query=req.body;
+  if (lo.has(query,'enabled')){
+    query['enabled']=true;
+  }else{
+    query['enabled']=false;
+  }
+  query.uCreatedBy=req.session.loggedInUser._id;
+  try {
+    var newChannel =new channelModel(
+      query
+    )
+    newChannel.save(function(err,succ){
+      if(err){
+        console.log(err)
+      }else{
+        console.log(succ)
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+  console.log(query);
 })
 router.get('/logs',requiresLogin,isLoggedInUserEnabled,getUserActionLog,function(req,res,next){
   /*
@@ -163,10 +186,26 @@ router.get('/watch',isLoggedInUser,function(req,res,next){
   res.locals['title']='GiaCom Movies ('+res.locals.movie['title']+')';
   res.locals['page']='Watch';
   res.render('movie',{locals:res.locals});
-})
-router.get('/livetv',isLoggedInUser,getChannels,function(req,res,next){
+});
+router.get('/watchTv',addHelpers,isLoggedInUser,function(req,res,next){
+  // res.locals['b64encode']=b64encode;
+  // res.locals['b64decode']=b64decode;
+  var userAgent=req.headers['user-agent'];
+  var patt=/GStreamer|QtEmbedded|tv|smart|falkon|lav/gi;
+  if (userAgent.match(patt) !== null){
+    res.locals['twirk']=true;
+  }else{
+    res.locals['twirk']=false;
+  }
+  next();
+},getChannelAttribute,function(req,res,next){
+  console.log(res.locals);
+  res.render('channel',{locals:res.locals});
+});
+router.get('/livetv',addHelpers,isLoggedInUser,getChannels,function(req,res,next){
   res.locals['title']='GiaCom Movies (LiveTV)';
   res.locals['page']='LiveTV';
+  res.locals['list_channels']=true;
   res.render('livetv',{locals:res.locals});
 })
 router.get('/AddChannel',addHelpers, requiresLogin,isLoggedInUser,isLoggedInUserEnabled,setLoggedInUserSession,function(req,res,next){
@@ -176,4 +215,5 @@ router.get('/AddChannel',addHelpers, requiresLogin,isLoggedInUser,isLoggedInUser
   res.locals.new_channel=true;
   res.render('addChannel',{locals:res.locals});
 });
+
 module.exports = router;

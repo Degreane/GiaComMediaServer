@@ -28,7 +28,7 @@
     <script src="/assets/js/jquery-1.12.4.min.js"></script>
     <!--SCRIPTS END-->
     <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
-    <% if (typeof(locals.movie) !== 'undefined') { %>
+    <% if (typeof(locals.movie) !== 'undefined' || typeof(locals.channel) !== 'undefined') { %>
         <%# If we have a twirk then we apply mediaelement  %>
         <% if (locals.twirk == true) { %>
             <script src="/assets/js/mediaelement-and-player.js"></script>

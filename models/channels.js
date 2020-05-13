@@ -15,7 +15,7 @@ var ChannelSchema = new mongoose.Schema({
         ref:'users'},
     'createdAt':{type:Date,default:new moment()},
     'updatedAt': {type:Date,default: new moment()},
-    'FileBaseDir':{type: String,default:'N/A'},
+    'FileBaseDir':{type: String,default:'/vd1/vod'},
     'File':{type:String,default:'web.m3u8'},
     'MediaType':{type:String,enum:['file','http'],default:'file'}
 });

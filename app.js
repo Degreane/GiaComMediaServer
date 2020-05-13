@@ -31,6 +31,7 @@ app.use(session({
   store:new RedisStore({ client: redisClient,prefix:'GiaComMediaServer:',ttl:3600 })
 }));
 app.use('/assets',express.static(path.join(__dirname, 'public')));
+app.use('/vd1',express.static(path.join('/','opt','FireWall','LiveTV','static')))
 // app.use(g_routes(app))
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

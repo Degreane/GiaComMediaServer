@@ -244,7 +244,7 @@ var getMovieAttribute = async function(req,res,next){
         try {
             const Movies=require('../models/movies');
             res.locals.movie=await Movies.findOne(query);
-            console.log(res.locals);
+            //console.log(res.locals);
             next();
         } catch (error) {
             next(error)
@@ -338,6 +338,23 @@ var addHelpers=function(req,res,next){
     res.locals['isIn']=isIn;
     next();
 }
+var getChannelAttribute= async function(req,res,next){
+    var query={};
+    if ('ch' in req.query){
+        var ChannelModel=require('../models/channels');
+        query['_id']=req.query['ch'];
+        if (typeof(res.locals.channel) == 'undefined'){
+            res.locals['channel']={}
+        }
+        try {
+            res.locals['channel']=await ChannelModel.findOne(query);
+            next();    
+        } catch (error) {
+            next(error);
+        }
+    }
+}
+exports.getChannelAttribute=getChannelAttribute;
 exports.addHelpers=addHelpers;
 exports.getChannels=getChannels;
 exports.getMovieAttribute=getMovieAttribute;

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+  <%- include('partials/head',locals) %>
+  
+  <body>
+    <!-- Header Navbar -->
+    <%- include('partials/navbar',locals) %>
+    <div class="container-fluid" style="margin-bottom: 50px;">
+    
+    <div class="panel panel-default" style="box-shadow: darkblue 0px 0px 64px 8px inset , black 0px 0px 12px 8px !important;border-top-left-radius: 20px;border-top-right-radius: 20px;">
+        <div class="panel-heading" style="border-top-left-radius: 20px;border-top-right-radius: 20px;">
+          <h3 class="panel-title text-center text-italic text-header text-bolder" ><%= locals.channel.title %> </h3>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+              
+              <div class="media" >
+                <a class="pull-left" href="#" >
+                  <img class="media-object" style="border-radius: 20px;" src="<%= locals.channel.poster %>" alt="Image">
+                </a>
+                <div class="media-body">
+                  <h4 class="media-heading text-center"><%= locals.channel.title %></h4>
+                  
+              <table class="table table-condensed table-hover">
+                <tbody>
+                  <tr>
+                    <td>Genre</td>
+                    <td><%= locals.channel.genres %> </td>
+                  </tr>
+                  
+                  <tr>
+                    <td>Country</td>
+                    <td><%= locals.channel.country %> </td>
+                  </tr>
+                  <tr>
+                    <td>Plot/Story</td>
+                    <td><%= locals.channel.description %> </td>
+                  </tr>
+                </tbody>
+              </table>
+                </div>
+              </div>
+              
+              
+              
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+              <% if (locals.twirk== true) { %>
+                <video autoplay controls class="player" id="player1" height="360" width="100%" loop poster="<%= locals.channel.poster %> " preload="none"  style="max-width: 100%" tabindex="0" title="<%= locals.channel.title %> ">
+                  <source type="video/mp4" src="<%= locals.channel.FileBaseDir +"/"+ locals.channel.address+"/"+locals.channel.File %>" />
+                  <object width="320" height="360" type="application/x-shockwave-flash" data="/assets/swf/mediaelement-flash-video.swf">
+                    <param name="movie" value="/assets/swf/mediaelement-flash-video.swf" />
+                    <param name="flashvars" value="controls=true&file=<%= locals.channel.FileBaseDir +"/"+ locals.channel.address+"/"+locals.channel.File %>" />
+                    <img src="<%= locals.movie.poster %> " width="320" height="360" title="No video playback capabilities" />
+                  </object>
+            <!--                src="/vod/webcam.m3u8" -->
+                  </video>
+              <% } else { %>
+              <div id="jp_container_1" class="jp-video center-block" role="application" aria-label="media player">
+                <div class="jp-type-single">
+                  <div id="jquery_jplayer_1" class="jp-jplayer"></div>
+                  <div class="jp-gui">
+                    <div class="jp-video-play">
+                      <button class="jp-video-play-icon" role="button" tabindex="0">play</button>
+                    </div>
+                    <div class="jp-interface">
+                      <div class="jp-progress">
+                        <div class="jp-seek-bar">
+                          <div class="jp-play-bar"></div>
+                        </div>
+                      </div>
+                      <div class="jp-current-time" role="timer" aria-label="time">&nbsp;</div>
+                      <div class="jp-duration" role="timer" aria-label="duration">&nbsp;</div>
+                      <div class="jp-details">
+                        <div class="jp-title" aria-label="title">&nbsp;</div>
+                      </div>
+                      <div class="jp-controls-holder">
+                        <div class="jp-volume-controls">
+                          <button class="jp-mute" role="button" tabindex="0">mute</button>
+                          <button class="jp-volume-max" role="button" tabindex="0">max volume</button>
+                          <div class="jp-volume-bar">
+                            <div class="jp-volume-bar-value"></div>
+                          </div>
+                        </div>
+                        <div class="jp-controls">
+                          <button class="jp-play" role="button" tabindex="0">play</button>
+                          <button class="jp-stop" role="button" tabindex="0">stop</button>
+                        </div>
+                        <div class="jp-toggles">
+                          <button class="jp-repeat" role="button" tabindex="0">repeat</button>
+                          <button class="jp-full-screen" role="button" tabindex="0">full screen</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="jp-no-solution">
+                    <span>Update Required</span>
+                    To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+                  </div>
+                </div>
+              </div>
+              <script type="text/javascript">
+                $(document).ready(function(){
+                  $("#jquery_jplayer_1").jPlayer({
+                    ready: function () {
+                      $(this).jPlayer("setMedia", {
+                        title: "<%= locals.channel.title %>",
+                        m4v: "<%= locals.channel.FileBaseDir +"/"+ locals.channel.address+"/"+locals.channel.File %>",
+                        poster: "<%= locals.channel.poster %>"
+                      });
+                    },
+                    preload: 'metadata',
+                    solution: 'html, flash',
+                    cssSelectorAncestor: "#jp_container_1",
+                    swfPath: "/assets/swf",
+                    supplied: "m4v",
+                    useStateClassSkin: true,
+                    autoBlur: false,
+                    smoothPlayBar: true,
+                    keyEnabled: true,
+                    remainingDuration: true,
+                    toggleDuration: true
+                  });
+                });
+              </script>
+              <% } %>
+              
+              <div class="row">
+                <button id="BackButton" type="button" class="btn btn-default center-block">Close</button>
+                <script>
+                  $(function(){
+                    $('#BackButton').on('click',function(e){
+                      e.preventDefault();
+                      window.history.back();
+                    });
+                  });
+                </script> 
+              </div>
+              
+              
+              
+            </div>
+        </div>
+    </div>
+    
+    
+    </div>
+    
+
+    
+    </div>
+    <!-- !!<video width="640" height="480" poster="https://m.media-amazon.com/images/M/MV5BY2Q5YzI2NGMtNWE0Yy00YWMzLTg5NDMtODNhNzQ5MTYwOTg0XkEyXkFqcGdeQXVyNDUyMzM5NDc@._V1_SX300.jpg" controls="controls" preload="none" style="width:100%;margin:10px auto;"> -->
+		<!-- MP4 for Safari, IE9, iPhone, iPad, Android, and Windows Phone 7 -->
+		<!-- !!<source type="video/mp4" src="/video?vd=1.Buck.2017.720p.BluRay.x264.DTS.MT.SDH_xvid" /> -->
+		<!-- WebM/VP8 for Firefox4, Opera, and Chrome -->
+		<!-- Flash fallback for non-HTML5 browsers without JavaScript -->
+		<!-- !!<object width="640" height="480" type="application/x-shockwave-flash" data="flashmediaelement.swf">
+			<param name="movie" value="/js/mediaelement-flash-video.swf" />
+			<param name="flashvars" value="controls=true&file=/video?vd=1.Buck.2017.720p.BluRay.x264.DTS.MT.SDH_xvid" /> -->
+        		<!-- Image as a last resort -->
+			<!-- !!<img src="https://m.media-amazon.com/images/M/MV5BY2Q5YzI2NGMtNWE0Yy00YWMzLTg5NDMtODNhNzQ5MTYwOTg0XkEyXkFqcGdeQXVyNDUyMzM5NDc@._V1_SX300.jpg" width="640" height="480" title="No video playback capabilities" /> -->
+		<!-- !!</object>
+	</video>  -->
+
+    <!-- Footer NavBar  -->
+    <%- include('partials/footer_navbar') %>
+    <!-- Foot Scripts JavaScripts -->
+    <%- include('partials/foot') %>
+  </body>
+  
+</html>
