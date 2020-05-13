@@ -48,7 +48,7 @@
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
             
                 <video autoplay controls class="player" id="player1" height="360" width="100%" loop poster="<%= locals.channel.poster %> " preload="none"  style="max-width: 100%" tabindex="0" title="<%= locals.channel.title %> ">
-                  <source type="video/mp4" src="<%= locals.channel.FileBaseDir +"/"+ locals.channel.address+"/"+locals.channel.File %>" />
+                  <source type="application/x-mpegURL" src="<%= locals.channel.FileBaseDir +"/"+ locals.channel.address+"/"+locals.channel.File %>" />
                   <object width="320" height="360" type="application/x-shockwave-flash" data="/assets/swf/mediaelement-flash-video.swf">
                     <param name="movie" value="/assets/swf/mediaelement-flash-video.swf" />
                     <param name="flashvars" value="controls=true&file=<%= locals.channel.FileBaseDir +"/"+ locals.channel.address+"/"+locals.channel.File %>" />
