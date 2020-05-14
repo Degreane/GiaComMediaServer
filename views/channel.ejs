@@ -64,8 +64,10 @@
                                     features: ['playpause', 'current', 'progress', 'duration', 'volume', 'fullscreen','preview','backlight'],
                                     clickToPlayPause: true,
                                     hideVolumeOnTouchDevices: false,
-                                    pluginPath:'/assets/js',
-                                    forceLive:true
+                                    // pluginPath:'/assets/js',
+                                    pluginPath:'https://cdn.jsdelivr.net/npm/mediaelement/build/',
+                                    forceLive:true,
+                                    shimScriptAccess: 'always'
                               });
                               // var link2play=$('.theplayer');
                               // link2play.on('click',function(e){
