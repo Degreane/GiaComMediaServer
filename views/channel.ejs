@@ -62,21 +62,21 @@
                     
                             var player = new MediaElementPlayer('player1', {
                                     features: ['playpause', 'current', 'progress', 'duration', 'volume', 'fullscreen','preview','backlight'],
-                                    clickToPlayPause: false,
+                                    clickToPlayPause: true,
                                     hideVolumeOnTouchDevices: false,
                                     pluginPath:'/assets/js',
                                     forceLive:true
                               });
-                              var link2play=$('.theplayer');
-                              link2play.on('click',function(e){
-                                e.preventDefault();
-                                var which=$(this)
-                                console.log(which.attr('data-target'))
-                                player.pause()
-                                player.setSrc(which.attr('data-target'))
-                                player.load()
-                                player.play()
-                              });
+                              // var link2play=$('.theplayer');
+                              // link2play.on('click',function(e){
+                              //   e.preventDefault();
+                              //   var which=$(this)
+                              //   console.log(which.attr('data-target'))
+                              //   player.pause()
+                              //   player.setSrc(which.attr('data-target'))
+                              //   player.load()
+                              //   player.play()
+                              // });
                             })
                         </script>
               
