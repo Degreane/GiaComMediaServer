@@ -55,7 +55,9 @@
                     <img src="<%= locals.channel.poster %> " width="320" height="360" title="No video playback capabilities" />
                   </object>
                   </video> -->
-                  <video src="<%= locals.channel.FileBaseDir +"/"+ locals.channel.address+"/"+locals.channel.File %>" width="100%" height="360" controls preload></video>
+                  <video  width="100%" height="360" controls preload autoplay muted>
+                    <source type="application/x-mpegURL" src="<%= locals.channel.FileBaseDir +"/"+ locals.channel.address+"/"+locals.channel.File %>" />
+                  </video>
             <!-- <script>
                     $(function(){
                     
