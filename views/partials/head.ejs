@@ -31,10 +31,9 @@
     <% if (typeof(locals.movie) !== 'undefined' || typeof(locals.channel) !== 'undefined') { %>
         <%# If we have a twirk then we apply mediaelement  %>
         <% if (locals.twirk == true || typeof(locals.channel)!== 'undefined') { %>
-            <!-- <script src="/assets/js/mediaelement-and-player.js"></script> -->
+            <script src="/assets/js/mediaelement-and-player.js"></script>
             <!-- <link rel="stylesheet" href="/assets/stylesheets/normalize.css"> -->
-            <!-- <link href="/assets/stylesheets/mediaelementplayer.css" rel="stylesheet"> -->
-            <script src="/assets/js/html5media.min.js"></script>
+            <link href="/assets/stylesheets/mediaelementplayer.css" rel="stylesheet">
          
         <% } else { %>
             <link type="text/css" href="/assets/styles/blue.monday/css/jplayer.blue.monday.css" rel="stylesheet" />

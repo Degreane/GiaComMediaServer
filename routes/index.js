@@ -191,7 +191,7 @@ router.get('/watchTv',addHelpers,isLoggedInUser,function(req,res,next){
   // res.locals['b64encode']=b64encode;
   // res.locals['b64decode']=b64decode;
   var userAgent=req.headers['user-agent'];
-  var patt=/GStreamer|QtEmbedded|tv|smart|falkon|lav|IOS|iphone|fedora/gi;
+  var patt=/GStreamer|QtEmbedded|tv|smart|falkon|lav/gi;
   if (userAgent.match(patt) !== null){
     res.locals['twirk']=true;
   }else{

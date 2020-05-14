@@ -47,18 +47,16 @@
             </div>
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
             
-                <!-- <video autoplay controls class="player" id="player1" height="360" width="100%" loop poster="<%= locals.channel.poster %> " preload="none"  style="max-width: 100%" tabindex="0" title="<%= locals.channel.title %> ">
+                <video autoplay controls class="player" id="player1" height="360" width="100%" loop poster="<%= locals.channel.poster %> " preload="none"  style="max-width: 100%" tabindex="0" title="<%= locals.channel.title %> ">
                   <source type="application/x-mpegURL" src="<%= locals.channel.FileBaseDir +"/"+ locals.channel.address+"/"+locals.channel.File %>" />
                   <object width="320" height="360" type="application/x-shockwave-flash" data="/assets/swf/mediaelement-flash-video.swf">
                     <param name="movie" value="/assets/swf/mediaelement-flash-video.swf" />
                     <param name="flashvars" value="controls=true&file=<%= locals.channel.FileBaseDir +"/"+ locals.channel.address+"/"+locals.channel.File %>" />
                     <img src="<%= locals.channel.poster %> " width="320" height="360" title="No video playback capabilities" />
                   </object>
-                  </video> -->
-                  <video  width="100%" height="360" controls preload autoplay muted>
-                    <source type="application/x-mpegURL" src="<%= locals.channel.FileBaseDir +"/"+ locals.channel.address+"/"+locals.channel.File %>" />
+            <!--                src="/vod/webcam.m3u8" -->
                   </video>
-            <!-- <script>
+            <script>
                     $(function(){
                     
                     
@@ -82,7 +80,7 @@
                               //   player.play()
                               // });
                             })
-                        </script> -->
+                        </script>
               
               <div class="row">
                 <button id="BackButton" type="button" class="btn btn-default center-block">Close</button>
