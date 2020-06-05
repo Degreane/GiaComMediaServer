@@ -256,7 +256,10 @@ var getMovieAttribute = async function(req,res,next){
         */
         const videoBasePath=path.join('/','movies','transcoded');
         //sssssssssssconsole.log(req.query['id']);
-        const videoPath=path.join(videoBasePath,res.locals.b64decode(req.query['id']))+'.mp4'
+        var videoPath=path.join(videoBasePath,res.locals.b64decode(req.query['id']))+'.mp4'
+        if (!fs.existsSync(videoPath)){
+            videoPath=path.join(videoBasePath,res.locals.b64decode(req.query['id']))+'.mkv'
+        }
         // console.log(videoPath);
         //const path = 'Videos/MachineLearningwithPython_MachineLearningTutorialforBeginners_MachineLearningTutorial-RnFGwxJwx-0.mp4'
         // const path = require('path')
