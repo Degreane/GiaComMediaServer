@@ -176,23 +176,23 @@ var getMovieList = async function(req,res,next){
         res.locals.movies['list_year']=req.query['list_year'];
         req.session.movies['list_year']=query['year'];
    }else if('list_year' in req.session.movies){
-        res.locals.movies['list_year']=req.session.movies['list_year'];
-        query['year']=req.session.movies['list_year'];
+        res.locals.movies['list_year']=req.session.movies.list_year;
+        query.year=req.session.movies.list_year;
    }
-   if ('list_year' in req.query && req.query['list_year'] == 'any') {
-        delete req.session.movies['list_year'];
-        delete res.locals.movies['list_year'];
-        delete query['year'];
+   if ('list_year' in req.query && req.query.list_year == 'any') {
+        delete req.session.movies.list_year;
+        delete res.locals.movies.list_year;
+        delete query.year;
    }
-   if ('list_genre' in req.query && req.query['list_genre'] !== 'any'){
-       query['genres']=new RegExp(req.query['list_genre'],"g");
-       res.locals.movies['list_genre']=req.query['list_genre'];
-       req.session.movies['list_genre']=req.query['list_genre'];
+   if ('list_genre' in req.query && req.query.list_genre !== 'any'){
+       query.genres=new RegExp(req.query.list_genre,"g");
+       res.locals.movies.list_genre=req.query.list_genre;
+       req.session.movies.list_genre=req.query.list_genre;
    }else if('list_genre' in req.session.movies){
        res.locals.movies['list_genre']=req.session.movies['list_genre'];
        query['genres']=new RegExp(req.session.movies['list_genre'],"g");
    }
-   if ('list_genre' in req.query && req.query['list_genre'] == 'any') {
+   if ('list_genre' in req.query && req.query.list_genre == 'any') {
        delete req.session.movies['list_genre'];
        delete res.locals.movies['list_genre'];
        delete query['genres'];
