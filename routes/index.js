@@ -121,22 +121,29 @@ router.post('/addChannel',addHelpers,requiresLogin,isLoggedInUser,isLoggedInUser
     query['enabled']=false;
   }
   query.uCreatedBy=req.session.loggedInUser._id;
+  req.session.actionLog={
+      ref:req.session.loggedInUser._id,
+      title:'Channel'
+  }
   try {
     var newChannel =new channelModel(
       query
     )
     newChannel.save(function(err,succ){
       if(err){
-        console.log(err)
+        next(err);
       }else{
-        console.log(succ)
+        req.session.actionLog['oldLog']={},
+        req.session.actionLog['newLog']=succ;     
       }
     });
   } catch (error) {
-    console.log(error);
+    next(error);
   }
-  console.log(query);
-})
+  
+},userActionLog,function(req,res,next){
+  res.redirect('/livetv');
+});
 router.get('/logs',requiresLogin,isLoggedInUserEnabled,getUserActionLog,function(req,res,next){
   /*
     Here We collect the logs from the userlogs and is loggedInUser.uType is one of ['admin','sysAdmin','siteAdmin'] then we view all 
@@ -199,7 +206,7 @@ router.get('/watchTv',addHelpers,isLoggedInUser,function(req,res,next){
   }
   next();
 },getChannelAttribute,function(req,res,next){
-  console.log(res.locals);
+  // console.log(res.locals);
   res.render('channel',{locals:res.locals});
 });
 router.get('/livetv',addHelpers,isLoggedInUser,getChannels,function(req,res,next){
@@ -207,7 +214,87 @@ router.get('/livetv',addHelpers,isLoggedInUser,getChannels,function(req,res,next
   res.locals['page']='LiveTV';
   res.locals['list_channels']=true;
   res.render('livetv',{locals:res.locals});
-})
+});
+router.get('/EditChannel',addHelpers,requiresLogin,isLoggedInUser,isLoggedInUserEnabled,getChannelAttribute,function(req,res,next){
+  /**
+   * EditChannel Enables Editing Channel corresponds to logged in user with admin rights.
+   */
+  console.log(res.locals);
+  res.locals.edit_channel=true;
+  res.render('editChannel',{locals:res.locals});
+  // res.redirect('/livetv');
+});
+router.post('/EditChannel',addHelpers,requiresLogin,isLoggedInUser,isLoggedInUserEnabled,function(req,res,next){
+  var channelModel=require('../models/channels');
+  var query=req.body;
+  //console.log(query);
+  if(lo.has(query,'enabled')) {
+    query['enabled']=true;
+  }else{
+    query['enabled']=false;
+  }
+  query.updatedAt = new moment();
+  var id2check=query['_id'];
+  delete query['_id'];
+  req.session.actionLog={
+        ref:req.session.loggedInUser._id,
+        title:'Channel '+id2check
+  }
+  /*
+    oldLog
+    newLog
+  */
+ try {
+  channelModel.findById(id2check,function(err,doc1){
+    if(err){
+      next(err)
+    }else{
+      req.session.actionLog['oldLog']=doc1;
+      channelModel.findByIdAndUpdate(id2check,query,function(err,doc){
+        if(err){
+          console.log(err)
+          next(err);
+        }else{
+          req.session.actionLog['newLog']=query;
+          next();
+        }
+      })
+    }
+  }); 
+ } catch (error) {
+   console.log(error)
+   next(error);
+ }
+  
+  },userActionLog,function(req,res,next){
+    res.redirect('/livetv');
+  });
+  /*
+  if (lo.has(query,'enabled')){
+    query['enabled']=true;
+  }else{
+    query['enabled']=false;
+  }
+  query.uCreatedBy=req.session.loggedInUser._id;
+  try {
+    var newChannel =new channelModel(
+      query
+    )
+    newChannel.save(function(err,succ){
+      if(err){
+        console.log(err)
+      }else{
+        console.log(succ)
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+  console.log(query);
+  */
+
+  
+
 router.get('/AddChannel',addHelpers, requiresLogin,isLoggedInUser,isLoggedInUserEnabled,setLoggedInUserSession,function(req,res,next){
   if (typeof(res.locals.loggedInUser == 'undefined')){
     res.locals.loggedInUser=req.session.loggedInUser;
@@ -215,5 +302,15 @@ router.get('/AddChannel',addHelpers, requiresLogin,isLoggedInUser,isLoggedInUser
   res.locals.new_channel=true;
   res.render('addChannel',{locals:res.locals});
 });
-
+router.get('/listUsers',addHelpers,requiresLogin,isLoggedInUser,isLoggedInUserEnabled,function(req,res,next){
+  /**
+   * While Listing Users only uType =['siteAdmin'||'sysAdmin'] may manipulate the users, 
+   * Users of type admin may only manipulate channels and/or movies 
+   */
+  if (['siteAdmin','sysAdmin'].indexOf(req.session.loggedInUser.uType) != -1 ){
+    res.locals.page='listUsers';
+    res.locals.title='Listing Users';
+    res.render('listUsers',{locals:res.locals});
+  }
+})
 module.exports = router;

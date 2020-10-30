@@ -1,5 +1,5 @@
 var mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost/GiaCom',{useNewUrlParser:true,useUnifiedTopology: true,useCreateIndex:true});
+mongoose.connect('mongodb://localhost/GiaCom',{useNewUrlParser:true,useUnifiedTopology: true,useCreateIndex:true,useFindAndModify:false});
 var db=mongoose.connection;
 db.on('error',function(err){
     console.log(err)

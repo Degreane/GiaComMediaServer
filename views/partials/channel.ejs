@@ -1,4 +1,68 @@
-<% if (typeof(locals.new_channel)!== 'undefined' && isIn(locals.loggedInUser.uType,['admin','siteAdmin','sysAdmin'])==true ) { %>
+<% if (typeof(locals.edit_channel)!=='undefined' && isIn(locals.loggedInUser.uType,['admin','siteAdmin','sysAdmin'])==true){ %>
+    <div class="col-md-8 col-lg-8 col-md-push-2">
+        <div class="jumbotron">
+            <h2 class="text-center" style="border-radius: 4px; border: 1px solid; box-shadow: 1px 1px 1px 1px #f7f0f0 , 2px 2px 1px 1px;"><b><i>Channel</i></b>&nbsp;<span class="bg-info text-primary" style="border-radius: 5px;">&nbsp;<%= locals.channel.title%>&nbsp;</span></h2> 
+            <form role="form" class="form-horizontal text-primary" action="/EditChannel" name="channel" id="channel" data-pg-name="channel" title="channel" style="border-radius: 5px; box-shadow: 1px 1px 1px 1px #f9f3f3 , 2px 2px 1px 1px #000000; border: 1px solid #000000;" method="POST"> 
+                <div class="form-group"> 
+                    <label class="control-label col-sm-2" for="title">Title</label>                 
+                    <div class="col-sm-10" data-pg-name="uName">
+                        <div>
+                            <input type="text" class="form-control text-center" id="title" placeholder="Channel Title" data-pg-name="title" value="<%= locals.channel.title%>" name="title">
+                            <input type="hidden" name='_id' value="<%= locals.channel._id %>">
+                        </div>
+                    </div>                 
+                </div>             
+                <div class="form-group"> 
+                    <label class="control-label col-sm-2" for="country">Country</label>                 
+                    <div class="col-sm-10">
+                        <div>
+                            <input type="text" class="form-control text-center" name='country' id="country" placeholder="Lebanon" value="<%= locals.channel.country %>">
+                        </div>
+                    </div>                 
+                </div>             
+                <div class="form-group"> 
+                    <label class="control-label col-sm-2" for="genre">Genre</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control text-center" id="genre" placeholder="Genre" name="genre" value="<%= locals.channel.genre %>">
+                    </div>
+                </div>
+                <div class="form-group"> 
+                    <label class="control-label col-sm-2" for="address">Address</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control text-center" id="address" placeholder="Address" name="address" value="<%= locals.channel.address %>">
+                    </div>
+                </div>
+                <div class="form-group"> 
+                    <label class="control-label col-sm-2" for="description">Info</label>                 
+                    <div class="col-sm-10">
+                        <textarea class="form-control bg-info" rows="3" id="description" name="description" data-pg-name="description"><%= locals.channel.description %></textarea>
+                    </div>
+                </div>             
+                
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <div class="checkbox"> 
+                            <label class="control-label">
+                                <% if (locals.channel.enabled == true) {%> 
+                                    <input type="checkbox" value="true" checked="checked" name="enabled">        Channel Enabled ?
+                                <% } else { %>
+                                    <input type="checkbox" value="false" name="enabled">        Channel Enabled ?
+                                <%}%>
+                            </label>                         
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group"> 
+                    <div class="col-sm-offset-5 col-sm-2">
+                        <button type="submit" class="btn btn-primary"> 
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Apply
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>     
+    </div>
+<% }  else if (typeof(locals.new_channel)!== 'undefined' && isIn(locals.loggedInUser.uType,['admin','siteAdmin','sysAdmin'])==true ) { %>
     <div class="col-md-8 col-lg-8 col-md-push-2">
         <div class="jumbotron">
             <h2 class="text-center" style="border-radius: 4px; border: 1px solid; box-shadow: 1px 1px 1px 1px #f7f0f0 , 2px 2px 1px 1px;"><b><i>Channel</i></b><span class="bg-info text-primary" style="border-radius: 5px;">&nbsp;&nbsp;</span></h2> 
@@ -15,7 +79,7 @@
                     <label class="control-label col-sm-2" for="country">Country</label>                 
                     <div class="col-sm-10">
                         <div>
-                            <input type="text" class="form-control text-center" id="country" placeholder="Lebanon" value="">
+                            <input type="text" class="form-control text-center" name='country' id="country" placeholder="Lebanon" value="">
                         </div>
                     </div>                 
                 </div>             
@@ -72,7 +136,7 @@
                 <% if(typeof(locals.loggedIn) !== 'undefined' ) {%>
                     <%#  if a user is logged in then we can check for loggedInUser.utype and see if we have previlidge to add or remove new channel %>
                     <% if (['admin','siteAdmin','sysAdmin'].indexOf(locals.loggedInUser.uType) !== -1 ) {%>
-                        <a href="/livetv?edit=<%= item._id %>" class="btn btn-danger" role="button" style="box-shadow: black 1px 1px 24px 6px inset; color: lightgoldenrodyellow; text-align: center; border-radius:5px;">
+                        <a href="/EditChannel?e=<%= locals.random() %>&ch=<%= item._id %>" class="btn btn-danger" role="button" style="box-shadow: black 1px 1px 24px 6px inset; color: lightgoldenrodyellow; text-align: center; border-radius:5px;">
                         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                         </a>
                     <% } %>

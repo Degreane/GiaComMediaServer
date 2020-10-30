@@ -1,4 +1,5 @@
 var _=require('lodash');
+var uuid=require('uuid');
 var text_truncate = function(str, length, ending) {
     if (length == null) {
       length = 100;
@@ -58,7 +59,11 @@ var buildElement=function(element){
       }
   }     
 };
+var rId=function(){
+  return uuid.v4().toString();
+}
 exports.isIn = isIn;
+exports.random=rId;
 exports.b64encode=b64encode;
 exports.b64decode=b64decode;
 exports.text_truncate=text_truncate;

@@ -23,10 +23,16 @@
                 </div>                 
                 <div class="panel panel-default"> 
                     <div class="panel-heading text-center" role="tab" id="headingTwo"> 
-                        <h4 class="panel-title"> <a href="#collapseTwo" class="collapsed text-center" role="button" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" aria-controls="collapseTwo"> Users </a> </h4> 
+                        <h4 class="panel-title"> <a href="#collapseTwo" class="collapsed text-center" role="button" data-toggle="collapse" data-parent="#accordion" aria-expanded="true" aria-controls="collapseTwo"> Users </a> </h4> 
                     </div>                     
-                    <div class="collapse panel-collapse" role="tabpanel" id="collapseTwo" aria-labelledby="headingTwo"> 
-                        <div class="panel-body"> Panel2 Body. </div>                         
+                    <div class="collapse panel-collapse <% if (['users','listUsers','newUser','userLogs'].indexOf(locals.page) != -1 ) { %> in <% } %>" role="tabpanel" id="collapseTwo" aria-labelledby="headingTwo"> 
+                        <div class="panel-body"> 
+                            <div class="list-group">
+                                <a href="/listUsers" class="list-group-item text-center <% if (locals.page == 'listUsers') {%> active <% } %>"> List Users </a>
+                                <a href="/newUser" class="list-group-item text-center <% if (locals.page == 'newUser') {%> active <% } %>">New User</a> 
+                                <a href="#" class="list-group-item text-center <% if (locals.page == 'userLogs') {%> active <% } %>">User Logs</a> 
+                            </div>
+                        </div>                         
                     </div>                     
                 </div>                 
                 <div class="panel panel-default"> 
