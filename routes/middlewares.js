@@ -370,13 +370,21 @@ var getSeriesList = async function(req,res,next){
     if (typeof(res.locals['series']) == 'undefined') {
         res.locals['series'] = {};
     }
+    if ('page' in req.query){
+        var skip=(parseInt(req.query.page)-1)*24;
+        res.locals.series.page=req.query.page;
+        //console.log('Skip ',skip);
+    }else{
+        var skip=0;
+        res.locals.series.page=1;
+        //console.log('Skip ',skip);
+    }
     try {
         const Series=require('../models/series')
-        res.locals['series']={};
-        let skip=0;
-        const theSeries=await Series.find(query).sort({title:'asc'}).skip(skip).limit(24);
-        res.locals.series['list']=theSeries;
         
+        res.locals.series['count']=await Series.countDocuments(query);
+        res.locals.series['list']=await Series.find(query).sort({title:'asc'}).skip(skip).limit(24);
+        console.log(res.locals);
     }catch(error){
         res.locals['series']={'err':JSON.stringify(error)};
     }

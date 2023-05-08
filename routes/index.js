@@ -362,5 +362,7 @@ router.get('/series',isLoggedInUser, getSeriesList,function(req,res,next){
 define path to get page new series
 
 */
-//router.get('/newSeries',requiresLogin,isLoggedInUser,isAdmin)
+router.get('/newSeries',addHelpers, requiresLogin,isLoggedInUser,isLoggedInUserEnabled,setLoggedInUserSession,function(req,res,next){
+
+});
 module.exports = router;
