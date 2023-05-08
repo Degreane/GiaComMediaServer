@@ -325,7 +325,8 @@ var getChannels=async function(req,res,next){
         // 1- Count Channels
         var channel_Count=await Channels.find().count();
         // 2- get the channels list 
-        var list = await Channels.find().skip(skip);
+        var list = await Channels.find().sort({title:'asc'}).skip(skip);
+	    //sort({title:'asc'})
         res.locals.channels['total_count']=channel_Count;
         res.locals.channels['list']=list;
     } catch (err) {
@@ -360,6 +361,31 @@ var getChannelAttribute= async function(req,res,next){
         }
     }
 }
+var getSeriesList = async function(req,res,next){
+    console.log('Getting Series List ')
+    var query={};
+    if(typeof(req.session.series)=='undefined') {
+        req.session.series={};
+    }
+    if (typeof(res.locals['series']) == 'undefined') {
+        res.locals['series'] = {};
+    }
+    try {
+        const Series=require('../models/series')
+        res.locals['series']={};
+        let skip=0;
+        const theSeries=await Series.find(query).sort({title:'asc'}).skip(skip).limit(24);
+        res.locals.series['list']=theSeries;
+        
+    }catch(error){
+        res.locals['series']={'err':JSON.stringify(error)};
+    }
+    next();
+}
+var addSeries = async function(req,res,next){
+    console.log("Setting New Series To list");
+    // When Setting New Series we just Insert The title of the Series
+}
 exports.getChannelAttribute=getChannelAttribute;
 exports.addHelpers=addHelpers;
 exports.getChannels=getChannels;
@@ -371,3 +397,5 @@ exports.isLoggedInUserEnabled=isLoggedInUserEnabled;
 exports.setLoggedInUserSession=setLoggedInUserSession;
 exports.userActionLog=userActionLog;
 exports.getUserActionLog=getUserActionLog;
+exports.getSeriesList=getSeriesList;
+exports.addSeries=addSeries;

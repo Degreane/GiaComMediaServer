@@ -2,11 +2,11 @@ var express = require('express');
 var lo = require('lodash')
 var moment=require('moment')
 var router = express.Router();
-var { getChannelAttribute,requiresLogin,isLoggedInUserEnabled,setLoggedInUserSession,userActionLog,getUserActionLog,isLoggedInUser,getMovieList,getMovieAttribute,getChannels,addHelpers } =require('./middlewares') ;
+var { getChannelAttribute,requiresLogin,isLoggedInUserEnabled,setLoggedInUserSession,userActionLog,getUserActionLog,isLoggedInUser,getMovieList,getMovieAttribute,getChannels,addHelpers,getSeriesList,addSeries } =require('./middlewares') ;
 var {text_truncate,pad,b64decode,b64encode,isIn}= require('./helpers');
 // var {diff} = require('deep-object-diff') 
 
-/* GET home page. */
+/*  GET home page. */
 router.get('/',isLoggedInUser,getMovieList, function(req,res,next){
   // const inspect=require('util').inspect;
   // inspect(res.locals,color=true,depth=4);
@@ -134,7 +134,8 @@ router.post('/addChannel',addHelpers,requiresLogin,isLoggedInUser,isLoggedInUser
         next(err);
       }else{
         req.session.actionLog['oldLog']={},
-        req.session.actionLog['newLog']=succ;     
+        req.session.actionLog['newLog']=succ;
+	next();
       }
     });
   } catch (error) {
@@ -182,7 +183,7 @@ router.get('/watch',isLoggedInUser,function(req,res,next){
   res.locals['b64encode']=b64encode;
   res.locals['b64decode']=b64decode;
   var userAgent=req.headers['user-agent'];
-  var patt=/GStreamer|QtEmbedded|tv|smart|falkon|lav/gi;
+  var patt=/GStreamer|QtEmbedded|tv|smart|falkon|lav|playstation/gi;
   if (userAgent.match(patt) !== null){
     res.locals['twirk']=true;
   }else{
@@ -209,12 +210,19 @@ router.get('/watchTv',addHelpers,isLoggedInUser,function(req,res,next){
   // console.log(res.locals);
   res.render('channel',{locals:res.locals});
 });
+/**
+render Live TV CHannels Page 
+*/
 router.get('/livetv',addHelpers,isLoggedInUser,getChannels,function(req,res,next){
   res.locals['title']='GiaCom Movies (LiveTV)';
   res.locals['page']='LiveTV';
   res.locals['list_channels']=true;
   res.render('livetv',{locals:res.locals});
 });
+
+/**
+Get Edit TV Channels
+*/
 router.get('/EditChannel',addHelpers,requiresLogin,isLoggedInUser,isLoggedInUserEnabled,getChannelAttribute,function(req,res,next){
   /**
    * EditChannel Enables Editing Channel corresponds to logged in user with admin rights.
@@ -224,6 +232,9 @@ router.get('/EditChannel',addHelpers,requiresLogin,isLoggedInUser,isLoggedInUser
   res.render('editChannel',{locals:res.locals});
   // res.redirect('/livetv');
 });
+/**
+Post Edit Channel Data
+*/
 router.post('/EditChannel',addHelpers,requiresLogin,isLoggedInUser,isLoggedInUserEnabled,function(req,res,next){
   var channelModel=require('../models/channels');
   var query=req.body;
@@ -313,4 +324,43 @@ router.get('/listUsers',addHelpers,requiresLogin,isLoggedInUser,isLoggedInUserEn
     res.render('listUsers',{locals:res.locals});
   }
 })
+
+/**
+Defining Series:
+A Series:
+  - Title
+  - Description
+  - Genre
+  - Seasons []Season
+  - Poster
+
+A Season:
+  - Number
+  - Episodes []Episode
+  - Description
+  - Title 
+
+An Episode:
+  - Number
+  - Title
+  - Description
+  - File
+
+
+*/
+router.get('/series',isLoggedInUser, getSeriesList,function(req,res,next){
+  /**
+    Get The Series
+    1- Check if logged in user sets  
+    2- Get the Series List from the mongodb Database
+  */
+  res.locals.page="Series";
+  res.locals.title="GiaCom Series";
+  res.render('series',{locals:res.locals})
+});
+/**
+define path to get page new series
+
+*/
+//router.get('/newSeries',requiresLogin,isLoggedInUser,isAdmin)
 module.exports = router;

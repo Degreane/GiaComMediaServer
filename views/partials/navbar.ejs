@@ -108,6 +108,61 @@
                     <% } %>
                 </ul>
                 
+            <% } else if (locals.page == 'Series') {%>
+                <ul class="nav navbar-nav text-center" style="margin-left:10%;">
+                    <li style="margin:0px 2px;">
+                        <% if (typeof(locals.series['list_year']) !== 'undefined' && locals.series['list_year'] !== 'any' ) { %>
+                            <a class="btn" href="/series?select_year=true" role="button">Year (<%= locals.series['list_year'] %>) </a>
+                        <% } else { %>
+                        <a class="btn" href="/series?select_year=true" role="button">Year</a>
+                        <% } %>
+                    </li>
+                    <li style="margin:0px 2px;">
+                        <% if(typeof(locals.series['list_genre']) !== 'undefined' && locals.series['list_genre'] !== 'any') { %>
+                            <a class="btn" href="/series?select_genre=true" role="button">Genre (<%= locals.series['list_genre'] %> )</a>
+                        <% }else {%>
+                            <a class="btn" href="/series?select_genre=true" role="button">Genre</a>
+                        <%} %>
+                        
+                    </li>
+                    <li style="margin:0px 2px;">
+                        <a >Found <%= locals.series['count'] %> Series</a>
+                    </li>
+                    
+                    <li>
+                        <% if (parseInt(locals.series['page'])-1 == 0){ %>
+                            <a href="/series?page=<%= parseInt(locals.series['page'])-1 %>" style="padding-right: 0px;" class="disabled text-lightyellow">
+                            <span class="glyphicon glyphicon-backward" aria-hidden="true"></span>
+                            </a>
+                        <% }else{ %>
+                            <a href="/series?page=<%= parseInt(locals.series['page'])-1 %>" style="padding-right: 0px;" class="text-gold"><span class="glyphicon glyphicon-backward" aria-hidden="true"></span></a>
+                        <% } %>
+                        
+                    </li>     
+                
+                    <li class="active">
+                        <a href="#" class="disabled text-gold"><%= locals.series.page %>/<%= locals.series['count']%24==0 ? parseInt(locals.series['count']/24) : parseInt(locals.series['count']/24)+1 %> <span class="sr-only">(current)</span></a>
+                    </li>     
+                    
+                    <li>
+                        <% 
+                            var pageCount= locals.series['count']%24==0 ? parseInt(locals.series['count']/24) : parseInt(locals.series['count']/24)+1; 
+                            if (parseInt(locals.series['page']) == pageCount ) { %>
+                                <a href="/series?page=<%= parseInt(locals.series['page'])+1 %>" style="padding-left: 0px;;" class="disabled text-lightyellow"><span class="glyphicon glyphicon-forward" aria-hidden="true"></span></a>
+                        <% } else { %>
+                            <a href="/series?page=<%= parseInt(locals.series['page'])+1 %>" style="padding-left: 0px;;" class="text-gold"><span class="glyphicon glyphicon-forward" aria-hidden="true"></span></a>
+                        <% } %>
+                    </li>
+                    <li>
+                    
+                    <form class="navbar-form pull-right" action="/series" method="GET" name="Search">
+                        <input name="s" type="text" style="width: 200px; box-shadow: black 1px 1px 24px 6px inset; color: lightgoldenrodyellow; text-align: center; border-radius:5px;" value="<%= typeof(locals.series['s']) == 'undefined'? '': locals.series['s'] %>" autofocus>
+                        <button type="submit" class="btn btn-xs btn-default" style="box-shadow: black 1px 1px 24px 6px inset; color: lightgoldenrodyellow; text-align: center; border-radius:5px;">Search</button>
+                        <a href="/series?clear=true" class="btn btn-xs btn-default" style="box-shadow: black 1px 1px 24px 6px inset; color: lightgoldenrodyellow; text-align: center; border-radius:5px;">Clear</a>
+                    </form>
+                    
+                    </li>
+                </ul>
             <% } %>
             <% if(typeof(locals.loggedIn) == "undefined" || !locals.loggedIn) { %>
             <ul class="nav navbar-nav navbar-right">
