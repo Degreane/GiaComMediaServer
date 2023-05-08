@@ -112,6 +112,15 @@ router.post('/profile',requiresLogin,isLoggedInUserEnabled,function(req,res,next
   // console.log(locals)
   res.render('profile',{locals:locals});
 });
+
+router.get('/newUser',requiresLogin,isLoggedInUser,isLoggedInUserEnabled,function(req,res,next){
+  /**
+   * Add New User:
+   * This Opens The page to add New user To the System. Nothing More.
+   * Actually we shall copy the profile page and change to newUser Convinience.
+   */
+  res.render('newUser',{locals:res.locals});
+});
 router.post('/addChannel',addHelpers,requiresLogin,isLoggedInUser,isLoggedInUserEnabled,function(req,res,next){
   var channelModel=require('../models/channels');
   var query=req.body;
