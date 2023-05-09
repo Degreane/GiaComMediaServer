@@ -1,0 +1,102 @@
+<div class="col-md-8 col-lg-8 col-lg-push-1">
+    <div class="jumbotron">
+        <h4 class="h4 text-center">GiaCom Media Server</h4>
+        <div class="lead w-100">User List 
+            <span class="glyphicon glyphicon-user"></span> 
+            <span class="navbar-right">
+                <form class="form-inline h5">
+                    <div class="form-group">
+                        <label for="searchUsers"><span class="glyphicon glyphicon-search"></span></label>
+                        <input type="text" name="searchUsers" id="searchUsers" class="form-control" placeholder="" aria-describedby="helpId">
+                        <small id="helpId" class="text-muted">Search ....</small>
+                    </div>
+                </form>
+            </span>
+        </div>
+        <hr class="my-2">
+        <table class="table table-responsive table-bordered text-center" id="userListTable">
+            <thead >
+                <tr >
+                    <th class="text-center text-primary bg-info">#</th>
+                    <th class="text-center text-primary bg-info">C1</th>
+                    <th class="text-center text-primary bg-info">C2</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="tr">
+                    <td scope="row">#1</td>
+                    <td>Faysal </td>
+                    <td>Al Banna</td>
+                </tr>
+                <tr class="tr">
+                    <td scope="row">#2</td>
+                    <td>Fbanna</td>
+                    <td>AL BANNA</td>
+                </tr>
+                <tr class="tr">
+                    <td scope="row">#3</td>
+                    <td>MfBanna</td>
+                    <td>AL-Banna</td>
+                </tr>
+                <tr class="tr">
+                    <td scope="row">#4</td>
+                    <td>faysal</td>
+                    <td>AL_Banna</td>
+                </tr>
+            </tbody>
+        </table>    
+    </div>
+    
+</div>
+<script  type="text/javascript">
+    $().ready(function(){
+        var tableHead=[];
+        var tableRows=[];
+        $('#userListTable thead tr').each(function(i,el){
+            $(el).find('th').each(function(thi,the){
+                tableHead.push($.trim($(the).text()))
+            })
+        })
+        $('#userListTable tbody tr').each(function(i,el){
+            var tableRow=[];
+            $(el).find('td').each(function(tdi,tde){
+                tableRow.push($.trim($(tde).text()))
+            });
+            tableRow.push(tableRow.join("||"))
+            tableRows.push(tableRow)
+        })
+        var tableData={
+            'header':tableHead,
+            'data':tableRows
+        }
+        $('#searchUsers').on('keyup',function(e){
+            e.preventDefault();
+            
+            var searchString=$.trim($('#searchUsers').val());
+            var searchKey=new RegExp(searchString,"i")
+            var resTable=tableData.data.filter(function(row){
+                return searchKey.test(row[row.length -1])
+            });
+            DrawTable(resTable)
+        });
+        function DrawTable(theData ){
+            $('#userListTable tbody ').empty()
+            theData.forEach(function(row){
+                var tr=$('<tr>');
+                tr.addClass("tr")
+                for (var tdi=0;tdi<row.length -1; tdi++){
+                    var td=$('<td>');
+                    td.text(row[tdi])
+                    tr.append(td);
+                }
+            $('#userListTable tbody').append(tr)
+            });
+        }
+        $('#userListTable tbody').on('click','.tr',function(e){
+            e.preventDefault();
+            console.log(e);
+        })
+        console.log(tableData)
+        
+    });
+</script>

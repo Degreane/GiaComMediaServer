@@ -8,6 +8,8 @@ let RedisStore = require('connect-redis')(session);
 let redisClient = redis.createClient();
 var logger = require('morgan');
 var models=require('./models');
+
+
 // var uuid=require('uuid');
 
 var indexRouter = require('./routes/index');
