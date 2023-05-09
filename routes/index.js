@@ -119,6 +119,13 @@ router.get('/newUser',requiresLogin,isLoggedInUser,isLoggedInUserEnabled,functio
    * This Opens The page to add New user To the System. Nothing More.
    * Actually we shall copy the profile page and change to newUser Convinience.
    */
+  
+  /**
+   * Since we are creating a new User then: 
+   * Admin User (ParentUser)= loggedInUser
+   */
+  res.locals.creatingNewUser=true;
+  console.log(res.locals);
   res.render('newUser',{locals:res.locals});
 });
 router.post('/addChannel',addHelpers,requiresLogin,isLoggedInUser,isLoggedInUserEnabled,function(req,res,next){
