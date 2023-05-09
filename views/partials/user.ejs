@@ -7,7 +7,15 @@
             <% } %>
             
         </span></h4> 
-        <form role="form" class="form-horizontal text-primary" action="/profile" name="profile" id="profile" data-pg-name="profile" title="profile" style="border-radius: 5px; box-shadow: 1px 1px 1px 1px #f9f3f3 , 2px 2px 1px 1px #000000; border: 1px solid #000000;" method="POST"> 
+        <form role="form" class="form-horizontal text-primary" 
+            <% if (locals.creatingNewUser !== true) { %>
+                action="/profile" name="profile" id="profile"
+            <% } else { %>
+                action="/newUser" name="newUser" id="newUser"
+            <% } %>
+            
+        
+            data-pg-name="profile" title="profile" style="border-radius: 5px; box-shadow: 1px 1px 1px 1px #f9f3f3 , 2px 2px 1px 1px #000000; border: 1px solid #000000;" method="POST"> 
             <div class="form-group"> 
                 <label class="control-label col-sm-2" for="uName">UserName</label>             
                 <div class="col-sm-10" data-pg-name="uName"> 

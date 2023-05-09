@@ -60,13 +60,14 @@ router.get('/logout',requiresLogin,function(req,res,next){
   
   res.redirect('/')
 });
-router.get('/options',requiresLogin,isLoggedInUserEnabled,function(req,res,next){
-  var locals={
-    'title':'GiaCom Media Server (2019)&copy;&reg;',
-    'page':'options',
-    'loggedIn':req.session.loggedIn || null,
-  }
-  res.render('options',{locals:locals})
+router.get('/options',requiresLogin,isLoggedInUserEnabled,isLoggedInUser,function(req,res,next){
+  res.locals['title']='GiaCom Media Server (2019)&copy;&reg;'
+  res.locals['page']='options';
+  res.locals['loggedIn']=req.session.loggedIn || null;
+  
+
+  // console.log(res.locals)
+  res.render('options',{locals:res.locals})
 });
 router.get('/profile',requiresLogin,isLoggedInUserEnabled,function(req,res,next){
   var locals={
@@ -118,6 +119,7 @@ router.get('/newUser',requiresLogin,isLoggedInUser,isLoggedInUserEnabled,functio
    * Add New User:
    * This Opens The page to add New user To the System. Nothing More.
    * Actually we shall copy the profile page and change to newUser Convinience.
+   * One thing to note that only Users of type [Admin,SysAdmin,SiteAdmin] may be able to create a new User
    */
   
   /**
@@ -128,6 +130,33 @@ router.get('/newUser',requiresLogin,isLoggedInUser,isLoggedInUserEnabled,functio
   console.log(res.locals);
   res.render('newUser',{locals:res.locals});
 });
+router.post('/newUser',requiresLogin,isLoggedInUser,isLoggedInUserEnabled,function(req,res,next){
+/**
+ * Adding New User Params,
+ * All Info should be in the req.body 
+ */
+  let query = req.body;
+  query.uCreatedBy=res.locals.loggedInUser._id
+  let user = require('../models/users');
+  user.findOne({'uName':query['uName']},function(err,result){
+    if (err !== null ){
+      res.render("err",err);
+    }else if (result == null ){
+      /**
+       * if result is null then there is no user found with that ID.
+       * thus we shall insert the user in the database 
+       */
+      user.create(query,function(err,result){
+        if (err !== null){
+          res.render("err",err);
+        }else{
+          res.send(result);
+        }
+      })
+    }
+  });
+});
+
 router.post('/addChannel',addHelpers,requiresLogin,isLoggedInUser,isLoggedInUserEnabled,function(req,res,next){
   var channelModel=require('../models/channels');
   var query=req.body;

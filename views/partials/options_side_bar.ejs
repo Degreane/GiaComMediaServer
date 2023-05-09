@@ -28,9 +28,16 @@
                     <div class="collapse panel-collapse <% if (['users','listUsers','newUser','userLogs'].indexOf(locals.page) != -1 ) { %> in <% } %>" role="tabpanel" id="collapseTwo" aria-labelledby="headingTwo"> 
                         <div class="panel-body"> 
                             <div class="list-group">
-                                <a href="/listUsers" class="list-group-item text-center <% if (locals.page == 'listUsers') {%> active <% } %>"> List Users </a>
-                                <a href="/newUser" class="list-group-item text-center <% if (locals.page == 'newUser') {%> active <% } %>">New User</a> 
-                                <a href="#" class="list-group-item text-center <% if (locals.page == 'userLogs') {%> active <% } %>">User Logs</a> 
+                                <% if (['sysAdmin','siteAdmin','admin'].indexOf(locals.loggedInUser.uType) !== -1 ) { %>
+                                    <a href="/listUsers" class="list-group-item text-center <% if (locals.page == 'listUsers') {%> active <% } %>"> List Users </a>
+                                    <a href="/newUser" class="list-group-item text-center <% if (locals.page == 'newUser') {%> active <% } %>">New User</a> 
+                                    <a href="#" class="list-group-item text-center <% if (locals.page == 'userLogs') {%> active <% } %>">User Logs</a> 
+                                    <% } else { %>
+                                        <a href="#" class="list-group-item text-center <% if (locals.page == 'listUsers') {%> active <% } %> disabled bg-light text-danger" > List Users </a>
+                                        <a href="#" class="list-group-item text-center <% if (locals.page == 'newUser') {%> active <% } %> disabled bg-light text-danger">New User</a> 
+                                        <a href="#" class="list-group-item text-center <% if (locals.page == 'userLogs') {%> active <% } %> disabled bg-light text-danger">User Logs</a>  
+                                <% } %>
+                                
                             </div>
                         </div>                         
                     </div>                     

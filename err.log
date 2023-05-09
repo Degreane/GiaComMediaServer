@@ -21,3 +21,5 @@ ReferenceError: isAdmin is not defined
     at Module._compile (node:internal/modules/cjs/loader:1196:14)
 (node:10859) DeprecationWarning: collection.count is deprecated, and will be removed in a future version. Use Collection.countDocuments or Collection.estimatedDocumentCount instead
 (Use `node --trace-deprecation ...` to show where the warning was created)
+(node:23445) DeprecationWarning: collection.count is deprecated, and will be removed in a future version. Use Collection.countDocuments or Collection.estimatedDocumentCount instead
+(Use `node --trace-deprecation ...` to show where the warning was created)
