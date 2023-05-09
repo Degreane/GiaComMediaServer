@@ -39,3 +39,5 @@ The Requested Query  {} {}
 ::ffff:127.0.0.1 - - [07/May/2023:09:40:30 +0000] "GET /assets/images/logo-old.png HTTP/1.1" 304 - "http://127.0.0.1:8080/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
 Getting Series List 
 ::ffff:127.0.0.1 - - [07/May/2023:09:40:37 +0000] "GET /series HTTP/1.1" 200 61 "http://127.0.0.1:8080/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+Server Started Listening 
+Mongoose Connection successful
