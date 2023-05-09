@@ -2,7 +2,7 @@ var express = require('express');
 var lo = require('lodash')
 var moment=require('moment')
 var router = express.Router();
-var { getChannelAttribute,requiresLogin,isLoggedInUserEnabled,setLoggedInUserSession,userActionLog,getUserActionLog,isLoggedInUser,getMovieList,getMovieAttribute,getChannels,addHelpers,getSeriesList,addSeries } =require('./middlewares') ;
+var { getChannelAttribute,requiresLogin,isLoggedInUserEnabled,setLoggedInUserSession,userActionLog,getUserActionLog,isLoggedInUser,getMovieList,getMovieAttribute,getChannels,addHelpers,getSeriesList,addSeries,getUsers } =require('./middlewares') ;
 var {text_truncate,pad,b64decode,b64encode,isIn}= require('./helpers');
 // var {diff} = require('deep-object-diff') 
 
@@ -358,10 +358,10 @@ router.get('/AddChannel',addHelpers, requiresLogin,isLoggedInUser,isLoggedInUser
   res.locals.new_channel=true;
   res.render('addChannel',{locals:res.locals});
 });
-router.get('/listUsers',addHelpers,requiresLogin,isLoggedInUser,isLoggedInUserEnabled,function(req,res,next){
+router.get('/listUsers',addHelpers,requiresLogin,isLoggedInUser,isLoggedInUserEnabled,getUsers,function(req,res,next){
   /**
    * While Listing Users only uType =['siteAdmin'||'sysAdmin'] may manipulate the users, 
-   * Users of type admin may only manipulate channels and/or movies 
+   * Users of type admin may only manipulate channels, movies,  or series 
    */
   if (['siteAdmin','sysAdmin'].indexOf(req.session.loggedInUser.uType) != -1 ){
     res.locals.page='listUsers';

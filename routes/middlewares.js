@@ -392,7 +392,25 @@ var getSeriesList = async function(req,res,next){
 }
 var addSeries = async function(req,res,next){
     console.log("Setting New Series To list");
+    next();
     // When Setting New Series we just Insert The title of the Series
+}
+var getUsers = async function(req,res,next) {
+    var userSchema=require('../models/users');
+    userSchema.find(function(err,result){
+        if (err !== null){
+            next(err)
+        }else{
+            if (typeof(res.locals) == 'undefined') {
+                res.locals={}
+            }
+            res.locals['users']=result;
+            console.log(res.locals)
+            next();
+        }
+    });
+    // console.log(users);
+    // next();
 }
 exports.getChannelAttribute=getChannelAttribute;
 exports.addHelpers=addHelpers;
@@ -407,3 +425,4 @@ exports.userActionLog=userActionLog;
 exports.getUserActionLog=getUserActionLog;
 exports.getSeriesList=getSeriesList;
 exports.addSeries=addSeries;
+exports.getUsers=getUsers;

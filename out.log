@@ -5384,3 +5384,315 @@ The Requested Query  {} {}
 ::ffff:127.0.0.1 - - [09/May/2023:20:38:38 +0000] "GET /assets/js/es5-shim.map HTTP/1.1" 404 8555 "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
 ::ffff:127.0.0.1 - - [09/May/2023:20:38:38 +0000] "GET /assets/bootstrap/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
 ::ffff:127.0.0.1 - - [09/May/2023:20:38:38 +0000] "GET /assets/js/es5-sham.map HTTP/1.1" 404 8555 "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:20:43:39 +0000] "GET /listUsers HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:20:43:39 +0000] "GET /assets/js/es5-shim.map HTTP/1.1" 404 8555 "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:20:43:39 +0000] "GET /assets/js/es5-sham.map HTTP/1.1" 404 8555 "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:20:43:39 +0000] "GET /assets/bootstrap/css/bootstrap.css HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:20:43:39 +0000] "GET /assets/styles/style.css HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:20:43:39 +0000] "GET /assets/js/es5-shim.min.js HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:20:43:39 +0000] "GET /assets/js/es5-sham.min.js HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:20:43:39 +0000] "GET /assets/js/json3.min.js HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:20:43:39 +0000] "GET /assets/js/holder.js HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:20:43:39 +0000] "GET /assets/js/holder.min.js HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:20:43:39 +0000] "GET /assets/js/ie-emulation-modes-warning.js HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:20:43:39 +0000] "GET /assets/js/ie10-viewport-bug-workaround.js HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:20:43:39 +0000] "GET /assets/js/jquery-1.12.4.min.js HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:20:43:39 +0000] "GET /assets/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:20:43:39 +0000] "GET /assets/images/logo-old.png HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:20:43:40 +0000] "GET /assets/bootstrap/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:20:43:40 +0000] "GET /assets/js/es5-shim.map HTTP/1.1" 404 8555 "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:20:43:40 +0000] "GET /assets/js/es5-sham.map HTTP/1.1" 404 8555 "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+Server Started Listening 
+Mongoose Connection successful
+Query {
+  _mongooseOptions: {},
+  _transforms: [],
+  _hooks: Kareem { _pres: Map(0) {}, _posts: Map(0) {} },
+  _executionCount: 0,
+  mongooseCollection: NativeCollection {
+    collection: Collection { s: [Object] },
+    Promise: [Function: Promise],
+    modelName: 'users',
+    _closed: false,
+    opts: {
+      autoIndex: true,
+      autoCreate: undefined,
+      schemaUserProvidedOptions: {},
+      capped: false,
+      Promise: [Function: Promise],
+      '$wasForceClosed': undefined
+    },
+    name: 'users',
+    collectionName: 'users',
+    conn: NativeConnection {
+      base: [Mongoose],
+      collections: [Object],
+      models: [Object],
+      config: [Object],
+      replica: false,
+      options: null,
+      otherDbs: [],
+      relatedDbs: {},
+      states: [Object: null prototype],
+      _readyState: 1,
+      _closeCalled: undefined,
+      _hasOpened: true,
+      plugins: [],
+      id: 0,
+      _queue: [],
+      _listening: false,
+      _connectionString: 'mongodb://localhost/GiaCom',
+      _connectionOptions: [Object],
+      name: 'GiaCom',
+      host: 'localhost',
+      port: 27017,
+      user: undefined,
+      pass: undefined,
+      client: [MongoClient],
+      '$initialConnection': [Promise],
+      _events: [Object: null prototype],
+      _eventsCount: 1,
+      db: [Db]
+    },
+    queue: [],
+    buffer: false,
+    emitter: EventEmitter {
+      _events: [Object: null prototype] {},
+      _eventsCount: 0,
+      _maxListeners: undefined,
+      [Symbol(kCapture)]: false
+    }
+  },
+  model: Model { users },
+  schema: Schema {
+    obj: {
+      uName: [Object],
+      uPass: [Object],
+      uType: [Object],
+      uFirstName: [Object],
+      uLastName: [Object],
+      uInfo: [Object],
+      uComment: [Object],
+      createdAt: [Object],
+      updatedAt: [Object],
+      uCreatedBy: [Object],
+      uEnabled: [Object],
+      uOnline: [Object],
+      uGroup: [Object]
+    },
+    paths: {
+      uName: [SchemaString],
+      uPass: [SchemaString],
+      uType: [SchemaString],
+      uFirstName: [SchemaString],
+      uLastName: [SchemaString],
+      uInfo: [SchemaString],
+      uComment: [SchemaString],
+      createdAt: [SchemaDate],
+      updatedAt: [SchemaDate],
+      uCreatedBy: [ObjectId],
+      uEnabled: [SchemaBoolean],
+      uOnline: [SchemaBoolean],
+      uGroup: [SchemaArray],
+      _id: [ObjectId],
+      __v: [SchemaNumber]
+    },
+    aliases: {},
+    subpaths: { 'uGroup.$': [Mixed] },
+    virtuals: { id: [VirtualType] },
+    singleNestedPaths: {},
+    nested: {},
+    inherits: {},
+    callQueue: [],
+    _indexes: [],
+    methods: {},
+    methodOptions: {},
+    statics: {},
+    tree: {
+      uName: [Object],
+      uPass: [Object],
+      uType: [Object],
+      uFirstName: [Object],
+      uLastName: [Object],
+      uInfo: [Object],
+      uComment: [Object],
+      createdAt: [Object],
+      updatedAt: [Object],
+      uCreatedBy: [Object],
+      uEnabled: [Object],
+      uOnline: [Object],
+      uGroup: [Object],
+      _id: [Object],
+      __v: [Function: Number],
+      id: [VirtualType]
+    },
+    query: {},
+    childSchemas: [],
+    plugins: [ [Object], [Object], [Object], [Object], [Object], [Object] ],
+    '$id': 1,
+    mapPaths: [],
+    s: { hooks: [Kareem] },
+    _userProvidedOptions: {},
+    options: {
+      typePojoToMixed: true,
+      typeKey: 'type',
+      id: true,
+      noVirtualId: false,
+      _id: true,
+      noId: false,
+      validateBeforeSave: true,
+      read: null,
+      shardKey: null,
+      autoIndex: null,
+      minimize: true,
+      discriminatorKey: '__t',
+      optimisticConcurrency: false,
+      versionKey: '__v',
+      capped: false,
+      bufferCommands: true,
+      strictQuery: false,
+      strict: true,
+      pluralization: true
+    },
+    '$globalPluginsApplied': true,
+    _requiredpaths: [ 'uPass', 'uName' ],
+    _indexedpaths: [ [Array] ]
+  },
+  op: 'find',
+  options: {},
+  _conditions: {},
+  _fields: undefined,
+  _update: undefined,
+  _path: undefined,
+  _distinct: undefined,
+  _collection: NodeCollection {
+    collection: NativeCollection {
+      collection: [Collection],
+      Promise: [Function: Promise],
+      modelName: 'users',
+      _closed: false,
+      opts: [Object],
+      name: 'users',
+      collectionName: 'users',
+      conn: [NativeConnection],
+      queue: [],
+      buffer: false,
+      emitter: [EventEmitter]
+    },
+    collectionName: 'users'
+  },
+  _traceFunction: undefined,
+  '$useProjection': true
+}
+::ffff:127.0.0.1 - - [09/May/2023:20:53:31 +0000] "GET /listUsers HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:20:53:31 +0000] "GET /assets/bootstrap/css/bootstrap.css HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:20:53:31 +0000] "GET /assets/styles/style.css HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:20:53:31 +0000] "GET /assets/js/es5-shim.min.js HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:20:53:31 +0000] "GET /assets/js/es5-sham.min.js HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:20:53:31 +0000] "GET /assets/js/json3.min.js HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:20:53:31 +0000] "GET /assets/js/holder.js HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:20:53:31 +0000] "GET /assets/js/holder.min.js HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:20:53:31 +0000] "GET /assets/js/ie-emulation-modes-warning.js HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:20:53:31 +0000] "GET /assets/js/ie10-viewport-bug-workaround.js HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:20:53:31 +0000] "GET /assets/js/jquery-1.12.4.min.js HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:20:53:31 +0000] "GET /assets/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:20:53:31 +0000] "GET /assets/images/logo-old.png HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:20:53:31 +0000] "GET /assets/js/es5-shim.map HTTP/1.1" 404 8555 "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:20:53:31 +0000] "GET /assets/bootstrap/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:20:53:31 +0000] "GET /assets/js/es5-sham.map HTTP/1.1" 404 8555 "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+Server Started Listening 
+Mongoose Connection successful
+[Object: null prototype] {
+  truncate: [Function: text_truncate],
+  pad: [Function: pad],
+  b64decode: [Function: b64decode],
+  b64encode: [Function: b64encode],
+  isIn: [Function: isIn],
+  random: [Function: rId],
+  loggedInUser: {
+    uType: 'sysAdmin',
+    createdAt: '2023-04-21T07:11:16.543Z',
+    updatedAt: '2023-05-09T16:23:21.034Z',
+    uEnabled: true,
+    uOnline: false,
+    uGroup: [],
+    _id: '64423714e16ef2d7cd62ea1c',
+    uName: 'Admin',
+    uPass: 'NimdaPass',
+    uFirstName: 'System',
+    uLastName: 'Administrator',
+    uInfo: 'Admin User Created By The System',
+    uComment: 'Admin User Created By The system Upon Initialization',
+    uCreatedBy: {
+      uType: 'sysAdmin',
+      createdAt: '2023-04-21T07:11:16.543Z',
+      updatedAt: '2023-05-09T16:23:21.034Z',
+      uEnabled: true,
+      uOnline: false,
+      uGroup: [],
+      _id: '64423714e16ef2d7cd62ea1c',
+      uName: 'Admin',
+      uPass: 'NimdaPass',
+      uFirstName: 'System',
+      uLastName: 'Administrator',
+      uInfo: 'Admin User Created By The System',
+      uComment: 'Admin User Created By The system Upon Initialization',
+      uCreatedBy: '64423714e16ef2d7cd62ea1c',
+      __v: 0
+    },
+    __v: 0
+  },
+  loggedIn: true,
+  users: [
+    {
+      uType: 'sysAdmin',
+      createdAt: 2023-04-21T07:11:16.543Z,
+      updatedAt: 2023-05-09T16:23:21.034Z,
+      uEnabled: true,
+      uOnline: false,
+      uGroup: [],
+      _id: 64423714e16ef2d7cd62ea1c,
+      uName: 'Admin',
+      uPass: 'NimdaPass',
+      uFirstName: 'System',
+      uLastName: 'Administrator',
+      uInfo: 'Admin User Created By The System',
+      uComment: 'Admin User Created By The system Upon Initialization',
+      uCreatedBy: 64423714e16ef2d7cd62ea1c,
+      __v: 0
+    },
+    {
+      uType: 'client',
+      createdAt: 2023-05-09T15:29:49.258Z,
+      updatedAt: 2023-05-09T15:29:49.258Z,
+      uEnabled: true,
+      uOnline: false,
+      uGroup: [],
+      _id: 645a66f080022c5b958950c9,
+      uName: 'fbanna',
+      uPass: 'Shta2Telik',
+      uFirstName: 'Faysal',
+      uLastName: 'AL-Banna',
+      uInfo: 'Test Account Created By Admin For Faysal AL-Banna',
+      uComment: 'Creating New User.\r\nComments are only visible to Admins',
+      uCreatedBy: 64423714e16ef2d7cd62ea1c,
+      __v: 0
+    }
+  ]
+}
+::ffff:127.0.0.1 - - [09/May/2023:21:01:12 +0000] "GET /listUsers HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:21:01:12 +0000] "GET /assets/bootstrap/css/bootstrap.css HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:21:01:12 +0000] "GET /assets/styles/style.css HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:21:01:12 +0000] "GET /assets/js/es5-shim.min.js HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:21:01:12 +0000] "GET /assets/js/es5-sham.min.js HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:21:01:12 +0000] "GET /assets/js/json3.min.js HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:21:01:12 +0000] "GET /assets/js/holder.js HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:21:01:12 +0000] "GET /assets/js/holder.min.js HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:21:01:12 +0000] "GET /assets/js/ie-emulation-modes-warning.js HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:21:01:12 +0000] "GET /assets/js/ie10-viewport-bug-workaround.js HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:21:01:12 +0000] "GET /assets/js/jquery-1.12.4.min.js HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:21:01:12 +0000] "GET /assets/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:21:01:12 +0000] "GET /assets/images/logo-old.png HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:21:01:12 +0000] "GET /assets/js/es5-shim.map HTTP/1.1" 404 8555 "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:21:01:12 +0000] "GET /assets/bootstrap/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 304 - "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
+::ffff:127.0.0.1 - - [09/May/2023:21:01:12 +0000] "GET /assets/js/es5-sham.map HTTP/1.1" 404 8555 "http://127.0.0.1:8080/listUsers" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Safari/605.1.15 vimb/3.6.0"
