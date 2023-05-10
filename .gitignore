@@ -3,3 +3,4 @@ node_modules/
 Videos/
 .vscode/launch.json
 out.log
+err.log
