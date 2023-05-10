@@ -264,7 +264,7 @@ router.get('/livetv',addHelpers,isLoggedInUser,getChannels,function(req,res,next
   res.locals['title']='GiaCom Movies (LiveTV)';
   res.locals['page']='LiveTV';
   res.locals['list_channels']=true;
-  console.log(res.locals)
+  // console.log(res.locals)
   res.render('livetv',{locals:res.locals});
 });
 
@@ -369,7 +369,7 @@ router.get('/listUsers',addHelpers,requiresLogin,isLoggedInUser,isLoggedInUserEn
   if (['siteAdmin','sysAdmin'].indexOf(req.session.loggedInUser.uType) != -1 ){
     res.locals.page='listUsers';
     res.locals.title='Listing Users';
-    console.log("Listing Users \n",res.locals,"\n<--------------");
+    // console.log("Listing Users \n",res.locals,"\n<--------------");
     res.render('listUsers',{locals:res.locals});
   }else{
     res.render('unAuthorizedPermission',{locals:res.locals});
@@ -416,11 +416,11 @@ define path to get page new series
 router.get('/newSeries',addHelpers, requiresLogin,isLoggedInUser,isLoggedInUserEnabled,setLoggedInUserSession,function(req,res,next){
 
 });
-router.get("/editUser",requiresLogin,isLoggedInUser,isLoggedInUserEnabled,function(req,res,next){
+router.get("/editUser",addHelpers,requiresLogin,isLoggedInUser,isLoggedInUserEnabled,function(req,res,next){
   var id2Check = req.query['_id'] || null
   if (lo.isNull(id2Check)) {
     res.redirect("/listUsers");
   }
-  res.render("movies",{locals:res.locals})
+  res.render("profile",{locals:res.locals})
 })
 module.exports = router;
