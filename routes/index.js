@@ -76,17 +76,19 @@ router.get('/profile',requiresLogin,isLoggedInUserEnabled,function(req,res,next)
     'loggedIn':req.session.loggedIn || null,
     'loggedInUser':req.session.loggedInUser
   }
+  console.log("The Res Locals \n",locals,"\n<------")
   res.render('profile',{locals:locals});
 });
 router.post('/profile',requiresLogin,isLoggedInUserEnabled,function(req,res,next){
   var userModel=require('../models/users');
   
   var query=req.body;
+ 
   var id2Check=query['_id'];
   delete query['_id'];
   query['updatedAt']=new moment();
-  console.log(query);
-  userModel.findOneAndUpdate(id2Check,query,{save:true},function(err,loggedInUser){
+  console.log("The Query :\n",query,"\nWith ID ",id2Check,"\n<----");
+  userModel.findOneAndUpdate({'_id':id2Check},query,{save:true,upsert:true},function(err,loggedInUser){
     if(err){
       console.log('we have an Error');
       console.log(err);
