@@ -11,12 +11,12 @@ router.get('/',isLoggedInUser,getMovieList, function(req,res,next){
   // const inspect=require('util').inspect;
   // inspect(res.locals,color=true,depth=4);
   //console.log(res.locals);
-  console.log(req.query);
+  // console.log(req.query);
   res.locals['title']='GiaCom Movies';
   res.locals['page']='Movies';
   res.locals['truncate']=text_truncate;
   res.locals['pad']=pad;
-  
+  console.log(res.locals)
   res.render('movies',{locals:res.locals});
 });
 
@@ -264,6 +264,7 @@ router.get('/livetv',addHelpers,isLoggedInUser,getChannels,function(req,res,next
   res.locals['title']='GiaCom Movies (LiveTV)';
   res.locals['page']='LiveTV';
   res.locals['list_channels']=true;
+  console.log(res.locals)
   res.render('livetv',{locals:res.locals});
 });
 
@@ -416,8 +417,10 @@ router.get('/newSeries',addHelpers, requiresLogin,isLoggedInUser,isLoggedInUserE
 
 });
 router.get("/editUser",requiresLogin,isLoggedInUser,isLoggedInUserEnabled,function(req,res,next){
-  console.log("The Res \n",res,"\n<--------");
-  console.log("The Req \n",req,"\n<---------");
+  var id2Check = req.query['_id'] || null
+  if (lo.isNull(id2Check)) {
+    res.redirect("/listUsers");
+  }
   res.render("movies",{locals:res.locals})
 })
 module.exports = router;
