@@ -17,13 +17,13 @@
         <table class="table table-responsive table-bordered text-center" id="userListTable">
             <thead >
                 <tr >
-                    <th class="text-center text-primary bg-info">#</th>
-                    <th class="text-center text-primary bg-info">C1</th>
-                    <th class="text-center text-primary bg-info">C2</th>
+                    <th class="text-center text-primary bg-info">Name</th>
+                    <th class="text-center text-primary bg-info">UserName</th>
+                    <th class="text-center text-primary bg-info">Account Type</th>
                 </tr>
             </thead>
             <tbody>
-                <tr class="tr">
+                <!-- <tr class="tr">
                     <td scope="row">#1</td>
                     <td>Faysal </td>
                     <td>Al Banna</td>
@@ -42,12 +42,20 @@
                     <td scope="row">#4</td>
                     <td>faysal</td>
                     <td>AL_Banna</td>
-                </tr>
+                </tr> -->
+                <% locals.users.forEach(function(user)  { %>
+                    <tr class="tr" id="<%= user._id %>">
+                        <td ><%= user.uFirstName + " "+ user.uLastName %></td>
+                        <td><%= user.uName %></td>
+                        <td><%= user.uType %></td>
+                    </tr>
+                <% }) %>
             </tbody>
         </table>    
     </div>
     
 </div>
+
 <script  type="text/javascript">
     $().ready(function(){
         var tableHead=[];
@@ -94,9 +102,9 @@
         }
         $('#userListTable tbody').on('click','.tr',function(e){
             e.preventDefault();
-            console.log(e);
+           window.location.href="/editUser?_id="+e.currentTarget.id;
         })
-        console.log(tableData)
+        
         
     });
 </script>

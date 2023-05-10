@@ -368,7 +368,10 @@ router.get('/listUsers',addHelpers,requiresLogin,isLoggedInUser,isLoggedInUserEn
   if (['siteAdmin','sysAdmin'].indexOf(req.session.loggedInUser.uType) != -1 ){
     res.locals.page='listUsers';
     res.locals.title='Listing Users';
+    console.log("Listing Users \n",res.locals,"\n<--------------");
     res.render('listUsers',{locals:res.locals});
+  }else{
+    res.render('unAuthorizedPermission',{locals:res.locals});
   }
 })
 
@@ -412,4 +415,9 @@ define path to get page new series
 router.get('/newSeries',addHelpers, requiresLogin,isLoggedInUser,isLoggedInUserEnabled,setLoggedInUserSession,function(req,res,next){
 
 });
+router.get("/editUser",requiresLogin,isLoggedInUser,isLoggedInUserEnabled,function(req,res,next){
+  console.log("The Res \n",res,"\n<--------");
+  console.log("The Req \n",req,"\n<---------");
+  res.render("movies",{locals:res.locals})
+})
 module.exports = router;
