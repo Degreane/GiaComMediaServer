@@ -1,33 +1,42 @@
+<% var userToBeEdited; %>
 <div class="col-md-8 col-lg-8 col-lg-push-1">
     <div class="jumbotron">
         <h4 class="text-center" style="border-radius: 4px; border: 1px solid; box-shadow: 1px 1px 1px 1px #f7f0f0 , 2px 2px 1px 1px; padding-top: 5px;
         padding-bottom: 5px;"><b><i>User Profile</i></b><span class="bg-info text-primary" style="border-radius: 5px;">&nbsp;
-            <% if (locals.creatingNewUser !== true) { %>
-                <%= locals.loggedInUser.uFirstName %>&nbsp;<%= locals.loggedInUser.uLastName %>
+            <% if (typeof(locals.creatingNewUser) !== 'undefined' && locals.creatingNewUser == true) { %>
+                <% userToBeEdited = {} %>
+                Creating New User
+            <% } else if (typeof(locals.editingUser) !== 'undefined' && locals.editingUser == true) { %>
+                <% userToBeEdited = locals.user %>
+                <%= locals.user.uFirstName %> &nbsp;<%= locals.user.uLastName %> (ID : <%= locals.user._id %>)
+            <% } else { %>
+                <% userToBeEdited = locals.loggedInUser %>
+                Profile For <%= locals.loggedInUser.uFirstName %>&nbsp;<%= locals.loggedInUser.uLastName %>
             <% } %>
             
         </span></h4> 
         <form role="form" class="form-horizontal text-primary" 
-            <% if (locals.creatingNewUser !== true) { %>
-                action="/profile" name="profile" id="profile"
-            <% } else { %>
+            <% if (typeof(locals.creatingNewUser) !== 'undefined' && locals.creatingNewUser == true) { %>
                 action="/newUser" name="newUser" id="newUser"
+            <% } else if (typeof(locals.editingUser) !== 'undefined' && locals.editingUser == true) { %>
+                action="/editUser" name="editUser" id="editUser"
+            <% } else { %>
+                action="/profile" name="profile" id="profile"
             <% } %>
             
-        
+            
             data-pg-name="profile" title="profile" style="border-radius: 5px; box-shadow: 1px 1px 1px 1px #f9f3f3 , 2px 2px 1px 1px #000000; border: 1px solid #000000;" method="POST"> 
+            
             <div class="form-group"> 
                 <label class="control-label col-sm-2" for="uName">UserName</label>             
                 <div class="col-sm-10" data-pg-name="uName"> 
                     <div>
                         <% if (locals.creatingNewUser !== true) { %>
-                            <input type="hidden" id='_id' name='_id' value="<%= locals.loggedInUser._id %>" >
+                            <input type="hidden" id='_id' name='_id' value="<%= userToBeEdited._id? userToBeEdited._id : "" %>" >
                         <% } %>
                         
                         <input type="text" class="form-control text-center" name="uName" id="uName" placeholder="User Name" data-pg-name="uName" required
-                        <% if (locals.creatingNewUser !== true) { %>
-                            value="<%= locals.loggedInUser.uName %>"
-                        <% } else { %> value="" <% } %> 
+                            value="<%= userToBeEdited.uName ? userToBeEdited.uName : "" %>"
                         >
                     </div>
                 </div>             
@@ -37,11 +46,7 @@
                 <div class="col-sm-10">
                     <div>
                         <input type="password" class="form-control text-center" id="uPass" name="uPass"  placeholder="Password" required
-                        <% if (locals.creatingNewUser !== true) { %>
-                            value="<%= locals.loggedInUser.uPass %>"
-                        <% } else { %>
-                            value=""
-                        <% } %>
+                            value="<%= userToBeEdited.uPass? userToBeEdited.uPass : "" %>"
                         >
                     </div>
                 </div>             
@@ -50,11 +55,7 @@
                 <label class="control-label col-sm-2" for="formInput83">First Name</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control text-center" id="formInput83" placeholder="First Name" name="uFirstName" required
-                    <% if (locals.creatingNewUser !== true) { %>
-                        value="<%= locals.loggedInUser.uFirstName %>"
-                    <% } else { %>
-                        value=""
-                    <% } %>
+                        value="<%= userToBeEdited.uFirstName ? userToBeEdited.uFirstName:""%>"
                     >
                 </div>
             </div>
@@ -62,11 +63,7 @@
                 <label class="control-label col-sm-2" for="uLastName">Last Name</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control text-center" id="uLastName" placeholder="Last Name" name="uLastName" required
-                    <% if (locals.creatingNewUser !== true) { %>
-                        value="<%= locals.loggedInUser.uLastName %>"
-                    <% } else { %>
-                        value=""
-                    <% } %>
+                        value="<%= userToBeEdited.uLastName? userToBeEdited.uLastName : "" %>"
                     >
                 </div>
             </div>
@@ -74,11 +71,7 @@
                 <label class="control-label col-sm-2" for="uCreatedBy">Created By</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control text-center" id="uCreatedBy" placeholder="Created By" name="uCreatedBy" 
-                    <% if (locals.creatingNewUser !== true) { %>
-                        value="<%= locals.loggedInUser.uCreatedBy.uName %>"
-                    <% } else { %>
-                     value="<%= locals.loggedInUser.uName %>"
-                    <% } %>
+                        value="<%= (userToBeEdited.uCreatedBy && userToBeEdited.uCreatedBy.uName) ? userToBeEdited.uCreatedBy.uName : locals.loggedInUser.uName %>"
                     disabled
                     >
                 </div>
@@ -102,11 +95,8 @@
                 <label class="control-label col-sm-2" for="uInfo">Info</label>             
     
                 <div class="col-sm-10">
-                    <% if (locals.creatingNewUser !== true) { %>
-                        <textarea class="form-control bg-info" rows="3" id="uInfo" name="uInfo" data-pg-name="uInfo"><%= locals.loggedInUser.uInfo %></textarea>
-                    <% } else { %>
-                        <textarea class="form-control bg-info" rows="3" id="uInfo" name="uInfo" data-pg-name="uInfo"></textarea> 
-                    <% } %>
+                    
+                        <textarea class="form-control bg-info" rows="3" id="uInfo" name="uInfo" data-pg-name="uInfo"><%= userToBeEdited.uInfo?userToBeEdited.uInfo:"" %></textarea>
                     
                 </div>
             </div>
@@ -115,12 +105,9 @@
                 <label class="control-label col-sm-2" for="uComment">Comment</label>     
                 
                 <div class="col-sm-10">
-                    <% if (locals.creatingNewUser !== true) { %>
-                        <textarea class="form-control" rows="3" id="uComment" name="uComment" data-pg-name="uComment"><%= locals.loggedInUser.uComment%></textarea>
-                    <% } else { %>
-                        <textarea class="form-control" rows="3" id="uComment" name="uComment" data-pg-name="uComment">Creating New User.
-Comments are only visible to Admins</textarea>
-                    <% } %>
+                    
+                        <textarea class="form-control" rows="3" id="uComment" name="uComment" data-pg-name="uComment"><%= userToBeEdited.uComment?userToBeEdited.uComment:"" %></textarea>
+                    
                     
                 </div>
             </div>
@@ -132,26 +119,25 @@ Comments are only visible to Admins</textarea>
                     </label>
                     <div class="col-sm-10 text-capitalize">
                         <div class="radio">
-                        <% if (locals.creatingNewUser !== true) { %>
                             <% ['client','admin','siteAdmin','sysAdmin','guest'].forEach(function(Type){
                                 %> <label class="control-label">
-                                    <input type="radio" name="uType" value="<%= Type %>" <% if (Type == locals.loggedInUser.uType) {%> checked="checked" <% } %> <% if (['client','guest'].indexOf(locals.loggedInUser.uType) !== -1 ) {%> disabled <% } %>><%= Type %>
+                                    <input type="radio" name="uType" value="<%= Type %>" <% if (typeof userToBeEdited.uType!== 'underfined' && Type == userToBeEdited.uType) {%> 
+                                        checked="checked" 
+                                        <% } else if (typeof userToBeEdited.uType == 'undefined' && Type =='guest') { %>
+                                         checked="checked"
+                                        <% } %> 
+                                        <% if (['client','guest'].indexOf(locals.loggedInUser.uType) !== -1 ) 
+                                        {%> disabled <% } %>
+                                        ><%= Type %>
                                 </label> &nbsp;&nbsp;&nbsp;&nbsp;
                             <% }) %>
-                        <% } else { %>
-                            <% ['client','admin','siteAdmin','sysAdmin','guest'].forEach(function(Type){
-                                %> <label class="control-label">
-                                    <input type="radio" name="uType" value="<%= Type %>" <% if (Type == "guest") {%> checked="checked" <% } %> <% if (['client','guest'].indexOf(locals.loggedInUser.uType) !== -1 ) {%> disabled <% } %>><%= Type %>
-                                </label> &nbsp;&nbsp;&nbsp;&nbsp;
-                            <% }) %>
-                                
-                        <% } %>
-                        
-                            
                         </div>
                     </div>
                 
             </div>
+            <%# To DO 
+                Need to fix this as well 
+            %>
             <div class="form-group">
                 <label class="control-label col-sm-2">
                     Account Status

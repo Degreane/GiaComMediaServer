@@ -26,7 +26,7 @@ var setLoggedInUserSession = function(req,res,next){
             if(err){
                 next(err);
             }else{
-                console.log(user);
+                // console.log(user);
                 req.session.loggedInUser=user;
                 res.locals.loggedInUser=req.session.loggedInUser;
                 next();
@@ -412,6 +412,26 @@ var getUsers = async function(req,res,next) {
     // console.log(users);
     // next();
 }
+var getUser = async function(req,res,next){
+    var userSchema = require('../models/users');
+    var id2Check=req.query['_id'] || null;
+    if (typeof(res.locals) == 'undefined'){
+        res.locals={}
+    }
+    if (id2Check == null){
+        res.locals['user']={'Err':'No Id Specified in Query'}
+    }
+    userSchema.findById(id2Check).populate('uCreatedBy').exec(function(err,result){
+        if (err !== null){
+            res.locals['user']={'Err':err}
+        }else if(result == null){
+            res.locals['user']={'Err':'No User with id ('+id2Check+')'}
+        }else {
+            res.locals['user']=result;
+        }
+        next();
+    });
+}
 exports.getChannelAttribute=getChannelAttribute;
 exports.addHelpers=addHelpers;
 exports.getChannels=getChannels;
@@ -426,3 +446,4 @@ exports.getUserActionLog=getUserActionLog;
 exports.getSeriesList=getSeriesList;
 exports.addSeries=addSeries;
 exports.getUsers=getUsers;
+exports.getUser=getUser;

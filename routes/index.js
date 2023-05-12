@@ -2,7 +2,7 @@ var express = require('express');
 var lo = require('lodash')
 var moment=require('moment')
 var router = express.Router();
-var { getChannelAttribute,requiresLogin,isLoggedInUserEnabled,setLoggedInUserSession,userActionLog,getUserActionLog,isLoggedInUser,getMovieList,getMovieAttribute,getChannels,addHelpers,getSeriesList,addSeries,getUsers } =require('./middlewares') ;
+var { getChannelAttribute,requiresLogin,isLoggedInUserEnabled,setLoggedInUserSession,userActionLog,getUserActionLog,isLoggedInUser,getMovieList,getMovieAttribute,getChannels,addHelpers,getSeriesList,addSeries,getUsers,getUser } =require('./middlewares') ;
 var {text_truncate,pad,b64decode,b64encode,isIn}= require('./helpers');
 // var {diff} = require('deep-object-diff') 
 
@@ -76,7 +76,7 @@ router.get('/profile',requiresLogin,isLoggedInUserEnabled,function(req,res,next)
     'loggedIn':req.session.loggedIn || null,
     'loggedInUser':req.session.loggedInUser
   }
-  console.log("The Res Locals \n",locals,"\n<------")
+  // console.log("The Res Locals \n",locals,"\n<------")
   res.render('profile',{locals:locals});
 });
 router.post('/profile',requiresLogin,isLoggedInUserEnabled,function(req,res,next){
@@ -416,11 +416,9 @@ define path to get page new series
 router.get('/newSeries',addHelpers, requiresLogin,isLoggedInUser,isLoggedInUserEnabled,setLoggedInUserSession,function(req,res,next){
 
 });
-router.get("/editUser",addHelpers,requiresLogin,isLoggedInUser,isLoggedInUserEnabled,function(req,res,next){
-  var id2Check = req.query['_id'] || null
-  if (lo.isNull(id2Check)) {
-    res.redirect("/listUsers");
-  }
+router.get("/editUser",addHelpers,requiresLogin,isLoggedInUser,isLoggedInUserEnabled,getUser,function(req,res,next){
+  res.locals.editingUser=true;
+  console.log("Editing User \n-----------------\n",res.locals,"\n-----------------\n")
   res.render("profile",{locals:res.locals})
 })
 module.exports = router;
