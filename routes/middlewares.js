@@ -38,7 +38,7 @@ var userActionLog = function(req,res,next){
     if (req.session.actionLog){
         const { detailedDiff } = require('deep-object-diff');
         const uselogs = require('../models/userlogs')
-        console.log(req.session.actionLog);
+        // console.log(req.session.actionLog);
         var ddif=JSON.stringify(detailedDiff(JSON.parse(JSON.stringify(req.session.actionLog.oldLog)),JSON.parse(JSON.stringify(req.session.actionLog.newLog))))
         var query=new uselogs({
             who:req.session.actionLog.ref,
@@ -47,12 +47,12 @@ var userActionLog = function(req,res,next){
         })
         query.save(function(err,succ){
             if(err){
-                console.log(err)
+                // console.log(err)
                 next(err)
             }else{
                 console.log(succ)
                 uselogs.findById(succ._id).populate('who').exec(function(err,doc){
-                    console.log(doc)
+                    // console.log(doc)
                 })
                 next()
             }
@@ -211,7 +211,7 @@ var getMovieList = async function(req,res,next){
         delete query['title'];
    }
    
-   console.log("The Requested Query ",query,req.session.movies); 
+//    console.log("The Requested Query ",query,req.session.movies); 
    try {
         const Movies=require('../models/movies');
         if (typeof(res.locals['movies']) == "undefined"){
@@ -266,7 +266,7 @@ var getMovieAttribute = async function(req,res,next){
         //const path = 'Videos/MachineLearningwithPython_MachineLearningTutorialforBeginners_MachineLearningTutorial-RnFGwxJwx-0.mp4'
         // const path = require('path')
         try {
-            console.log(req.headers)
+            // console.log(req.headers)
             const stat = fs.statSync(videoPath)
             // console.log(stat)
             const fileSize = stat.size
@@ -384,14 +384,14 @@ var getSeriesList = async function(req,res,next){
         
         res.locals.series['count']=await Series.countDocuments(query);
         res.locals.series['list']=await Series.find(query).sort({title:'asc'}).skip(skip).limit(24);
-        console.log(res.locals);
+        // console.log(res.locals);
     }catch(error){
-        res.locals['series']={'err':JSON.stringify(error)};
+        res.locals['series']={'Err':JSON.stringify(error)};
     }
     next();
 }
 var addSeries = async function(req,res,next){
-    console.log("Setting New Series To list");
+    // console.log("Setting New Series To list");
     next();
     // When Setting New Series we just Insert The title of the Series
 }

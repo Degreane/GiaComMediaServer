@@ -1,0 +1,34 @@
+<%#  var SeierSchema=new mongoose.Schema({
+	'title'				:	{	type 	:	String	},
+	'year'				:	{	type 	: Number	},
+	'genres'			:	{	type 	:	String	},
+	'description'	:	{	type 	:	String 	},
+	'seasons'			: {	type	: [
+		{
+			'number': Number,
+			'title': String,
+		  'description': String,
+		  'Episode': [{
+				'number': Number,
+				'title': String,
+				'description': String,
+				'file': String	
+			}]
+		}
+	]}	
+})
+%>
+<div class="container-fluid col-8 col-md-8 col-sm-12 col-md-push-2 ">
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-3">Fluid jumbo heading</h1>
+            <p class="lead">Jumbo helper text</p>
+            <hr class="my-2">
+            <p>More info</p>
+            <p class="lead">
+                <a class="btn btn-primary btn-lg" href="Jumbo action link" role="button">Jumbo action name</a>
+            </p>
+        </div>
+    </div>
+    
+</div>

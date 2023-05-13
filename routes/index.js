@@ -375,6 +375,11 @@ router.get('/listUsers',addHelpers,requiresLogin,isLoggedInUser,isLoggedInUserEn
     res.render('unAuthorizedPermission',{locals:res.locals});
   }
 })
+router.get("/editUser",addHelpers,requiresLogin,isLoggedInUser,isLoggedInUserEnabled,getUser,function(req,res,next){
+  res.locals.editingUser=true;
+  console.log("Editing User \n-----------------\n",res.locals,"\n-----------------\n")
+  res.render("profile",{locals:res.locals})
+})
 
 /**
 Defining Series:
@@ -399,7 +404,7 @@ An Episode:
 
 
 */
-router.get('/series',isLoggedInUser, getSeriesList,function(req,res,next){
+router.get('/series',isLoggedInUser, getSeriesList,isLoggedInUserEnabled ,function(req,res,next){
   /**
     Get The Series
     1- Check if logged in user sets  
@@ -407,6 +412,7 @@ router.get('/series',isLoggedInUser, getSeriesList,function(req,res,next){
   */
   res.locals.page="Series";
   res.locals.title="GiaCom Series";
+  // console.log("Series ------>\n",res.locals,"\n<----------\n");
   res.render('series',{locals:res.locals})
 });
 /**
@@ -414,11 +420,10 @@ define path to get page new series
 
 */
 router.get('/newSeries',addHelpers, requiresLogin,isLoggedInUser,isLoggedInUserEnabled,setLoggedInUserSession,function(req,res,next){
-
+  res.locals.page="Series";
+  res.locals.title="GiaCom Series (New Series)";
+  res.locals.newSeries=true
+  res.render('newSeries',{locals:res.locals});
 });
-router.get("/editUser",addHelpers,requiresLogin,isLoggedInUser,isLoggedInUserEnabled,getUser,function(req,res,next){
-  res.locals.editingUser=true;
-  console.log("Editing User \n-----------------\n",res.locals,"\n-----------------\n")
-  res.render("profile",{locals:res.locals})
-})
+
 module.exports = router;

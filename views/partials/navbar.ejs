@@ -108,7 +108,7 @@
                     <% } %>
                 </ul>
                 
-            <% } else if (locals.page == 'Series') {%>
+            <% } else if (locals.page == 'Series' && locals.newSeries !== true) {%>
                 <ul class="nav navbar-nav text-center" style="margin-left:10%;">
                     <li style="margin:0px 2px;">
                         <% if (typeof(locals.series['list_year']) !== 'undefined' && locals.series['list_year'] !== 'any' ) { %>
@@ -159,6 +159,13 @@
                         <input name="s" type="text" style="width: 200px; box-shadow: black 1px 1px 24px 6px inset; color: lightgoldenrodyellow; text-align: center; border-radius:5px;" value="<%= typeof(locals.series['s']) == 'undefined'? '': locals.series['s'] %>" autofocus>
                         <button type="submit" class="btn btn-xs btn-default" style="box-shadow: black 1px 1px 24px 6px inset; color: lightgoldenrodyellow; text-align: center; border-radius:5px;">Search</button>
                         <a href="/series?clear=true" class="btn btn-xs btn-default" style="box-shadow: black 1px 1px 24px 6px inset; color: lightgoldenrodyellow; text-align: center; border-radius:5px;">Clear</a>
+
+                        <% if (locals.loggedIn && (typeof locals.loggedInUser !== 'undefined') && (['admin','siteAdmin','sysAdmin'].indexOf(locals.loggedInUser.uType) !== -1)) { %> 
+                            <a class="btn btn-xs btn-primary" href="/newSeries"  style="box-shadow: black 1px 1px 24px 6px inset; color: lightgoldenrodyellow; text-align: center; border-radius:5px;"> Add Series
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                            </a>
+
+                            <% }%>
                     </form>
                     
                     </li>
