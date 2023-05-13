@@ -150,7 +150,8 @@
                             <% if (['client','guest'].indexOf(locals.loggedInUser.uEnabled) !== -1 ) { %> disabled <% } %> > Enabled        
                         </label> &nbsp;&nbsp;&nbsp;&nbsp;
                         <label class="control-label"> 
-                            <input type="radio" value=false name='uEnabled' <% if(locals.loggedInUser.uEnabled==false) { %> checked="checked" <% } %> <% if (['client','guest'].indexOf(locals.loggedInUser.uEnabled) !== -1 ) { %> disabled <% } %> > Disabled        
+                            <input type="radio" value=false name='uEnabled' <%= userToBeEdited.uEnabled == false ? ' checked="checked" ': "" %> 
+                            <% if (['client','guest'].indexOf(locals.loggedInUser.uEnabled) !== -1 ) { %> disabled <% } %> > Disabled        
                         </label>             
                     </div>
                 </div>
