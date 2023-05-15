@@ -18,6 +18,7 @@
     "http-errors": "~1.6.3",
     "jplayer": "^2.9.2",
     "lodash": "^4.17.15",
+    "map-folder": "^1.2.7",
     "mediaelement": "^4.2.14",
     "moment": "^2.24.0",
     "mongoose": "^5.8.10",

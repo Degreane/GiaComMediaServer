@@ -27,7 +27,7 @@ if (locals.newSeries) {
 }
 %>
 <div class="container col-6 col-md-6 col-sm-12 col-md-push-3 ">
-    <div class="jumbotron ">
+    <div class="jumbotron " style="padding-top:5px;">
         
 			<h2 class="text-center" style="border-radius: 4px; border: 1px solid; box-shadow: 1px 1px 1px 1px #f7f0f0 , 2px 2px 1px 1px;"><b><i>Serie</i></b>&nbsp;<span class="bg-info text-primary" style="border-radius: 5px;">&nbsp;<%= serieToBeEdited.title?serieToBeEdited.title: "" %>&nbsp;</span></h2> 
             <form role="form" class="form-horizontal text-primary" action="/EditSerie" name="serie" id="serie" data-pg-name="serie" title="serie" style="border-radius: 5px; box-shadow: 1px 1px 1px 1px #f9f3f3 , 2px 2px 1px 1px #000000; border: 1px solid #000000;" method="POST"> 
@@ -53,10 +53,10 @@ if (locals.newSeries) {
 				</div>
 
 				<div class="form-group">
-					<label for="Genre" class="control-label col-sm-2">genre</label>
+					<label for="genres" class="control-label col-sm-2">Genre</label>
 					<div class="col-sm-8 text-center">
 						<div>
-							<input type="text" value="<%= serieToBeEdited.genre?serieToBeEdited.genre:'' %>" name="genre" id="genre" class="form-control text-center" placeholder="genre " aria-describedby="genre_helpId" required>
+							<input type="text" value="<%= serieToBeEdited.genre?serieToBeEdited.genre:'' %>" name="genres" id="genres" class="form-control text-center" placeholder="genre " aria-describedby="genre_helpId" required>
 							<small id="genre_helpId" class="text-muted">Serie genre  </small>
 						</div>
 					</div>
@@ -100,9 +100,118 @@ if (locals.newSeries) {
 						</table>
 					</div>
 					<div class="col-sm-2 text-center" style="margin:15px 0px;">
-						<button>New Episode</button>
+						<a name="" id="newSeasonBtn" class="btn btn-primary" href="#" role="button">New Season</a>
+						<script>
+							$(function(){
+								$('#newSeasonBtn').on('click',function(e){
+									e.preventDefault();
+									$('#newSeason').show();
+								});
+								$('#newSeasonCloseBtn').on('click',function(e){
+									e.preventDefault();
+									$('#newSeason').hide();
+								})
+								
+								$('#newEpisode').on('click',function(e){
+									e.preventDefault();
+									$('#modelId').modal('show');
+									$.ajax('/files',{
+										'method':'post',
+										'data':{
+											folder:'/home/fbanna/Videos/Series/The Peripheral 2022'
+										},
+										success:function(data,textStatus,jqXHR){
+											console.log(data)
+											console.log(textStatus)
+											console.log(jqXHR)
+										},
+										error:function(jqXHR,textStatus,err){
+											console.log(jqXHR)
+											console.log(textStatus)
+											console.log(err)
+										}
+									})
+								})
+							});
+						</script>
 					</div>
 				</div>
 			</form>
+			<div class="alert alert-warning alert-dismissible " role="alert" id="newSeason" style="display:none; border-radius: 5px; box-shadow: 1px 1px 1px 1px #f9f3f3 , 2px 2px 1px 1px #000000; border: 1px solid #000000;float:unset;">
+				<strong>New Season</strong> 
+				<button type="button" class="close" id="newSeasonCloseBtn">
+				  <span aria-hidden="true">&times;</span>
+				</button>
+				<hr/>
+				<div class="container-fluid">
+					<form class="form-horizontal text-secondary text-center">
+
+						<div class="form-group">
+							<label for="number" class="col-md-2">Season Number</label>
+							<div class="col-md-10"> 
+								<input type="number" min="0" step="1" name="number" id="number" class="form-control" placeholder="Season Number" aria-describedby="number_helpId" required>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="tite" class="col-md-2">Season Tite</label>
+							<div class="col-md-10"> 
+								<input type="tite" min="0" step="1" name="tite" id="tite" class="form-control" placeholder="Season tite" aria-describedby="tite_helpId" required>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="description" class="col-md-2">Season Description</label>
+							<div class="col-md-10"> 
+								<input type="description" min="0" step="1" name="description" id="description" class="form-control" placeholder="Season Description" aria-describedby="description_helpId" required>
+							</div>
+						</div>
+						<div class="form-group col-md-12" style="border-radius: 5px; box-shadow: 1px 1px 1px 1px #f9f3f3 , 2px 2px 1px 1px #000000; border: 1px solid #000000;float:unset;margin-bottom:15px;">
+							<label for="" class="form-label col-md-2" style="margin-top:15px;">Episodes</label>
+							<div class="col-md-10">
+								<table class="table table-bordered table-striped table-responsive " style="margin:15px 0px;">
+									<thead>
+										<tr>
+											<th class="text-center">Episode No.</th>
+											<th class="text-center">File</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td colspan="2" class="">
+												<button type="button" id="newEpisode" class="btn btn-primary" style="float:right;" >
+													Add New Episode <span class="text-danger glyphicon glyphicon-plus-sign"></span>
+												</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<button type="submit" class="btn btn-primary">Submit</button>
+					</form>
+				</div>
+			</div>
     </div>
+	
+	
+	
+	<div class="modal fade" id="modelId">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">Modal title</h4>
+				</div>
+				<div class="modal-body">
+					
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 </div>

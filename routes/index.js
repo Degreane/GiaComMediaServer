@@ -3,7 +3,7 @@ var lo = require('lodash')
 var moment=require('moment')
 var router = express.Router();
 var { getChannelAttribute,requiresLogin,isLoggedInUserEnabled,setLoggedInUserSession,userActionLog,getUserActionLog,isLoggedInUser,getMovieList,getMovieAttribute,getChannels,addHelpers,getSeriesList,addSeries,getUsers,getUser } =require('./middlewares') ;
-var {text_truncate,pad,b64decode,b64encode,isIn}= require('./helpers');
+var {text_truncate,pad,b64decode,b64encode,isIn,filesInFolder}= require('./helpers');
 // var {diff} = require('deep-object-diff') 
 
 /*  GET home page. */
@@ -426,4 +426,12 @@ router.get('/newSeries',addHelpers, requiresLogin,isLoggedInUser,isLoggedInUserE
   res.render('newSeries',{locals:res.locals});
 });
 
+router.post('/files',addHelpers,requiresLogin,isLoggedInUser,isLoggedInUserEnabled,function(req,res,next){
+  var folderName;
+  if ('folder' in req.body){
+    folderName=req.body.folder;
+  }
+  console.log(filesInFolder)
+  res.json( filesInFolder(folderName))
+})
 module.exports = router;

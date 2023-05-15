@@ -95,6 +95,21 @@ var buildElement = function (element) {
 var rId = function () {
   return uuid.v4().toString();
 }
+
+/**
+ * @description Map folder and return object of files and folders
+ * @argument folder 
+ */
+
+var filesInFolder =  function(folder){
+  var folderMap=require('map-folder')
+  var result =  folderMap(folder,{
+    include:['.mp4'],
+  });
+  console.log("The result of folder-map is \n",result,"\n<-----------------\n");
+  return result;
+}
+exports.filesInFolder=filesInFolder;
 exports.isIn = isIn;
 exports.random = rId;
 exports.b64encode = b64encode;
