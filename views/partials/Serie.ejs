@@ -7,8 +7,8 @@
 		{
 			'number': Number,
 			'title': String,
-		  'description': String,
-		  'Episode': [{
+			'description': String,
+			'episodes': [{
 				'number': Number,
 				'title': String,
 				'description': String,
@@ -18,17 +18,91 @@
 	]}	
 })
 %>
-<div class="container-fluid col-8 col-md-8 col-sm-12 col-md-push-2 ">
-    <div class="jumbotron jumbotron-fluid">
-        <div class="container">
-            <h1 class="display-3">Fluid jumbo heading</h1>
-            <p class="lead">Jumbo helper text</p>
-            <hr class="my-2">
-            <p>More info</p>
-            <p class="lead">
-                <a class="btn btn-primary btn-lg" href="Jumbo action link" role="button">Jumbo action name</a>
-            </p>
-        </div>
+<%  
+var serieToBeEdited = {};
+if (locals.newSeries) {
+	serieToBeEdited={};
+}else if (locals.editSeries) {
+	serieToBeEdited = locals.theSerie;
+}
+%>
+<div class="container col-6 col-md-6 col-sm-12 col-md-push-3 ">
+    <div class="jumbotron ">
+        
+			<h2 class="text-center" style="border-radius: 4px; border: 1px solid; box-shadow: 1px 1px 1px 1px #f7f0f0 , 2px 2px 1px 1px;"><b><i>Serie</i></b>&nbsp;<span class="bg-info text-primary" style="border-radius: 5px;">&nbsp;<%= serieToBeEdited.title?serieToBeEdited.title: "" %>&nbsp;</span></h2> 
+            <form role="form" class="form-horizontal text-primary" action="/EditSerie" name="serie" id="serie" data-pg-name="serie" title="serie" style="border-radius: 5px; box-shadow: 1px 1px 1px 1px #f9f3f3 , 2px 2px 1px 1px #000000; border: 1px solid #000000;" method="POST"> 
+				
+				<div class="form-group text-center">
+					<label for="title" class="control-label col-sm-2">Title</label>
+					<div class="col-sm-8">
+						<div>
+							<input type="text" value="<%= serieToBeEdited.title?serieToBeEdited.title:"" %>" name="title" id="title" class="form-control text-center" placeholder="Serie Title" aria-describedby="title_helpId" required>
+							<small id="title_helpId" class="text-muted">Serie Title (Name)</small>
+						</div>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="year" class="control-label col-sm-2">Year</label>
+					<div class="col-sm-8 text-center">
+						<div>
+							<input type="number" min="1900" max="3000" step="1" value="<%= serieToBeEdited.year?serieToBeEdited.year:1970 %>" name="year" id="year" class="form-control text-center" placeholder="Year Released" aria-describedby="year_helpId" required>
+							<small id="year_helpId" class="text-muted">Serie Year Released </small>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="Genre" class="control-label col-sm-2">genre</label>
+					<div class="col-sm-8 text-center">
+						<div>
+							<input type="text" value="<%= serieToBeEdited.genre?serieToBeEdited.genre:'' %>" name="genre" id="genre" class="form-control text-center" placeholder="genre " aria-describedby="genre_helpId" required>
+							<small id="genre_helpId" class="text-muted">Serie genre  </small>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="description" class="control-label col-sm-2">description</label>
+					<div class="col-sm-8 text-center">
+						<div>
+							<textarea type="text" value="" name="description" id="description" class="form-control text-center" placeholder="description " aria-describedby="description_helpId" required><%= serieToBeEdited.description?serieToBeEdited.description:'' %></textarea>
+							<small id="description_helpId" class="text-muted">Serie description  </small>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group col-md-10 col-md-push-1" style="border-radius: 5px; box-shadow: 1px 1px 1px 1px #f9f3f3 , 2px 2px 1px 1px #000000; border: 1px solid #000000;float:unset;margin-bottom:15px;">
+					<label for="" class="control-label col-sm-1">Seasons</label>
+					<div class="col-sm-9 text-center">
+						<table class="table table-bordered table-striped table-responsive " style="margin:15px 0px;">
+							<thead>
+								<tr>
+									<th class="text-center">Season No.</th>
+									<th class="text-center">Episodes</th>
+								</tr>
+							</thead>
+							<tbody>
+							<% if (serieToBeEdited && serieToBeEdited.seasons) { %>
+									<% serieToBeEdited.seasons.forEach( function(season) { %>
+										<tr>
+											<td><%= season.number %></td>
+											<td><%= season.episodes? season.episodes.length:0 %></td>
+										</tr>
+									<% }) %>
+								
+							<% } else { %>
+								<tr>
+									<td colspan="2" class="text-danger bg-warning  "><strong>No Seasons Found</strong></td>
+								</tr>
+							<% } %>
+							</tbody>
+						</table>
+					</div>
+					<div class="col-sm-2 text-center" style="margin:15px 0px;">
+						<button>New Episode</button>
+					</div>
+				</div>
+			</form>
     </div>
-    
 </div>

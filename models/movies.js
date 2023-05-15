@@ -12,7 +12,9 @@ var MovieSchema = new mongoose.Schema({
     "poster" : {type:String},
     "fileInDB" : {type:String},
     "director": {type:String},
-    "writer": {type:String}
+    "writer": {type:String},
+    'createdAt':{type:Date,default:new moment()},
+    'updatedAt': {type:Date,default: new moment()},
 });
 module.exports = mongoose.model('movies',MovieSchema);
 /*

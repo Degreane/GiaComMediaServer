@@ -5,16 +5,21 @@ var SeierSchema=new mongoose.Schema({
 	'year'				:	{	type 	: Number	},
 	'genres'			:	{	type 	:	String	},
 	'description'	:	{	type 	:	String 	},
-	'seasons'			: {	type	: [
-		{
-			'number': Number,
-			'title': String,
-		  'description': String,
+	'createdAt':{type:Date,default:new moment()},
+    'updatedAt': {type:Date,default: new moment()},
+	'seasons'			: {	type	: [{
+		'number': Number,
+		'title': String,
+		'description': String,
+		'createdAt':{type:Date,default:new moment()},
+		'updatedAt': {type:Date,default: new moment()}, 
 		  'Episode': [{
 				'number': Number,
 				'title': String,
 				'description': String,
-				'file': String	
+				'file': String,
+				'createdAt':{type:Date,default:new moment()},
+				'updatedAt': {type:Date,default: new moment()},
 			}]
 		}
 	]}	
