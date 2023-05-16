@@ -103,6 +103,47 @@ if (locals.newSeries) {
 						<a name="" id="newSeasonBtn" class="btn btn-primary" href="#" role="button">New Season</a>
 						<script>
 							$(function(){
+								var folder={};
+								var rootNode = $('#FolderList')
+								
+								var mapFolder=function(aNode,aDom){
+									var liDom=$(aDom).find('li')
+									
+									
+									if (aNode.isFile !== true){
+										// entries exist
+										if (liDom.length == 0){
+											liDom=$('<li ></li>')
+											var aSpan=$('<span class="acaret">'+aNode.name+'</span>')
+											liDom.append(aSpan)
+											aSpan.on('click',function(e){
+												e.preventDefault()
+												
+												$(e.currentTarget).toggleClass('acaret-down');
+												
+												$(e.currentTarget.parentNode).children('.nested').toggleClass('active colorMe')
+												
+											})
+											$(aDom).append(liDom)
+										}
+										Object.keys(aNode.entries).forEach(function(value){
+											var tDom=$('<ul class="nested">');
+											mapFolder(aNode.entries[value],tDom)
+											$(aDom).children().append(tDom)
+										})
+										
+									}else{
+										liDom=$('<li class="aMovie" data-file="'+aNode.path+'">'+aNode.name+'</li>');
+										liDom.on('click',function(e){
+											e.preventDefault();
+											$('.aMovie').removeClass('aselected');
+											$(e.currentTarget).addClass('aselected');
+											
+											$('#epFile').val($(e.currentTarget).data('file').replace("/home/fbanna/Videos",''))
+										})
+										$(aDom).append(liDom)
+									}
+								}
 								$('#newSeasonBtn').on('click',function(e){
 									e.preventDefault();
 									$('#newSeason').show();
@@ -118,17 +159,14 @@ if (locals.newSeries) {
 									$.ajax('/files',{
 										'method':'post',
 										'data':{
-											folder:'/home/fbanna/Videos/Series/The Peripheral 2022'
+											folder:'/home/fbanna/Videos/Series/'
 										},
 										success:function(data,textStatus,jqXHR){
-											console.log(data)
-											console.log(textStatus)
-											console.log(jqXHR)
+											folder=data
+											mapFolder(folder,rootNode)
 										},
 										error:function(jqXHR,textStatus,err){
-											console.log(jqXHR)
-											console.log(textStatus)
-											console.log(err)
+											$('body').append('<div class="alert alert-danger alert-dismissable ">'+err+'</div>')
 										}
 									})
 								})
@@ -197,13 +235,70 @@ if (locals.newSeries) {
 	
 	
 	<div class="modal fade" id="modelId">
-		<div class="modal-dialog">
+		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h4 class="modal-title">Modal title</h4>
+					<h4 class="modal-title">Appending Episode</h4>
 				</div>
 				<div class="modal-body">
+					
+					
+					
+					
+					<form action="" method="POST" class="form" role="form">
+					
+						
+						<div class="row">
+							<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+								<div class="form-group ">
+									<label class="" for="">Episode No.</label>
+									<div >
+										<input type="number" class="form-control" id="epNumber" placeholder="Episode Number" min="1" step="1" Required>
+									</div>
+								</div>		
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group ">
+									<label class="" for="">Episode File</label>
+									<div >
+										<input type="text" class="form-control" id="epFile" placeholder="Episode File"  Required disabled>
+									</div>
+								</div>		
+							</div>
+						</div>
+						
+						
+						
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group ">
+							
+									<div style="overflow:scroll;">
+										
+										<div class="">
+											<ul id="FolderList"  style="width:100% !important">
+										
+											</ul>	
+										</div>
+										
+											
+									</div>		
+							</div>
+						</div>
+						
+						
+							
+							
+						</div>
+						
+					
+						
+					
+						<button type="submit" class="btn btn-primary">Submit</button>
+					</form>
 					
 				</div>
 				<div class="modal-footer">

@@ -13,7 +13,7 @@ var SeierSchema=new mongoose.Schema({
 		'description': String,
 		'createdAt':{type:Date,default:new moment()},
 		'updatedAt': {type:Date,default: new moment()}, 
-		  'Episode': [{
+		  'episodes': [{
 				'number': Number,
 				'title': String,
 				'description': String,
