@@ -1,7 +1,7 @@
 const _= require('lodash');
 const fs=require('fs');
 const path = require('path');
-var {text_truncate,pad,b64decode,b64encode,isIn,random}= require('./helpers');
+var {text_truncate,pad,b64decode,b64encode,isIn,random,padStart}= require('./helpers');
 
 var requiresLogin = function(req,res,next){
     if (!req.session.loggedIn){
@@ -343,6 +343,7 @@ var addHelpers=function(req,res,next){
     res.locals['b64encode']=b64encode;
     res.locals['isIn']=isIn;
     res.locals['random']=random;
+    res.locals['padStart']=padStart;
     next();
 }
 var getChannelAttribute= async function(req,res,next){

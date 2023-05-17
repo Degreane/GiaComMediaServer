@@ -158,6 +158,7 @@ if (locals.newSeries) {
 								$('#newEpisode').on('click',function(e){
 									e.preventDefault();
 									$('#modelId').modal('show');
+									$('#epFile').val("");
 									$.ajax('/files',{
 										'method':'get',
 										'data':{
@@ -173,6 +174,30 @@ if (locals.newSeries) {
 										}
 									})
 								})
+								$('#epAdd').on('click',function(e){
+									e.preventDefault();
+									
+									if($('#epNumber').val().trim() == ""){
+										$('#epNumberDiv').addClass('has-error');$('#epNumberDiv').removeClass('has-success');
+									}else{
+										$('#epNumberDiv').removeClass('has-error');$('#epNumberDiv').addClass('has-success');
+									}
+									if($('#epFile').val().trim() == ""){ 
+										$('#epFileDiv').addClass('has-error');$('#epFileDiv').removeClass('has-success');
+									}else{
+										$('#epFileDiv').addClass('has-success');$('#epFileDiv').removeClass('has-error');
+									}
+									if ($('#epForm').find('.has-error').length > 0) {
+										alert('Fill Corresponding needed fields');
+									}else{
+										// need to fill in the newEpisodes construct
+										var ep={}
+										ep.number=$('#epNumber').val()
+										ep.file=$('#epFile').val()
+										ep.title="E"+padStart(ep.number,2,"0");
+										console.log(ep);
+									}
+								})
 							});
 						</script>
 					</div>
@@ -185,7 +210,7 @@ if (locals.newSeries) {
 				</button>
 				<hr/>
 				<div class="container-fluid">
-					<form class="form-horizontal text-secondary text-center">
+					<form class="form-horizontal text-secondary text-center" >
 
 						<div class="form-group">
 							<label for="number" class="col-md-2">Season Number</label>
@@ -249,13 +274,13 @@ if (locals.newSeries) {
 					
 					
 					
-					<form action="" method="POST" class="form" role="form">
+					<form action="" method="POST" class="form" role="form" id="epForm">
 					
 						
 						<div class="row">
 							<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-								<div class="form-group ">
-									<label class="" for="">Episode No.</label>
+								<div class="form-group has-error" id="epNumberDiv">
+									<label class="control-label" for="">Episode No.</label>
 									<div >
 										<input type="number" class="form-control" id="epNumber" placeholder="Episode Number" min="1" step="1" Required>
 									</div>
@@ -264,8 +289,8 @@ if (locals.newSeries) {
 						</div>
 						<div class="row">
 							<div class="col-md-12">
-								<div class="form-group ">
-									<label class="" for="">Episode File</label>
+								<div class="form-group has-error" id="epFileDiv">
+									<label class="control-label" for="">Episode File</label>
 									<div >
 										<input type="text" class="form-control" id="epFile" placeholder="Episode File"  Required disabled>
 									</div>
@@ -300,7 +325,6 @@ if (locals.newSeries) {
 					
 						
 					
-						<button type="submit" class="btn btn-primary">Submit</button>
 					</form>
 					
 				</div>
@@ -311,5 +335,12 @@ if (locals.newSeries) {
 			</div>
 		</div>
 	</div>
-	
+
+	<script>
+		
+			var padStart = <%- locals.padStart %>
+			
+		
+	</script>
 </div>
+

@@ -32,6 +32,55 @@ var pad = function (str, width) {
   var padding = ' ';
   return str.padEnd(width, padding || ' ').replace(/  /g, '&nbsp; ');
 };
+
+/**
+ * 
+ * @param {String} str
+ * @param {Number} places
+ * @param {Char} chr 
+ * @returns 
+ */
+var padStart=function(str,places,chr) {
+  // check if str is available
+  var theStr;
+  var thePlaces=2;
+  var theChr="0";
+  if (typeof(str) == 'string' || typeof(str) == 'number') {
+    theStr = str.toString().trim()
+  }else{
+    theStr=""
+  }
+  if (typeof(places) == 'string') {
+    try {
+      thePlaces=parseInt(places,10);
+    } catch (error) {
+      thePlaces=2;
+    }
+    
+  }else if (typeof(places) == 'number') {
+    try {
+      thePlaces=parseInt(places,10);
+    } catch (error) {
+      thePlaces=2;
+    }
+  }else{
+    thePlaces=2;
+  }
+  if ((typeof(chr) =='number' || typeof(chr) == 'string') && chr.toString().length > 0 ){
+    var theChr = chr.toString()[0];
+  }else{
+    theChr="0"
+  }
+  // if theStr is greater than or equal to the places then return theStr unmodified
+  if (theStr.length >= thePlaces) {
+    return theStr;
+  }else{
+    return Array(thePlaces-theStr.length).fill(theChr,0,thePlaces-theStr.length+1).join("")+theStr
+
+  }
+    
+}
+
 var b64encode = function (str) {
   var buff = new Buffer(str);
   var str64 = buff.toString('base64');
@@ -119,4 +168,5 @@ exports.b64encode = b64encode;
 exports.b64decode = b64decode;
 exports.text_truncate = text_truncate;
 exports.pad = pad;
+exports.padStart = padStart;
 exports.buildElement = buildElement;
