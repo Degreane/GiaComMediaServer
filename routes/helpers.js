@@ -101,12 +101,15 @@ var rId = function () {
  * @argument folder 
  */
 
-var filesInFolder =  function(folder){
-  var folderMap=require('map-folder')
+var filesInFolder =  function(folder,include,exclude,filter){
+  var folderMap=require('map-folder');
+
   var result =  folderMap(folder,{
-    include:['.mp4'],
+    include:include,
+    exclude:exclude,
+    filter:filter,
   });
-  console.log("The result of folder-map is \n",result,"\n<-----------------\n");
+  console.log("The result of folder-map is \nInclude:",include,"\n",result,"\n<-----------------\n");
   return result;
 }
 exports.filesInFolder=filesInFolder;

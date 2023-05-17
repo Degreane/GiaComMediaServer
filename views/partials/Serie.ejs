@@ -105,7 +105,9 @@ if (locals.newSeries) {
 							$(function(){
 								var folder={};
 								var rootNode = $('#FolderList')
-								
+								/**
+								* maps the files returned from the server (package map-folder)
+								*/
 								var mapFolder=function(aNode,aDom){
 									var liDom=$(aDom).find('li')
 									
@@ -157,9 +159,10 @@ if (locals.newSeries) {
 									e.preventDefault();
 									$('#modelId').modal('show');
 									$.ajax('/files',{
-										'method':'post',
+										'method':'get',
 										'data':{
-											folder:'/home/fbanna/Videos/Series/'
+											folder:'/home/fbanna/Videos/Series',
+											include:['.mp4']
 										},
 										success:function(data,textStatus,jqXHR){
 											folder=data
@@ -303,7 +306,7 @@ if (locals.newSeries) {
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary">Save changes</button>
+					<button id="epAdd" type="button" class="btn btn-primary">Add Episode</button>
 				</div>
 			</div>
 		</div>

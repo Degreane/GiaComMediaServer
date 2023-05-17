@@ -426,12 +426,26 @@ router.get('/newSeries',addHelpers, requiresLogin,isLoggedInUser,isLoggedInUserE
   res.render('newSeries',{locals:res.locals});
 });
 
-router.post('/files',addHelpers,requiresLogin,isLoggedInUser,isLoggedInUserEnabled,function(req,res,next){
+router.get('/files',addHelpers,requiresLogin,isLoggedInUser,isLoggedInUserEnabled,function(req,res,next){
   var folderName;
-  if ('folder' in req.body){
-    folderName=req.body.folder;
+  var include;
+  var exclude;
+  var filter;
+  
+  if ('folder' in req.query){
+    folderName=req.query.folder;
   }
-  console.log(filesInFolder)
-  res.json( filesInFolder(folderName))
+  if ('include' in req.query) {
+    include =req.query.include;
+  }
+  if ('exclude' in req.query){
+    exclude = req.query.exclude;
+  }
+  if('filter' in req.query){
+    filter=req.body.filter
+  }
+  
+  // console.log(filesInFolder)
+  res.json( filesInFolder(folderName,include,exclude,filter))
 })
 module.exports = router;
