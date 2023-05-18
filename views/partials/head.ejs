@@ -96,6 +96,31 @@
           .colorMe {
             background-color:beige;
           }
+          .aEdit::after{
+            content:"\2605";
+            color:green;
+          }
+          .aDelete::after {
+            content:"\00D8";
+            color:red;
+          }
+          .aAdd::after {
+            content:"\27F4";
+            color: green;
+          }
+          .aEdit::after, .aDelete::after, .aAdd::after {
+            display:inline-block;
+            margin:0px 0px 0px 4px;
+            font-weight:bolder;
+            font-size:x-large;
+            text-shadow:  white 0px 4px 2px, white 0px -4px 2px,white -4px 0px 2px,white 4px 0px 2px,black 0px 2px 2px, black 0px -2px 2px,black -2px -0px 2px,black 2px 0px 2px;
+          }
+          /*.glyphicon {
+            text-shadow: black 0px 1px 1px, black 0px -1px 1px,black -1px -0px 1px,black 1px 0px 1px, white 0px 2px 2px, white 0px -2px 2px,white -2px 0px 2px,white 2px 0px 2px;
+          }*/
+          .btn:hover {
+            box-shadow: inset white 0px 1px 1px, inset white 0px -1px 1px,inset white -1px -0px 1px,inset white 1px 0px 1px, inset black 0px 2px 2px, inset black 0px -2px 2px,inset black -2px 0px 2px,inset black 2px 0px 2px;
+        }
     </style>
    <% } %>
     <% if (typeof(locals.movie) !== 'undefined' || typeof(locals.channel) !== 'undefined' || typeof(locals.series) !== 'undefined') { %>

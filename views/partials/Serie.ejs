@@ -26,7 +26,7 @@ if (locals.newSeries) {
 	serieToBeEdited = locals.theSerie;
 }
 %>
-<div class="container col-6 col-md-6 col-sm-12 col-md-push-3 ">
+<div class="container col-12 col-md-12 col-sm-12 ">
     <div class="jumbotron " style="padding-top:5px;">
         
 			<h2 class="text-center" style="border-radius: 4px; border: 1px solid; box-shadow: 1px 1px 1px 1px #f7f0f0 , 2px 2px 1px 1px;"><b><i>Serie</i></b>&nbsp;<span class="bg-info text-primary" style="border-radius: 5px;">&nbsp;<%= serieToBeEdited.title?serieToBeEdited.title: "" %>&nbsp;</span></h2> 
@@ -37,7 +37,7 @@ if (locals.newSeries) {
 					<div class="col-sm-8">
 						<div>
 							<input type="text" value="<%= serieToBeEdited.title?serieToBeEdited.title:"" %>" name="title" id="title" class="form-control text-center" placeholder="Serie Title" aria-describedby="title_helpId" required>
-							<small id="title_helpId" class="text-muted">Serie Title (Name)</small>
+							
 						</div>
 					</div>
 				</div>
@@ -47,7 +47,6 @@ if (locals.newSeries) {
 					<div class="col-sm-8 text-center">
 						<div>
 							<input type="number" min="1900" max="3000" step="1" value="<%= serieToBeEdited.year?serieToBeEdited.year:1970 %>" name="year" id="year" class="form-control text-center" placeholder="Year Released" aria-describedby="year_helpId" required>
-							<small id="year_helpId" class="text-muted">Serie Year Released </small>
 						</div>
 					</div>
 				</div>
@@ -57,7 +56,6 @@ if (locals.newSeries) {
 					<div class="col-sm-8 text-center">
 						<div>
 							<input type="text" value="<%= serieToBeEdited.genre?serieToBeEdited.genre:'' %>" name="genres" id="genres" class="form-control text-center" placeholder="genre " aria-describedby="genre_helpId" required>
-							<small id="genre_helpId" class="text-muted">Serie genre  </small>
 						</div>
 					</div>
 				</div>
@@ -67,7 +65,6 @@ if (locals.newSeries) {
 					<div class="col-sm-8 text-center">
 						<div>
 							<textarea type="text" value="" name="description" id="description" class="form-control text-center" placeholder="description " aria-describedby="description_helpId" required><%= serieToBeEdited.description?serieToBeEdited.description:'' %></textarea>
-							<small id="description_helpId" class="text-muted">Serie description  </small>
 						</div>
 					</div>
 				</div>
@@ -101,108 +98,11 @@ if (locals.newSeries) {
 					</div>
 					<div class="col-sm-2 text-center" style="margin:15px 0px;">
 						<a name="" id="newSeasonBtn" class="btn btn-primary" href="#" role="button">New Season</a>
-						<script>
-							$(function(){
-								var folder={};
-								var rootNode = $('#FolderList')
-								/**
-								* maps the files returned from the server (package map-folder)
-								*/
-								var mapFolder=function(aNode,aDom){
-									var liDom=$(aDom).find('li')
-									
-									
-									if (aNode.isFile !== true){
-										// entries exist
-										if (liDom.length == 0){
-											liDom=$('<li ></li>')
-											var aSpan=$('<span class="acaret">'+aNode.name+'</span>')
-											liDom.append(aSpan)
-											aSpan.on('click',function(e){
-												e.preventDefault()
-												
-												$(e.currentTarget).toggleClass('acaret-down');
-												
-												$(e.currentTarget.parentNode).children('.nested').toggleClass('active colorMe')
-												
-											})
-											$(aDom).append(liDom)
-										}
-										Object.keys(aNode.entries).forEach(function(value){
-											var tDom=$('<ul class="nested">');
-											mapFolder(aNode.entries[value],tDom)
-											$(aDom).children().append(tDom)
-										})
-										
-									}else{
-										liDom=$('<li class="aMovie" data-file="'+aNode.path+'">'+aNode.name+'</li>');
-										liDom.on('click',function(e){
-											e.preventDefault();
-											$('.aMovie').removeClass('aselected');
-											$(e.currentTarget).addClass('aselected');
-											
-											$('#epFile').val($(e.currentTarget).data('file').replace("/home/fbanna/Videos",''))
-										})
-										$(aDom).append(liDom)
-									}
-								}
-								$('#newSeasonBtn').on('click',function(e){
-									e.preventDefault();
-									$('#newSeason').show();
-								});
-								$('#newSeasonCloseBtn').on('click',function(e){
-									e.preventDefault();
-									$('#newSeason').hide();
-								})
-								
-								$('#newEpisode').on('click',function(e){
-									e.preventDefault();
-									$('#modelId').modal('show');
-									$('#epFile').val("");
-									$.ajax('/files',{
-										'method':'get',
-										'data':{
-											folder:'/home/fbanna/Videos/Series',
-											include:['.mp4']
-										},
-										success:function(data,textStatus,jqXHR){
-											folder=data
-											mapFolder(folder,rootNode)
-										},
-										error:function(jqXHR,textStatus,err){
-											$('body').append('<div class="alert alert-danger alert-dismissable ">'+err+'</div>')
-										}
-									})
-								})
-								$('#epAdd').on('click',function(e){
-									e.preventDefault();
-									
-									if($('#epNumber').val().trim() == ""){
-										$('#epNumberDiv').addClass('has-error');$('#epNumberDiv').removeClass('has-success');
-									}else{
-										$('#epNumberDiv').removeClass('has-error');$('#epNumberDiv').addClass('has-success');
-									}
-									if($('#epFile').val().trim() == ""){ 
-										$('#epFileDiv').addClass('has-error');$('#epFileDiv').removeClass('has-success');
-									}else{
-										$('#epFileDiv').addClass('has-success');$('#epFileDiv').removeClass('has-error');
-									}
-									if ($('#epForm').find('.has-error').length > 0) {
-										alert('Fill Corresponding needed fields');
-									}else{
-										// need to fill in the newEpisodes construct
-										var ep={}
-										ep.number=$('#epNumber').val()
-										ep.file=$('#epFile').val()
-										ep.title="E"+padStart(ep.number,2,"0");
-										console.log(ep);
-									}
-								})
-							});
-						</script>
+						
 					</div>
 				</div>
 			</form>
+			<!-- Seasons Wake Up  -->
 			<div class="alert alert-warning alert-dismissible " role="alert" id="newSeason" style="display:none; border-radius: 5px; box-shadow: 1px 1px 1px 1px #f9f3f3 , 2px 2px 1px 1px #000000; border: 1px solid #000000;float:unset;">
 				<strong>New Season</strong> 
 				<button type="button" class="close" id="newSeasonCloseBtn">
@@ -235,18 +135,19 @@ if (locals.newSeries) {
 						<div class="form-group col-md-12" style="border-radius: 5px; box-shadow: 1px 1px 1px 1px #f9f3f3 , 2px 2px 1px 1px #000000; border: 1px solid #000000;float:unset;margin-bottom:15px;">
 							<label for="" class="form-label col-md-2" style="margin-top:15px;">Episodes</label>
 							<div class="col-md-10">
-								<table class="table table-bordered table-striped table-responsive " style="margin:15px 0px;">
+								<table class="table table-bordered table-striped table-responsive " style="margin:15px 0px;" id="epTable">
 									<thead>
 										<tr>
 											<th class="text-center">Episode No.</th>
 											<th class="text-center">File</th>
+											<th class="text-center">Actions</th>
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
-											<td colspan="2" class="">
+										<tr id="epTableFinalRow">
+											<td colspan="3" class="" >
 												<button type="button" id="newEpisode" class="btn btn-primary" style="float:right;" >
-													Add New Episode <span class="text-danger glyphicon glyphicon-plus-sign"></span>
+													Add New <span class="text-success glyphicon glyphicon-plus"></span>
 												</button>
 											</td>
 										</tr>
@@ -261,7 +162,7 @@ if (locals.newSeries) {
     </div>
 	
 	
-	
+	<!-- Define Modal for adding New Episodes  -->
 	<div class="modal fade" id="modelId">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
@@ -270,13 +171,7 @@ if (locals.newSeries) {
 					<h4 class="modal-title">Appending Episode</h4>
 				</div>
 				<div class="modal-body">
-					
-					
-					
-					
 					<form action="" method="POST" class="form" role="form" id="epForm">
-					
-						
 						<div class="row">
 							<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 								<div class="form-group has-error" id="epNumberDiv">
@@ -297,50 +192,193 @@ if (locals.newSeries) {
 								</div>		
 							</div>
 						</div>
-						
-						
-						
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group ">
-							
 									<div style="overflow:scroll;">
-										
 										<div class="">
 											<ul id="FolderList"  style="width:100% !important">
 										
 											</ul>	
 										</div>
-										
-											
 									</div>		
+								</div>
 							</div>
 						</div>
-						
-						
-							
-							
-						</div>
-						
-					
-						
-					
 					</form>
-					
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 					<button id="epAdd" type="button" class="btn btn-primary">Add Episode</button>
+					<button id="epEdit" type="button" class="aEdit btn btn-primary hidden" >Edit Episode</button>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<script>
-		
+	<% if (locals.padStart) { %>
+		<script>
+			// load padStart from EJS 
 			var padStart = <%- locals.padStart %>
+		</script>
+	<% } %>
+	<script>
+		$(function(){
+			var folder={};
+			var rootNode = $('#FolderList')
+			var mapEpisodeTable = function(){
+				var epTable=$('#epTable');
+					var epTableFinalRow=$('#epTableFinalRow');
+					var epTableTBody=epTableFinalRow.parent();
+					epTableFinalRow.siblings().remove();
+				if (newEpisodes.length > 0 ){
+					newEpisodes.forEach(function(episode,idx){
+						var tr=$('<tr>');
+						var tdEpNumber=$('<td>');
+						var tdEpFile=$('<td>');
+						var tdEpActions=$('<td>');
+						var EditButton=$('<a>');
+						//EditButton.text("Edit<"+padStart(idx)+">");
+						EditButton.addClass("aEdit btn btn-default")
+						EditButton.on('click',function(e){
+							e.preventDefault();
+							var epToBeEdited=newEpisodes[idx];
+
+							$('#modelId').modal('show');
+							$('#epFile').val(epToBeEdited.file);
+							$('#epNumber').val(epToBeEdited.number);
+							$.ajax('/files',{
+								'method':'get',
+								'data':{
+									folder:seriesFolder,
+									include:seriesFileTypeIncludes
+								},
+								success:function(data,textStatus,jqXHR){
+									folder=data
+									rootNode.empty();
+									mapFolder(folder,rootNode)
+								},
+								error:function(jqXHR,textStatus,err){
+									$('body').append('<div class="alert alert-danger alert-dismissable ">'+err+'</div>')
+								}
+							})
+						})
+						var DeleteButton=$('<a>');
+						//DeleteButton.text("Delete<"+padStart(idx)+">");
+						DeleteButton.addClass('aDelete btn btn-default');
+						DeleteButton.on('click',function(e){
+							console.log("Deleting Idx ",idx)
+							e.preventDefault();
+							newEpisodes.splice(idx,1);
+							console.log(newEpisodes)
+							mapEpisodeTable();
+						})
+						tdEpNumber.text(episode.title);
+						tdEpFile.text(episode.file);
+						tdEpActions.append(EditButton,DeleteButton)
+						tr.append(tdEpNumber,tdEpFile,tdEpActions);
+						epTableTBody.append(tr);
+					})
+				}
+			}
+			/**
+			* maps the files returned from the server (package map-folder)
+			*/
+			var mapFolder=function(aNode,aDom){
+				var liDom=$(aDom).find('li')
+				
+				
+				if (aNode.isFile !== true){
+					// entries exist
+					if (liDom.length == 0){
+						liDom=$('<li ></li>')
+						var aSpan=$('<span class="acaret">'+aNode.name+'</span>')
+						liDom.append(aSpan)
+						aSpan.on('click',function(e){
+							e.preventDefault()
+							
+							$(e.currentTarget).toggleClass('acaret-down');
+							
+							$(e.currentTarget.parentNode).children('.nested').toggleClass('active colorMe')
+							
+						})
+						$(aDom).append(liDom)
+					}
+					Object.keys(aNode.entries).forEach(function(value){
+						var tDom=$('<ul class="nested">');
+						mapFolder(aNode.entries[value],tDom)
+						$(aDom).children().append(tDom)
+					})
+					
+				}else{
+					liDom=$('<li class="aMovie" data-file="'+aNode.path+'">'+aNode.name+'</li>');
+					liDom.on('click',function(e){
+						e.preventDefault();
+						$('.aMovie').removeClass('aselected');
+						$(e.currentTarget).addClass('aselected');
+						
+						$('#epFile').val($(e.currentTarget).data('file').replace("/home/fbanna/Videos",''))
+					})
+					$(aDom).append(liDom)
+				}
+			}
+			$('#newSeasonBtn').on('click',function(e){
+				e.preventDefault();
+				$('#newSeason').show();
+			});
+			$('#newSeasonCloseBtn').on('click',function(e){
+				e.preventDefault();
+				$('#newSeason').hide();
+			})
 			
-		
+			$('#newEpisode').on('click',function(e){
+				e.preventDefault();
+				$('#modelId').modal('show');
+				$('#epFile').val("");
+				$('#epNumber').val("");
+				$.ajax('/files',{
+					'method':'get',
+					'data':{
+						folder:seriesFolder,
+						include:seriesFileTypeIncludes
+					},
+					success:function(data,textStatus,jqXHR){
+						folder=data
+						mapFolder(folder,rootNode)
+					},
+					error:function(jqXHR,textStatus,err){
+						$('body').append('<div class="alert alert-danger alert-dismissable ">'+err+'</div>')
+					}
+				})
+			})
+			$('#epAdd').on('click',function(e){
+				e.preventDefault();
+				
+				if($('#epNumber').val().trim() == ""){
+					$('#epNumberDiv').addClass('has-error');$('#epNumberDiv').removeClass('has-success');
+				}else{
+					$('#epNumberDiv').removeClass('has-error');$('#epNumberDiv').addClass('has-success');
+				}
+				if($('#epFile').val().trim() == ""){ 
+					$('#epFileDiv').addClass('has-error');$('#epFileDiv').removeClass('has-success');
+				}else{
+					$('#epFileDiv').addClass('has-success');$('#epFileDiv').removeClass('has-error');
+				}
+				if ($('#epForm').find('.has-error').length > 0) {
+					alert('Fill Corresponding needed fields');
+				}else{
+					// need to fill in the newEpisodes construct
+					var ep={}
+					ep.number=$('#epNumber').val()
+					ep.file=$('#epFile').val()
+					ep.title="E"+padStart(ep.number,2,"0");
+					newEpisodes.push(ep);
+					mapEpisodeTable();
+					// next we need to push the Episodes into the Season table
+					$('#modelId').modal('hide');
+				}
+			})
+		});
 	</script>
 </div>
 
