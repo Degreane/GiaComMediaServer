@@ -226,6 +226,10 @@ if (locals.newSeries) {
 		$(function(){
 			var folder={};
 			var rootNode = $('#FolderList')
+
+			/**
+				Maps The Episode Hash into the Episode table in the Season selected
+			*/
 			var mapEpisodeTable = function(){
 				var epTable=$('#epTable');
 					var epTableFinalRow=$('#epTableFinalRow');
@@ -322,6 +326,10 @@ if (locals.newSeries) {
 					$(aDom).append(liDom)
 				}
 			}
+
+			/**
+				Show Hide New Season Panel
+			*/
 			$('#newSeasonBtn').on('click',function(e){
 				e.preventDefault();
 				$('#newSeason').show();
@@ -331,6 +339,10 @@ if (locals.newSeries) {
 				$('#newSeason').hide();
 			})
 			
+			/**
+				Shows The modal to add new Episodes to the Season.
+				Requests data from the server to show and populate the File Tree View.
+			*/
 			$('#newEpisode').on('click',function(e){
 				e.preventDefault();
 				$('#modelId').modal('show');
@@ -351,6 +363,13 @@ if (locals.newSeries) {
 					}
 				})
 			})
+			
+			
+			/**
+				
+				On Clicked Add New Episode
+				Validates input Fields before Adding Episodes.
+			*/
 			$('#epAdd').on('click',function(e){
 				e.preventDefault();
 				
