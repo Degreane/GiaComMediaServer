@@ -29,7 +29,7 @@ if (locals.newSeries) {
 <div class="container col-12 col-md-12 col-sm-12 ">
     <div class="jumbotron " style="padding-top:5px;">
         
-			<h2 class="text-center" style="border-radius: 4px; border: 1px solid; box-shadow: 1px 1px 1px 1px #f7f0f0 , 2px 2px 1px 1px;"><b><i>Serie</i></b>&nbsp;<span class="bg-info text-primary" style="border-radius: 5px;">&nbsp;<%= serieToBeEdited.title?serieToBeEdited.title: "" %>&nbsp;</span></h2> 
+			<h2 class="text-center" style="border-radius: 4px; border: 1px solid; box-shadow: 1px 1px 1px 1px #f7f0f0 , 2px 2px 1px 1px;"><b><i>Serie</i></b>&nbsp;<span class="bg-info text-primary" style="border-radius: 5px;" id="serieTitle">&nbsp;<%= serieToBeEdited.title?serieToBeEdited.title: "" %>&nbsp;</span></h2> 
             <form role="form" class="form-horizontal text-primary" action="/EditSerie" name="serie" id="serie" data-pg-name="serie" title="serie" style="border-radius: 5px; box-shadow: 1px 1px 1px 1px #f9f3f3 , 2px 2px 1px 1px #000000; border: 1px solid #000000;" method="POST"> 
 				
 				<div class="form-group text-center">
@@ -41,7 +41,15 @@ if (locals.newSeries) {
 						</div>
 					</div>
 				</div>
-				
+				<script>
+					/**
+						Update Serie Title bar whenever the Serie title input changes.
+					*/
+					$('#title').on('keyup',function(e){
+						e.preventDefault();
+						$('#serieTitle').html("&nbsp;"+$('#title').val()+"&nbsp;")
+					})
+				</script>
 				<div class="form-group">
 					<label for="year" class="control-label col-sm-2">Year</label>
 					<div class="col-sm-8 text-center">
@@ -110,19 +118,19 @@ if (locals.newSeries) {
 				</button>
 				<hr/>
 				<div class="container-fluid">
-					<form class="form-horizontal text-secondary text-center" >
+					<form class="form-horizontal text-secondary text-center" id="formSeasons">
 
-						<div class="form-group">
-							<label for="number" class="col-md-2">Season Number</label>
+						<div class="form-group" id="sNumberGroup">
+							<label for="number" class="col-md-2 control-label">Season Number</label>
 							<div class="col-md-10"> 
-								<input type="number" min="0" step="1" name="number" id="number" class="form-control" placeholder="Season Number" aria-describedby="number_helpId" required>
+								<input type="text"  name="number" id="sNumber" class="form-control" placeholder="Season Number" aria-describedby="number_helpId" required>
 							</div>
 						</div>
 
-						<div class="form-group">
-							<label for="tite" class="col-md-2">Season Tite</label>
+						<div class="form-group" id="sTitleGroup">
+							<label for="tite" class="col-md-2 control-label">Season Tite</label>
 							<div class="col-md-10"> 
-								<input type="tite" min="0" step="1" name="tite" id="tite" class="form-control" placeholder="Season tite" aria-describedby="tite_helpId" required>
+								<input type="text" name="title" id="sTitle" class="form-control" placeholder="Season title" aria-describedby="title_helpId" required>
 							</div>
 						</div>
 
@@ -155,7 +163,63 @@ if (locals.newSeries) {
 								</table>
 							</div>
 						</div>
-						<button type="submit" class="btn btn-primary">Submit</button>
+						<button type="button" class="btn btn-primary" id="seasonAddOrUpdate">Submit</button>
+						<script>
+							$(function(){
+								/**
+									This button whenever clicked it shall take validate Season values and eventually update the corresponding Series (Adds New if new Season.)
+									Also shall trigger the action to update Data in the Season's Table 
+								*/
+								var lastNumber;
+								var lastTitle;
+								var season;
+								$('#seasonAddOrUpdate').on('click',function(e){
+									e.preventDefault();
+									console.log($('#formSeasons').find('has-error'))
+									if ($('#formSeasons').find('.has-error').length == 0 || $('#sNumber').val().trim()!=="" ){
+										// if $('#number') is empty then trigger an alarm
+										$('#sNumberGroup').removeClass('has-error');
+										$('#sNumberGroup').addClass('has-success');
+										// Collect The Values:
+										if (typeof(season) == 'undefined') {
+											// if season is not defined then we should define it first
+											season={}
+										}
+										season["episodes"]=newEpisodes;
+										season["number"]=parseInt($('#sNumber').val())
+										season["title"]=$('#sTitle').val();
+										season["description"]=$('#sDescription').val()
+										newSeasons.push(season);
+										$('#newSeason').addClass('alert-info');
+										$('#newSeason').removeClass('alert-danger');
+										$('#newSeason').removeClass('alert-warning');
+									}else{
+										$('#newSeason').removeClass('alert-info');
+										$('#newSeason').addClass('alert-danger');
+										$('#newSeason').removeClass('alert-warning');
+										$('#sNumberGroup').addClass('has-error');
+										$('#sNumberGroup').removeClass('has-success');
+									}
+								})
+								$('#sNumber').on('keyup',function(e){
+									e.preventDefault();
+									var numberValue=$('#sNumber').val();
+									if(numberValue.length > 0 &&  ["1","2","3","4","5","6","7","8","9","0"].indexOf(numberValue[numberValue.length -1 ]) !== -1 ){
+										$('#sNumberGroup').removeClass('has-error');
+										$('#sNumberGroup').addClass('has-success');
+										$('#sTitleGroup').removeClass('has-error');
+										$('#sTitleGroup').addClass('has-success');
+										lastNumber=numberValue;
+										$('#sTitle').val("S"+padStart(numberValue));
+									}else{
+										$('#sNumberGroup').addClass('has-error');
+										$('#sNumberGroup').removeClass('has-success');
+										$('#sTitleGroup').addClass('has-error');
+										$('#sTitleGroup').removeClass('has-success');
+									}
+								})
+							})
+						</script>
 					</form>
 				</div>
 			</div>
