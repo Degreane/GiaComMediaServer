@@ -162,60 +162,9 @@ if (locals.newSeries) {
     </div>
 	
 	
-	<!-- Define Modal for adding New Episodes  -->
-	<div class="modal fade" id="modelId">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h4 class="modal-title">Appending Episode</h4>
-				</div>
-				<div class="modal-body">
-					<form action="" method="POST" class="form" role="form" id="epForm">
-						<div class="row">
-							<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-								<div class="form-group has-error" id="epNumberDiv">
-									<label class="control-label" for="">Episode No.</label>
-									<div >
-										<input type="number" class="form-control" id="epNumber" placeholder="Episode Number" min="1" step="1" Required>
-									</div>
-								</div>		
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-12">
-								<div class="form-group has-error" id="epFileDiv">
-									<label class="control-label" for="">Episode File</label>
-									<div >
-										<input type="text" class="form-control" id="epFile" placeholder="Episode File"  Required disabled>
-									</div>
-								</div>		
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-12">
-								<div class="form-group ">
-									<div style="overflow:scroll;">
-										<div class="">
-											<ul id="FolderList"  style="width:100% !important">
-										
-											</ul>	
-										</div>
-									</div>		
-								</div>
-							</div>
-						</div>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					<button id="epAdd" type="button" class="btn btn-primary">Add Episode</button>
-					<button id="epEdit" type="button" class="aEdit btn btn-primary hidden" >Edit Episode</button>
-				</div>
-			</div>
-		</div>
-	</div>
+	<%- include('episodeModal.ejs') %>
 
+	<%# If we have a padStart then include padStart javascript library in the page %>
 	<% if (locals.padStart) { %>
 		<script>
 			// load padStart from EJS 
@@ -230,7 +179,7 @@ if (locals.newSeries) {
 			/**
 				Maps The Episode Hash into the Episode table in the Season selected
 			*/
-			var mapEpisodeTable = function(){
+			mapEpisodeTable = function(){
 				var epTable=$('#epTable');
 					var epTableFinalRow=$('#epTableFinalRow');
 					var epTableTBody=epTableFinalRow.parent();
@@ -247,8 +196,10 @@ if (locals.newSeries) {
 						EditButton.on('click',function(e){
 							e.preventDefault();
 							var epToBeEdited=newEpisodes[idx];
-
+							selectedEpIdx=idx;
 							$('#modelId').modal('show');
+							$('#epAdd').hide();
+							$('#epEdit').show();
 							$('#epFile').val(epToBeEdited.file);
 							$('#epNumber').val(epToBeEdited.number);
 							$.ajax('/files',{
@@ -288,7 +239,7 @@ if (locals.newSeries) {
 			/**
 			* maps the files returned from the server (package map-folder)
 			*/
-			var mapFolder=function(aNode,aDom){
+			mapFolder=function(aNode,aDom){
 				var liDom=$(aDom).find('li')
 				
 				
@@ -346,6 +297,8 @@ if (locals.newSeries) {
 			$('#newEpisode').on('click',function(e){
 				e.preventDefault();
 				$('#modelId').modal('show');
+				$('#epAdd').show();
+				$('#epEdit').hide();
 				$('#epFile').val("");
 				$('#epNumber').val("");
 				$.ajax('/files',{

@@ -1,0 +1,79 @@
+<!-- Define Modal for adding New Episodes  -->
+<div class="modal fade" id="modelId">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Appending Episode</h4>
+            </div>
+            <div class="modal-body">
+                <form action="" method="POST" class="form" role="form" id="epForm">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <div class="form-group has-error" id="epNumberDiv">
+                                <label class="control-label" for="">Episode No.</label>
+                                <div >
+                                    <input type="number" class="form-control" id="epNumber" placeholder="Episode Number" min="1" step="1" Required>
+                                </div>
+                            </div>		
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group has-error" id="epFileDiv">
+                                <label class="control-label" for="">Episode File</label>
+                                <div >
+                                    <input type="text" class="form-control" id="epFile" placeholder="Episode File"  Required disabled>
+                                </div>
+                            </div>		
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group ">
+                                <div style="overflow:scroll;">
+                                    <div class="">
+                                        <ul id="FolderList"  style="width:100% !important">
+                                    
+                                        </ul>	
+                                    </div>
+                                </div>		
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button id="epAdd" type="button" class="btn btn-primary">Add</button>
+                <button id="epEdit" type="button" class="btn btn-primary" >Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        /**
+            Once Clicking on the update of the Episode function:
+            1- update the fields in the index selected 
+            2- redraw the table Episodes in the season.
+            3- close the modal
+        */
+        $('#epEdit').on('click',function(e){
+            e.preventDefault();
+            console.log("EpIDX: ",selectedEpIdx);
+            console.log("Episodes :", newEpisodes)
+            
+            if (selectedEpIdx !== null && typeof(selectedEpIdx) == 'number' && typeof(newEpisodes) !== 'undefined' && newEpisodes.length > selectedEpIdx ) {
+                var ep={};
+                ep.number=$('#epNumber').val()
+                ep.file=$('#epFile').val()
+                ep.title="E"+padStart(ep.number,2,"0");
+                newEpisodes[selectedEpIdx]=ep;
+                mapEpisodeTable();
+                // next we need to push the Episodes into the Season table
+                $('#modelId').modal('hide');
+            }
+        });
+    })
+</script>
