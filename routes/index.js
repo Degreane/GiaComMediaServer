@@ -404,7 +404,7 @@ An Episode:
 
 
 */
-router.get('/series',isLoggedInUser, getSeriesList,isLoggedInUserEnabled ,function(req,res,next){
+router.get('/series',isLoggedInUser, getSeriesList ,function(req,res,next){
   /**
     Get The Series
     1- Check if logged in user sets  

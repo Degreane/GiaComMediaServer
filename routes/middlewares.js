@@ -11,9 +11,11 @@ var requiresLogin = function(req,res,next){
     }
 };
 var isLoggedInUserEnabled = function(req,res,next){
-    if (!req.session && !req.session.loggedInUser['uEnabled']){
+    if (!req.session.loggedInUser){
         res.redirect('/login');
-    }else{
+    } else if (req.session.loggedInUser && !req.session.loggedInUser['uEnabled']) {
+        res.redirect('/login');
+    } else {
         next();
     }
 };
