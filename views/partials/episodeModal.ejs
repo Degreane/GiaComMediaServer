@@ -61,8 +61,6 @@
         */
         $('#epEdit').on('click',function(e){
             e.preventDefault();
-            console.log("EpIDX: ",selectedEpIdx);
-            console.log("Episodes :", newEpisodes)
             
             if (selectedEpIdx !== null && typeof(selectedEpIdx) == 'number' && typeof(newEpisodes) !== 'undefined' && newEpisodes.length > selectedEpIdx ) {
                 var ep={};

@@ -80,14 +80,14 @@ if (locals.newSeries) {
 				<div class="form-group col-md-10 col-md-push-1" style="border-radius: 5px; box-shadow: 1px 1px 1px 1px #f9f3f3 , 2px 2px 1px 1px #000000; border: 1px solid #000000;float:unset;margin-bottom:15px;">
 					<label for="" class="control-label col-sm-1">Seasons</label>
 					<div class="col-sm-9 text-center">
-						<table class="table table-bordered table-striped table-responsive " style="margin:15px 0px;">
+						<table class="table table-bordered table-striped table-responsive " style="margin:15px 0px;" id="seasonTable">
 							<thead>
 								<tr>
 									<th class="text-center">Season No.</th>
 									<th class="text-center">Episodes</th>
 								</tr>
 							</thead>
-							<tbody>
+							<tbody id="seasonTableTbody">
 							<% if (serieToBeEdited && serieToBeEdited.seasons) { %>
 									<% serieToBeEdited.seasons.forEach( function(season) { %>
 										<tr>
@@ -177,7 +177,7 @@ if (locals.newSeries) {
 									e.preventDefault();
 									console.log($('#formSeasons').find('has-error'))
 									if ($('#formSeasons').find('.has-error').length == 0 || $('#sNumber').val().trim()!=="" ){
-										// if $('#number') is empty then trigger an alarm
+										
 										$('#sNumberGroup').removeClass('has-error');
 										$('#sNumberGroup').addClass('has-success');
 										// Collect The Values:
@@ -193,6 +193,7 @@ if (locals.newSeries) {
 										$('#newSeason').addClass('alert-info');
 										$('#newSeason').removeClass('alert-danger');
 										$('#newSeason').removeClass('alert-warning');
+										mapSeasonTable();
 									}else{
 										$('#newSeason').removeClass('alert-info');
 										$('#newSeason').addClass('alert-danger');
@@ -239,7 +240,30 @@ if (locals.newSeries) {
 		$(function(){
 			var folder={};
 			var rootNode = $('#FolderList')
-
+			/**
+				Similar to mapEpisodeTable but for seasons,
+				this function maps the seasons table provided by the newSeasons[] values 
+			*/
+			mapSeasonTable = function(){
+				var sesonTable=$('#seasonTable');
+				var seasonTableTbody=$('#seasonTableTbody');
+				seasonTableTbody.empty();
+				if ( typeof(newSeasons) == 'object' && newSeasons instanceof Array ) {
+					console.log('Adding Seasons ');
+					console.log(newSeasons)
+					newSeasons.forEach(function(value,idx){
+						console.log('Adding '+value.title)
+						var tr=$('<tr>');
+						tr.attr('id','Season_'+idx);
+						var tdC1=$('<td>')
+						tdC1.text(value.title);
+						var tdC2=$('<td>')
+						tdC2.text("Text To Be Displayed for "+value.title)
+						tr.add(tdC1,tdC2)
+						seasonTableTbody.add(tr)
+					});
+				}
+			}
 			/**
 				Maps The Episode Hash into the Episode table in the Season selected
 			*/
