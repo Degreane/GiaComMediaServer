@@ -262,7 +262,7 @@ if (locals.newSeries) {
 			mapSeasonTable = function(){
 				var sesonTable=$('#seasonTable');
 				var seasonTableTbody=$('#seasonTableTbody');
-				seasonTableTbody.children().remove();
+				seasonTableTbody.empty();
 				if ( typeof(newSeasons) == 'object' && newSeasons instanceof Array ) {
 					alert("Mapping ....\n"+JSON.stringify(newSeasons,undefined,4)+"\n------------")
 					newSeasons.forEach(function(value,idx){
@@ -270,14 +270,24 @@ if (locals.newSeries) {
 						var tr=$('<tr>');
 						tr.attr('id','Season_'+idx);
 						var tdC1=$('<td>');
+						var tdC1Edit=$('<a>');
+						tdC1Edit.attr('id',idx);
+						tdC1Edit.attr('href','#');
+						tdC1Edit.text('Edit ');
+						tdC1Edit.append('<span class="glyphicon glyphicon-edit"/>');
+						tdC1Edit.addClass('btn btn-xs btn-default align-right');
 						tdC1.text(value.title);
+						tdC1.append(tdC1Edit);
+						// ToDo Need to add event onClick to Edit Season
+						
 						var tdC2=$('<td>');
 						var episodesInSeason=value.episodes.map(function(v){
 							var aElement=$('<a>');
-							aElement.attr('href',v.title);
+							aElement.attr('href','#');
 							aElement.attr('id',value.title+v.title);
 							aElement.text(v.title)
-							aElement.addClass('btn btn-default btn-xs')
+							aElement.addClass('btn btn-default btn-xs');
+							// ToDo Need to add event onClick to Edit Episode
 							return aElement;
 						})
 						tdC2.append(episodesInSeason)
