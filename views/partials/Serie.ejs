@@ -172,28 +172,43 @@ if (locals.newSeries) {
 								*/
 								var lastNumber;
 								var lastTitle;
-								var season;
+								
 								$('#seasonAddOrUpdate').on('click',function(e){
+									
 									e.preventDefault();
-									console.log($('#formSeasons').find('has-error'))
-									if ($('#formSeasons').find('.has-error').length == 0 || $('#sNumber').val().trim()!=="" ){
+									if ($('#formSeasons').find('.has-error').length == 0 && $('#sNumber').val().trim()!=="" ){
 										
 										$('#sNumberGroup').removeClass('has-error');
 										$('#sNumberGroup').addClass('has-success');
 										// Collect The Values:
-										if (typeof(season) == 'undefined') {
-											// if season is not defined then we should define it first
-											season={}
+										var season = {
+											'episodes':JSON.parse(JSON.stringify(newEpisodes)),
+											'number':parseInt($('#sNumber').val()),
+											'title':$('#sTitle').val(),
+											'description':$('#sDescription').val()
 										}
-										season["episodes"]=newEpisodes;
-										season["number"]=parseInt($('#sNumber').val())
-										season["title"]=$('#sTitle').val();
-										season["description"]=$('#sDescription').val()
-										newSeasons.push(season);
-										$('#newSeason').addClass('alert-info');
-										$('#newSeason').removeClass('alert-danger');
-										$('#newSeason').removeClass('alert-warning');
-										mapSeasonTable();
+
+										// compare the Season added with the already found Seasons in the array list 
+										var seasonComparisonResult=!newSeasons.every(function(svalue){
+											if (svalue['title'] == season['title']){
+												return false;
+											}else {
+												return true;
+											}
+										});
+										if (seasonComparisonResult){
+											$('#sNumberGroup').addClass('has-error');
+											$('#sNumberGroup').removeClass('has-success');
+										}else{
+											newSeasons.push(season);
+											$('#newSeason').addClass('alert-info');
+											$('#newSeason').removeClass('alert-danger');
+											$('#newSeason').removeClass('alert-warning');
+											mapSeasonTable();
+											$('#newSeason').hide();
+										}
+										
+										
 									}else{
 										$('#newSeason').removeClass('alert-info');
 										$('#newSeason').addClass('alert-danger');
@@ -247,20 +262,27 @@ if (locals.newSeries) {
 			mapSeasonTable = function(){
 				var sesonTable=$('#seasonTable');
 				var seasonTableTbody=$('#seasonTableTbody');
-				seasonTableTbody.empty();
+				seasonTableTbody.children().remove();
 				if ( typeof(newSeasons) == 'object' && newSeasons instanceof Array ) {
-					console.log('Adding Seasons ');
-					console.log(newSeasons)
+					alert("Mapping ....\n"+JSON.stringify(newSeasons,undefined,4)+"\n------------")
 					newSeasons.forEach(function(value,idx){
-						console.log('Adding '+value.title)
+						//console.log('Adding '+value.title)
 						var tr=$('<tr>');
 						tr.attr('id','Season_'+idx);
-						var tdC1=$('<td>')
+						var tdC1=$('<td>');
 						tdC1.text(value.title);
-						var tdC2=$('<td>')
-						tdC2.text("Text To Be Displayed for "+value.title)
-						tr.add(tdC1,tdC2)
-						seasonTableTbody.add(tr)
+						var tdC2=$('<td>');
+						var episodesInSeason=value.episodes.map(function(v){
+							var aElement=$('<a>');
+							aElement.attr('href',v.title);
+							aElement.attr('id',value.title+v.title);
+							aElement.text(v.title)
+							aElement.addClass('btn btn-default btn-xs')
+							return aElement;
+						})
+						tdC2.append(episodesInSeason)
+						tr.append(tdC1,tdC2)
+						seasonTableTbody.append(tr);
 					});
 				}
 			}
