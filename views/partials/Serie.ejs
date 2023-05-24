@@ -371,6 +371,9 @@ if (locals.newSeries) {
 			*/
 			$('#newSeasonBtn').on('click',function(e){
 				e.preventDefault();
+				$('#sNumber').val("");
+				$('#sTitle').val("");
+				newEpisodes.clear();
 				$('#newSeason').show();
 			});
 			$('#newSeasonCloseBtn').on('click',function(e){
@@ -413,16 +416,20 @@ if (locals.newSeries) {
 			*/
 			$('#epAdd').on('click',function(e){
 				e.preventDefault();
-				
+				// Check required fields 
 				if($('#epNumber').val().trim() == ""){
 					$('#epNumberDiv').addClass('has-error');$('#epNumberDiv').removeClass('has-success');
+					$('#epNumberDiv').parent().addClass('bg-danger');
 				}else{
 					$('#epNumberDiv').removeClass('has-error');$('#epNumberDiv').addClass('has-success');
+					$('#epNumberDiv').parent().removeClass('bg-danger');
 				}
 				if($('#epFile').val().trim() == ""){ 
 					$('#epFileDiv').addClass('has-error');$('#epFileDiv').removeClass('has-success');
+					$('#epFileDiv').parent().addClass('bg-danger');
 				}else{
 					$('#epFileDiv').addClass('has-success');$('#epFileDiv').removeClass('has-error');
+					$('#epFileDiv').parent().removeClass('bg-danger');
 				}
 				if ($('#epForm').find('.has-error').length > 0) {
 					alert('Fill Corresponding needed fields');
@@ -432,10 +439,29 @@ if (locals.newSeries) {
 					ep.number=$('#epNumber').val()
 					ep.file=$('#epFile').val()
 					ep.title="E"+padStart(ep.number,2,"0");
-					newEpisodes.push(ep);
-					mapEpisodeTable();
-					// next we need to push the Episodes into the Season table
-					$('#modelId').modal('hide');
+					
+					console.log(newEpisodes)
+					
+					var epExists=!newEpisodes.every(function(value){
+						if (value['title']==ep['title']) {
+							$('#epNumberDiv').addClass('has-error');$('#epNumberDiv').removeClass('has-success');
+							$('#epNumberDiv').parent().addClass('bg-danger');
+							return false;
+						}else if(value['file']== ep['file']){
+							$('#epFileDiv').addClass('has-error');$('#epFileDiv').removeClass('has-success');
+							$('#epFileDiv').parent().addClass('bg-danger');
+							return false;
+						}else{
+							return true;
+						}
+					});
+					if (!(epExists && newEpisodes.length > 0 )) {
+						newEpisodes.push(ep);
+						mapEpisodeTable();
+						// next we need to push the Episodes into the Season table
+						$('#modelId').modal('hide');
+					}
+					
 				}
 			})
 		});

@@ -161,6 +161,20 @@ var filesInFolder =  function(folder,include,exclude,filter){
   console.log("The result of folder-map is \nInclude:",include,"\n",result,"\n<-----------------\n");
   return result;
 }
+
+/**
+ * 
+ * @returns a function prototype to clear the array 
+ */
+var clearArray=function(){
+  return Array.prototype.clear = function(){
+    while(this.lenth > 0 ){
+      this.pop();
+    }
+  }
+  
+}
+
 exports.filesInFolder=filesInFolder;
 exports.isIn = isIn;
 exports.random = rId;
@@ -170,3 +184,4 @@ exports.text_truncate = text_truncate;
 exports.pad = pad;
 exports.padStart = padStart;
 exports.buildElement = buildElement;
+exports.clearArray = clearArray;
