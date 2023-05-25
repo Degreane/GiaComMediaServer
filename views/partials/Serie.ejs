@@ -35,20 +35,50 @@ if (locals.newSeries) {
 				<div class="form-group text-center">
 					<label for="title" class="control-label col-sm-2">Title</label>
 					<div class="col-sm-8">
-						<div>
+						<div class="input-group">
 							<input type="text" value="<%= serieToBeEdited.title?serieToBeEdited.title:"" %>" name="title" id="title" class="form-control text-center" placeholder="Serie Title" aria-describedby="title_helpId" required>
+							<span class="input-group-btn" >
+								<button type="button" class="btn btn-default" disabled id="SubmitSerie">Add  
+									<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+								</button>
+							</span>
 							
 						</div>
 					</div>
 				</div>
 				<script>
-					/**
-						Update Serie Title bar whenever the Serie title input changes.
-					*/
-					$('#title').on('keyup',function(e){
-						e.preventDefault();
-						$('#serieTitle').html("&nbsp;"+$('#title').val()+"&nbsp;")
+					$(function(){
+						/**
+							Update Serie Title bar whenever the Serie title input changes.
+						*/
+						$('#title').on('keyup',function(e){
+							e.preventDefault();
+							$('#serieTitle').html("&nbsp;"+$('#title').val()+"&nbsp;")
+							if ($('#title').val().trim().length > 0 ) {
+								console.log('Removing')
+								$('#SubmitSerie').removeAttr('disabled');
+							}else{
+								$('#SubmitSerie').attr('disabled',true);
+								console.log('Adding')
+							}
+						})
+
+						/**
+							On Click (SubmitSerie) should take all in and populate into the browser as a post request
+							- All Data Should be present in a global Variable theSerie
+							- theSerie holds an Array of Seasons 
+							- Each Season should hold an array of Episodes.
+
+							ToDo: Complete checking Series and save it in DataBase.
+						*/
+						$('#SubmitSerie').on('click',function(e){
+							e.preventDefault();
+
+							alert("Saving Series \n"+JSON.stringify( theSerie,undefined,4))
+						})
 					})
+					
+
 				</script>
 				<div class="form-group">
 					<label for="year" class="control-label col-sm-2">Year</label>
@@ -182,14 +212,14 @@ if (locals.newSeries) {
 										$('#sNumberGroup').addClass('has-success');
 										// Collect The Values:
 										var season = {
-											'episodes':JSON.parse(JSON.stringify(newEpisodes)),
+											'episodes':JSON.parse(JSON.stringify(theEpisodes)),
 											'number':parseInt($('#sNumber').val()),
 											'title':$('#sTitle').val(),
 											'description':$('#sDescription').val()
 										}
 
 										// compare the Season added with the already found Seasons in the array list 
-										var seasonComparisonResult=!newSeasons.every(function(svalue){
+										var seasonComparisonResult=!theSeasons.every(function(svalue){
 											if (svalue['title'] == season['title']){
 												return false;
 											}else {
@@ -200,7 +230,7 @@ if (locals.newSeries) {
 											$('#sNumberGroup').addClass('has-error');
 											$('#sNumberGroup').removeClass('has-success');
 										}else{
-											newSeasons.push(season);
+											theSeasons.push(season);
 											$('#newSeason').addClass('alert-info');
 											$('#newSeason').removeClass('alert-danger');
 											$('#newSeason').removeClass('alert-warning');
@@ -257,15 +287,15 @@ if (locals.newSeries) {
 			var rootNode = $('#FolderList')
 			/**
 				Similar to mapEpisodeTable but for seasons,
-				this function maps the seasons table provided by the newSeasons[] values 
+				this function maps the seasons table provided by the theSeasons[] values 
 			*/
 			mapSeasonTable = function(){
 				var sesonTable=$('#seasonTable');
 				var seasonTableTbody=$('#seasonTableTbody');
 				seasonTableTbody.empty();
-				if ( typeof(newSeasons) == 'object' && newSeasons instanceof Array ) {
-					alert("Mapping ....\n"+JSON.stringify(newSeasons,undefined,4)+"\n------------")
-					newSeasons.forEach(function(value,idx){
+				if ( typeof(theSeasons) == 'object' && theSeasons instanceof Array ) {
+					//alert("Mapping ....\n"+JSON.stringify(theSeasons,undefined,4)+"\n------------")
+					theSeasons.forEach(function(value,idx){
 						//console.log('Adding '+value.title)
 						var tr=$('<tr>');
 						tr.attr('id','Season_'+idx);
@@ -304,8 +334,8 @@ if (locals.newSeries) {
 					var epTableFinalRow=$('#epTableFinalRow');
 					var epTableTBody=epTableFinalRow.parent();
 					epTableFinalRow.siblings().remove();
-				if (newEpisodes.length > 0 ){
-					newEpisodes.forEach(function(episode,idx){
+				if (theEpisodes.length > 0 ){
+					theEpisodes.forEach(function(episode,idx){
 						var tr=$('<tr>');
 						var tdEpNumber=$('<td>');
 						var tdEpFile=$('<td>');
@@ -315,7 +345,7 @@ if (locals.newSeries) {
 						EditButton.addClass("aEdit btn btn-default")
 						EditButton.on('click',function(e){
 							e.preventDefault();
-							var epToBeEdited=newEpisodes[idx];
+							var epToBeEdited=theEpisodes[idx];
 							selectedEpIdx=idx;
 							$('#modelId').modal('show');
 							$('#epAdd').hide();
@@ -344,8 +374,8 @@ if (locals.newSeries) {
 						DeleteButton.on('click',function(e){
 							console.log("Deleting Idx ",idx)
 							e.preventDefault();
-							newEpisodes.splice(idx,1);
-							console.log(newEpisodes)
+							theEpisodes.splice(idx,1);
+							console.log(theEpisodes)
 							mapEpisodeTable();
 						})
 						tdEpNumber.text(episode.title);
@@ -405,7 +435,7 @@ if (locals.newSeries) {
 				e.preventDefault();
 				$('#sNumber').val("");
 				$('#sTitle').val("");
-				newEpisodes.clear();
+				theEpisodes.clear();
 				$('#newSeason').show();
 			});
 			$('#newSeasonCloseBtn').on('click',function(e){
@@ -466,15 +496,15 @@ if (locals.newSeries) {
 				if ($('#epForm').find('.has-error').length > 0) {
 					alert('Fill Corresponding needed fields');
 				}else{
-					// need to fill in the newEpisodes construct
+					// need to fill in the theEpisodes construct
 					var ep={}
 					ep.number=$('#epNumber').val()
 					ep.file=$('#epFile').val()
 					ep.title="E"+padStart(ep.number,2,"0");
 					
-					console.log(newEpisodes)
+					console.log(theEpisodes)
 					
-					var epExists=!newEpisodes.every(function(value){
+					var epExists=!theEpisodes.every(function(value){
 						if (value['title']==ep['title']) {
 							$('#epNumberDiv').addClass('has-error');$('#epNumberDiv').removeClass('has-success');
 							$('#epNumberDiv').parent().addClass('bg-danger');
@@ -487,8 +517,8 @@ if (locals.newSeries) {
 							return true;
 						}
 					});
-					if (!(epExists && newEpisodes.length > 0 )) {
-						newEpisodes.push(ep);
+					if (!(epExists && theEpisodes.length > 0 )) {
+						theEpisodes.push(ep);
 						mapEpisodeTable();
 						// next we need to push the Episodes into the Season table
 						$('#modelId').modal('hide');
