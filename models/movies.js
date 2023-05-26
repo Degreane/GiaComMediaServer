@@ -1,20 +1,20 @@
 var moment=require('moment');
 var mongoose=require('mongoose');
 var MovieSchema = new mongoose.Schema({
-    'title': {type:String},
-    'year': {type: Number},
-    "runtime" : {type:String},
-    "genres" : {type:String},
-    "actors" : {type:String},
-    "plot" : {type:String},
-    "languages" : {type:String},
-    "country" : {type:String},
-    "poster" : {type:String},
-    "fileInDB" : {type:String},
-    "director": {type:String},
-    "writer": {type:String},
-    'createdAt':{type:Date,default:new moment()},
-    'updatedAt': {type:Date,default: new moment()},
+    'title'     :       {       type    :       String  },
+    'year'      :       {       type    :       Number  },
+    "runtime"   :       {       type    :       String  },
+    "genres"    :       {       type    :       String  },
+    "actors"    :       {       type    :       String  },
+    "plot"      :       {       type    :       String  },
+    "languages" :       {       type    :       String  },
+    "country"   :       {       type    :       String  },
+    "poster"    :       {       type    :       String  },
+    "fileInDB"  :       {       type    :       String  },
+    "director"  :       {       type    :       String  },
+    "writer"    :       {       type    :       String  },
+    'createdAt' :       {       type    :       Date,default    :       new moment()   },
+    'updatedAt' :       {       type    :       Date,default    :       new moment()   },
 });
 module.exports = mongoose.model('movies',MovieSchema);
 /*

@@ -395,6 +395,22 @@ var getSeriesList = async function(req,res,next){
 }
 var addSeries = async function(req,res,next){
     // console.log("Setting New Series To list");
+    const serieSchema=require('../models/series');
+    console.log(req.body['serie']);
+    var theSerie;
+    if (isIn('serie',Object.keys(req.body))){
+        theSerie=req.body['serie'];
+        console.log('Adding Serie ',theSerie);
+        try {
+            const Result=await serieSchema.create(JSON.parse(theSerie));
+            console.log("Document Created ",Result);
+        }catch (error){
+            console.log('Error While Adding Serie',error);
+            next(error);
+        }
+        
+        
+    }
     next();
     // When Setting New Series we just Insert The title of the Series
 }

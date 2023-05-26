@@ -73,8 +73,31 @@ if (locals.newSeries) {
 						*/
 						$('#SubmitSerie').on('click',function(e){
 							e.preventDefault();
-
-							alert("Saving Series \n"+JSON.stringify( theSerie,undefined,4))
+							theSerie={
+								'title'		:$('#title').val().trim(),
+								'year'		:$('#year').val(),
+								'genres'		:$('#genres').val(),
+								'description'	:$('#description').val(),
+								'seasons'		:JSON.parse(JSON.stringify(theSeasons))
+							}
+							var data={}
+							data['serie']=JSON.stringify(theSerie);
+							$.ajax(
+								newSerie?'/newSerie':'/updateSerie',
+								{
+									'method':'post',
+									'data':data,
+									success:function(data,textStatus,jqXHR){
+										alert("Added Serie"+JSON.stringify(data,undefined,2))
+										//folder=data
+										//rootNode.empty();
+										//mapFolder(folder,rootNode)
+									},
+									error:function(jqXHR,textStatus,err){
+										$('body').append('<div class="container"><div class="alert alert-danger alert-dismissable ">'+err+'</div></div>')
+									}
+								}
+								);
 						})
 					})
 					

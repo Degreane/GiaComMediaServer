@@ -90,7 +90,7 @@
                 <div class="row center-block text-center"> 
                 <% locals.series.list.forEach(function(item,index){ %>
                      
-                    <%- include('partials/movie',{'item':item,'text_truncate_padEnd':locals['text_truncate_padEnd']}) %>
+                    <%- include('partials/Serie/Serie',{'item':item,'text_truncate_padEnd':locals['text_truncate_padEnd']}) %>
                     <% if ((index+1)%6 == 0 ){ %>
                     </div>
                     <div class="row center-block text-center"> 

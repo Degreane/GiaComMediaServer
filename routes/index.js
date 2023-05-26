@@ -404,7 +404,7 @@ An Episode:
 
 
 */
-router.get('/series',isLoggedInUser, getSeriesList ,function(req,res,next){
+router.get('/series',addHelpers,isLoggedInUser, getSeriesList ,function(req,res,next){
   /**
     Get The Series
     1- Check if logged in user sets  
@@ -412,7 +412,7 @@ router.get('/series',isLoggedInUser, getSeriesList ,function(req,res,next){
   */
   res.locals.page="Series";
   res.locals.title="GiaCom Series";
-  // console.log("Series ------>\n",res.locals,"\n<----------\n");
+  console.dir(res.locals.series,{depth:8});
   res.render('series',{locals:res.locals})
 });
 /**
@@ -425,6 +425,14 @@ router.get('/newSeries',addHelpers, requiresLogin,isLoggedInUser,isLoggedInUserE
   res.locals.newSeries=true
   res.render('newSeries',{locals:res.locals});
 });
+
+router.post('/newSerie',addHelpers,requiresLogin,isLoggedInUser,isLoggedInUserEnabled,setLoggedInUserSession, addSeries,function(req,res,next){
+  console.log(req.body);
+  res.locals.page="Series";
+  res.locals.title="GiaCom Series (New Series Added)";
+  res.locals.newSeries=false;
+  res.json({locals:res.locals});
+})
 
 router.get('/files',addHelpers,requiresLogin,isLoggedInUser,isLoggedInUserEnabled,function(req,res,next){
   var folderName;
