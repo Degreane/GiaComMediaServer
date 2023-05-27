@@ -1,17 +1,31 @@
+<!-- Serie:
+    Component to View The Serie on the main page.
+-->
 <div class="col-xs-6 col-sm-6 col-md-2 center-block">
     
     
-        <div class="thumbnail">
+        <div class="thumbnail" style="box-shadow: black 0px 0px 64px 8px inset;border-radius: 10px;">
             <img data-src="#" alt="<%= item.title %>"  src="<% if  (item.poster && item.poster.length >0) {%>
                 <%= item.poster %>
                 <% } else { %> 
                     /assets/images/no-picture-available-icon-29.jpg
                 <% } %>
-                ">
+                " class="img-thumbnail" style="max-height:200px;min-height: 200px; background-color:rgba(0,0,0,0); border:0;">
             <div class="caption">
-                <h3><%= item.title %></h3>
+                <h5 class="text-bolder text-italic truncate"><%= item.title %></h5>
+                <h6 class="text-bolder text-italic"> <%= item.genres %> </h6>
                 <p>
-                    ...
+                    <% if (item.description) { %>
+                        <%- pad(truncate(item.description,100,'...'),110) %>
+                        <% } else { %>
+                         ...
+                    <% } %>
+                </p>
+                <p>
+                    <a class="btn btn-default" href="#" role="button" style="box-shadow: black 1px 1px 24px 6px inset; color: lightgoldenrodyellow; text-align: center; border-radius:5px;">
+                        Open 
+                        <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span>
+                    </a>
                 </p>
                 <p>
                     <a href="#" class="btn btn-primary">Action</a>
