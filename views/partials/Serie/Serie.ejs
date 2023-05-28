@@ -11,6 +11,18 @@
                     /assets/images/no-picture-available-icon-29.jpg
                 <% } %>
                 " class="img-thumbnail" style="max-height:200px;min-height: 200px; background-color:rgba(0,0,0,0); border:0;">
+                <a class="btn btn-default" href="#" role="button" style="box-shadow: black 1px 1px 24px 6px inset; color: lightgoldenrodyellow; text-align: center; border-radius:5px;">
+                    Open 
+                    <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span>
+                </a>
+                <% if(typeof(locals.loggedIn) !== 'undefined' ) {%>
+                    <%#  if a user is logged in then we can check for loggedInUser.utype and see if we have previlidge to add or remove new channel %>
+                    <% if (['admin','siteAdmin','sysAdmin'].indexOf(locals.loggedInUser.uType) !== -1 ) {%>
+                        <a href="/editSerie?id=<%= item._id %>" class="btn btn-danger" role="button" style="box-shadow: black 1px 1px 24px 6px inset; color: lightgoldenrodyellow; text-align: center; border-radius:5px;">
+                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                        </a>
+                    <% } %>
+                <% } %>
             <div class="caption">
                 <h5 class="text-bolder text-italic truncate"><%= item.title %></h5>
                 <h6 class="text-bolder text-italic"> <%= item.genres %> </h6>
@@ -22,14 +34,32 @@
                     <% } %>
                 </p>
                 <p>
-                    <a class="btn btn-default" href="#" role="button" style="box-shadow: black 1px 1px 24px 6px inset; color: lightgoldenrodyellow; text-align: center; border-radius:5px;">
-                        Open 
-                        <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span>
-                    </a>
+                    
                 </p>
                 <p>
-                    <a href="#" class="btn btn-primary">Action</a>
-                    <a href="#" class="btn btn-default">Action</a>
+                    <% if (item.seasons && item.seasons.length > 0 ) { %>
+                    <% item.seasons.forEach(function(season) { %>
+                        
+                        
+                            <% if (season.episodes && season.episodes.length>0) { %>
+                                
+                                <div class="panel panel-default" style="background-color:transparent;">
+                                      <div class="panel-body">
+                                            <div class="btn-group">
+                                                <h3 class="panel-title"><%= season.title %></h3>
+                                                <% season.episodes.forEach(function(episode) { %>
+                                                    <a class="btn btn-default" href="#" role="button"><%= episode.title%></a>
+                                                <% }) %>
+                                            </div>
+                                      </div>
+                                </div>
+                                
+                                
+                                
+                            <% } %>
+                         
+                    <% }) %>
+                    <% } %>
                 </p>
             </div>
         </div>
