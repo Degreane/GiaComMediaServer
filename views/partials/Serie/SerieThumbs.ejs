@@ -1,6 +1,8 @@
 <!-- Serie:
     Component to View The Serie on the main page.
+    
 -->
+<%# This is Actually called when Viewing The main Page of Series to vies the Brief thumbnail of a Serie %>
 <div class="col-xs-6 col-sm-6 col-md-2 center-block">
     
     
@@ -11,7 +13,7 @@
                     /assets/images/no-picture-available-icon-29.jpg
                 <% } %>
                 " class="img-thumbnail" style="max-height:200px;min-height: 200px; background-color:rgba(0,0,0,0); border:0;">
-                <a class="btn btn-default" href="#" role="button" style="box-shadow: black 1px 1px 24px 6px inset; color: lightgoldenrodyellow; text-align: center; border-radius:5px;">
+                <a id="<%= item._id %>"; class="btn btn-default" href="/series?id=<%= item._id %>" role="button" style="box-shadow: black 1px 1px 24px 6px inset; color: lightgoldenrodyellow; text-align: center; border-radius:5px;">
                     Open 
                     <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span>
                 </a>

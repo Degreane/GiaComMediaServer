@@ -113,6 +113,17 @@ var isLoggedInUser = function(req,res,next){
     }
     next();
 };
+var getParams = async function(req,res,next){
+    /**
+     * getParams:
+     * returns the parameters passed in the req 
+     */
+    console.log("The Req Query Params "+JSON.stringify(req.query,undefined,2));
+    var q={};
+    Object.assign(q,JSON.parse(JSON.stringify(req.query)));
+    res.locals['query']=q;
+    next();
+}
 var getMovieList = async function(req,res,next){
     /*
     to get the movie list we populate based upon req query string or form to check for page, count,year,genre, title regex  
@@ -364,32 +375,56 @@ var getChannelAttribute= async function(req,res,next){
         }
     }
 }
+var verifyObjectID= async function(id){
+    const mongoose=require('mongoose');
+    return await mongoose.isValidObjectId(id);
+}
 var getSeriesList = async function(req,res,next){
-    console.log('Getting Series List ')
-    var query={};
-    if(typeof(req.session.series)=='undefined') {
-        req.session.series={};
-    }
-    if (typeof(res.locals['series']) == 'undefined') {
-        res.locals['series'] = {};
-    }
-    if ('page' in req.query){
-        var skip=(parseInt(req.query.page)-1)*24;
-        res.locals.series.page=req.query.page;
-        //console.log('Skip ',skip);
-    }else{
-        var skip=0;
-        res.locals.series.page=1;
-        //console.log('Skip ',skip);
-    }
-    try {
-        const Series=require('../models/series')
+    //console.log('Getting Series List ')
+    /**
+     * Modifyied to satisfy getParams
+     * getParams returns an object query
+     * 1- if query.id is valid 
+     * 1-1 then we only get the serie with that ID
+     * 1-2 Get all Series 
+     */
+    var query=res.locals.query?res.locals.query : {};
+    //console.log("Queried "+JSON.stringify(query,undefined,2));
+    if (query.id ) {
+        if (await verifyObjectID(query.id)){
+            
+            const Series=require('../models/series');
+            res.locals['serie']=await Series.findById(query.id).exec();
+            
+        }else{
+            res.locals['Err']=new Error('Invalid Request Series, ErrCode:  '+query.id);
+        }
         
-        res.locals.series['count']=await Series.countDocuments(query);
-        res.locals.series['list']=await Series.find(query).sort({title:'asc'}).skip(skip).limit(24);
-        // console.log(res.locals);
-    }catch(error){
-        res.locals['series']={'Err':JSON.stringify(error)};
+    }else{
+        if(typeof(req.session.series)=='undefined') {
+            req.session.series={};
+        }
+        if (typeof(res.locals['series']) == 'undefined') {
+            res.locals['series'] = {};
+        }
+        if ('page' in req.query){
+            var skip=(parseInt(req.query.page)-1)*24;
+            res.locals.series.page=req.query.page;
+            //console.log('Skip ',skip);
+        }else{
+            var skip=0;
+            res.locals.series.page=1;
+            //console.log('Skip ',skip);
+        }
+        try {
+            const Series=require('../models/series')
+            
+            res.locals.series['count']=await Series.countDocuments(query);
+            res.locals.series['list']=await Series.find(query).sort({title:'asc'}).skip(skip).limit(24);
+            // console.log(res.locals);
+        }catch(error){
+            res.locals['series']={'Err':JSON.stringify(error)};
+        }
     }
     next();
 }
@@ -424,7 +459,7 @@ var getUsers = async function(req,res,next) {
                 res.locals={}
             }
             res.locals['users']=result;
-            console.log(res.locals)
+            //console.log(res.locals)
             next();
         }
     });
@@ -466,3 +501,4 @@ exports.getSeriesList=getSeriesList;
 exports.addSeries=addSeries;
 exports.getUsers=getUsers;
 exports.getUser=getUser;
+exports.getParams = getParams;

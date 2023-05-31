@@ -2,7 +2,7 @@ var express = require('express');
 var lo = require('lodash')
 var moment=require('moment')
 var router = express.Router();
-var { getChannelAttribute,requiresLogin,isLoggedInUserEnabled,setLoggedInUserSession,userActionLog,getUserActionLog,isLoggedInUser,getMovieList,getMovieAttribute,getChannels,addHelpers,getSeriesList,addSeries,getUsers,getUser } =require('./middlewares') ;
+var { getChannelAttribute,requiresLogin,isLoggedInUserEnabled,setLoggedInUserSession,userActionLog,getUserActionLog,isLoggedInUser,getMovieList,getMovieAttribute,getChannels,addHelpers,getSeriesList,addSeries,getUsers,getUser,getParams } =require('./middlewares') ;
 var {text_truncate,pad,b64decode,b64encode,isIn,filesInFolder,padStart}= require('./helpers');
 // var {diff} = require('deep-object-diff') 
 
@@ -404,15 +404,17 @@ An Episode:
 
 
 */
-router.get('/series',addHelpers,isLoggedInUser, getSeriesList ,function(req,res,next){
+router.get('/series',addHelpers,isLoggedInUser,getParams, getSeriesList ,function(req,res,next){
   /**
     Get The Series
-    1- Check if logged in user sets  
-    2- Get the Series List from the mongodb Database
+    1- Check if logged in user sets
+    2- Check if we have a get Query id   
+    2-1 return the Serie of certain id 
+    2-2 Get the Series List from the mongodb Database
   */
   res.locals.page="Series";
   res.locals.title="GiaCom Series";
-  console.dir(res.locals.series,{depth:8});
+  //console.dir(res.locals.series,{depth:8});
   res.render('series',{locals:res.locals})
 });
 /**

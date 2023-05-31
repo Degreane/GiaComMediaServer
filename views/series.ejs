@@ -5,7 +5,10 @@
   <body>
     <!-- Header Navbar -->
     <%- include('partials/navbar',locals) %>
-    
+    <% if (typeof(locals.openSeries) !== 'undefined' && locals.openSeries == true) { %>
+     <%# To DO Open Series for Viewing  %>
+    <% } else { %>
+        
     <div class="container-fluid" style="margin-bottom: 50px;">
         
         <div class="row">
@@ -90,7 +93,7 @@
                 <div class="row center-block text-center"> 
                 <% locals.series.list.forEach(function(item,index){ %>
                      
-                    <%- include('partials/Serie/Serie',{'item':item,'text_truncate_padEnd':locals['text_truncate_padEnd']}) %>
+                    <%- include('partials/Serie/SerieThumbs',{'item':item,'text_truncate_padEnd':locals['text_truncate_padEnd']}) %>
                     <% if ((index+1)%6 == 0 ){ %>
                     </div>
                     <div class="row center-block text-center"> 
@@ -105,7 +108,7 @@
         </div>
         
     </div>
-    
+    <% } %>    
     
     <!-- Footer NavBar  -->
     <%- include('partials/footer_navbar') %>
