@@ -377,7 +377,7 @@ var getChannelAttribute= async function(req,res,next){
 }
 var verifyObjectID= async function(id){
     const mongoose=require('mongoose');
-    return await mongoose.isValidObjectId(id);
+    return mongoose.isValidObjectId(id);
 }
 var getSeriesList = async function(req,res,next){
     //console.log('Getting Series List ')
@@ -394,7 +394,7 @@ var getSeriesList = async function(req,res,next){
         if (await verifyObjectID(query.id)){
             
             const Series=require('../models/series');
-            res.locals['serie']=await Series.findById(query.id).exec();
+            res.locals['serie']=await Series.findById(query.id);
             
         }else{
             res.locals['Err']=new Error('Invalid Request Series, ErrCode:  '+query.id);

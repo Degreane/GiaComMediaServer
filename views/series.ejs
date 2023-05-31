@@ -5,8 +5,13 @@
   <body>
     <!-- Header Navbar -->
     <%- include('partials/navbar',locals) %>
-    <% if (typeof(locals.openSeries) !== 'undefined' && locals.openSeries == true) { %>
-     <%# To DO Open Series for Viewing  %>
+    
+    <% if (typeof(locals.serie) !== 'undefined' ) { %>
+        
+        <%# To DO Open Series for Viewing  %>
+        <%- include('partials/Serie/Serie.ejs') %>
+        <pre><%= JSON.stringify(locals.serie,undefined,2) %></pre>
+     
     <% } else { %>
         
     <div class="container-fluid" style="margin-bottom: 50px;">

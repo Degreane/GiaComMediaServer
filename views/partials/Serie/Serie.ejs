@@ -1,0 +1,60 @@
+<div class="container-fluid" style="margin-bottom: 50px;">
+    
+    <div class="panel panel-default" style="box-shadow: darkblue 0px 0px 64px 8px inset , black 0px 0px 12px 8px !important;border-top-left-radius: 20px;border-top-right-radius: 20px;">
+          <div class="panel-heading " style="border-top-left-radius: 20px;border-top-right-radius: 20px;">
+                <h3 class="panel-title text-center text-italic text-header text-bolder"><%= serie.title %></h3>
+          </div>
+          <div class="panel-body">
+                
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        
+                        <div class="media">
+                            <a class="pull-left" href="#">
+                                <img class="media-object" src=" <% if (serie.poster && serie.poster.length >0) { %> <%= serie.poster %> <% } else { %> /assets/images/no-picture-available-icon-29.jpg <% } %>" alt="Image">
+                            </a>
+                            <div class="media-body">
+                                <h4 class="media-heading"> <%= serie.title %> </h4>
+                                
+                                <table class="table table-condensed table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <td>Genre</td>
+                                            <td><%= serie.genres %></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Year</td>
+                                            <td><%= serie.year %></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Plot/Story</td>
+                                            <td><%= serie.description %></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">Seasons:</td>
+                                            
+                                        </tr>
+                                        <% serie.seasons.forEach(function(season) { %>
+                                             <tr>
+                                                <td><%= season.title %></td>
+                                                <td><% season.episodes.forEach(function(episode) {%>
+                                                    
+                                                    <a class="btn btn-default" href="#" role="button"><%= episode.title %></a>
+                                                    
+                                                    
+                                                <%})%></td>
+                                             </tr>
+                                            <% }) %>
+                                    </tbody>
+                                </table>
+                                
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+          </div>
+    </div>
+    
+</div>

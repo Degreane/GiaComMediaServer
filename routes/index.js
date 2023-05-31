@@ -414,7 +414,7 @@ router.get('/series',addHelpers,isLoggedInUser,getParams, getSeriesList ,functio
   */
   res.locals.page="Series";
   res.locals.title="GiaCom Series";
-  //console.dir(res.locals.series,{depth:8});
+  
   res.render('series',{locals:res.locals})
 });
 /**
