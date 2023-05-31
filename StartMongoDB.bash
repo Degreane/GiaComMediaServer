@@ -24,4 +24,4 @@ done
 ## ps -aux | jq -sR '[sub("\n$";"") | splits("\n") | sub("^ +";"") | [splits(" +")]] | .[0] as $header | .[1:] | [.[] | [. as $x | range($header | length) | {"key": $header[.], "value": $x[.]}] | from_entries]' 
 ## Switch to pm2 instead of forever 
 ##[ `ps -ef | grep node | grep GiaComMediaServer | wc -l` -eq 1 ] && forever restart 0 || forever start -a -l forever.log -o out.log -e err.log ./bin/www
-status=`pm2 jlist | jq -aM '.[]| select(.name == "giacomMediaServer")| .pm2_env | .status '`; if [ ${status} != \"online\" ]; then pm2 start bin/www --name giacomMediaServer --watch ./ --ignore-watch ./node_modules ;else pm2 restart giacomMediaServer; fi
+status=`pm2 jlist | jq -aM '.[]| select(.name == "giacomMediaServer")| .pm2_env | .status '`; if [[ ${status} != \"online\" ]]; then echo "Starting GiaCom Media Server "; pm2 start bin/www --name giacomMediaServer --watch ./ --ignore-watch ./node_modules ;else echo "Restarting GiaCom Media Server";pm2 restart giacomMediaServer; fi
