@@ -11,7 +11,27 @@ var configSchema = new mongoose.Schema({
         ref:'users'},
     'enabled':{type:Boolean,default:true},
 });
-module.exports = mongoose.model('config',configSchema);
+
+const getConfig = async function(filter){
+    /**
+     * if filter is undefined or empty then filter = {}
+     * filter should always be an object
+     */
+    let query;
+    let config=mongoose.model('config',configSchema);
+    if (typeof(filter) == 'undefined'){
+        query = {}
+        return  await config.find(query)
+    }else if(typeof(filter) == 'object' && Array.isArray(filter) == false) {
+        query=filter
+        return  await config.find(query)
+    }
+}
+const configModel = {
+    'config':mongoose.model('config',configSchema),
+    'getConfig':getConfig,
+}
+module.exports = configModel;
 
 
 /** 

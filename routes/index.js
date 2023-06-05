@@ -2,7 +2,7 @@ var express = require('express');
 var lo = require('lodash')
 var moment=require('moment')
 var router = express.Router();
-var { getChannelAttribute,requiresLogin,isLoggedInUserEnabled,setLoggedInUserSession,userActionLog,getUserActionLog,isLoggedInUser,getMovieList,getMovieAttribute,getChannels,addHelpers,getSeriesList,addSeries,getUsers,getUser,getParams } =require('./middlewares') ;
+var { getChannelAttribute,requiresLogin,isLoggedInUserEnabled,setLoggedInUserSession,userActionLog,getUserActionLog,isLoggedInUser,getMovieList,getMovieAttribute,getChannels,addHelpers,getSeriesList,addSeries,getUsers,getUser,getParams,getConfig } =require('./middlewares') ;
 var {text_truncate,pad,b64decode,b64encode,isIn,filesInFolder,padStart}= require('./helpers');
 // var {diff} = require('deep-object-diff') 
 
@@ -404,7 +404,7 @@ An Episode:
 
 
 */
-router.get('/series',addHelpers,isLoggedInUser,getParams, getSeriesList ,function(req,res,next){
+router.get('/series',addHelpers,isLoggedInUser,getParams, getSeriesList ,getConfig,function(req,res,next){
   /**
     Get The Series
     1- Check if logged in user sets
@@ -414,7 +414,6 @@ router.get('/series',addHelpers,isLoggedInUser,getParams, getSeriesList ,functio
   */
   res.locals.page="Series";
   res.locals.title="GiaCom Series";
-  
   res.render('series',{locals:res.locals})
 });
 /**

@@ -2,6 +2,7 @@ const _= require('lodash');
 const fs=require('fs');
 const path = require('path');
 var {text_truncate,pad,b64decode,b64encode,isIn,random,padStart}= require('./helpers');
+const { prototype } = require('events');
 
 var requiresLogin = function(req,res,next){
     if (!req.session.loggedIn){
@@ -486,6 +487,18 @@ var getUser = async function(req,res,next){
         next();
     });
 }
+var getConfig = async function(req,res,next){
+    const configModel=require('../models/config');
+    //Investigate whether we should isue await first.
+    let response=await configModel.getConfig({});
+    if (res.hasOwnProperty('locals')){
+        res.locals['config']=response;
+    }else{
+        res['locals']={}
+        res.locals['config']=response;
+    }
+    next();
+}
 exports.getChannelAttribute=getChannelAttribute;
 exports.addHelpers=addHelpers;
 exports.getChannels=getChannels;
@@ -502,3 +515,4 @@ exports.addSeries=addSeries;
 exports.getUsers=getUsers;
 exports.getUser=getUser;
 exports.getParams = getParams;
+exports.getConfig=getConfig;
