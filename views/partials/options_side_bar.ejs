@@ -51,7 +51,7 @@
                             
                             <div class="list-group">
                                 <% if (['sysAdmin','siteAdmin','admin'].indexOf(locals.loggedInUser.uType) !== -1 ) { %>
-                                    <a href='/pathConfigs?filter=\'{"type":"path"}\')' class="list-group-item text-center <% if (locals.page == 'pathConfigs') { %>
+                                    <a href='/pathConfigs?filter=<%= locals.b64encode(JSON.stringify({"type":"path"})) %>' class="list-group-item text-center <% if (locals.page == 'pathConfigs') { %>
                                         active <% } %>" >Paths</a>
                                 <% } else { %>
                                     <a href="#" class="list-group-item text-center <% if (locals.page == 'pathConfigs') { %>

@@ -491,7 +491,7 @@ var getConfig = async function(req,res,next){
     const configModel=require('../models/config');
     var filter;
     if (typeof(res.locals) !== 'undefined' && typeof(res.locals.query) !== 'undefined' && typeof(res.locals.query.filter) !== 'undefined') {
-        filter=JSON.parse(res.locals.query.filter)
+        filter=JSON.parse(b64decode(res.locals.query.filter))
     }else{
         filter={}
     }

@@ -60,7 +60,7 @@ router.get('/logout',requiresLogin,function(req,res,next){
   
   res.redirect('/')
 });
-router.get('/options',requiresLogin,isLoggedInUserEnabled,isLoggedInUser,function(req,res,next){
+router.get('/options',addHelpers,requiresLogin,isLoggedInUserEnabled,isLoggedInUser,function(req,res,next){
   res.locals['title']='GiaCom Media Server (2019)&copy;&reg;'
   res.locals['page']='options';
   res.locals['loggedIn']=req.session.loggedIn || null;
@@ -469,6 +469,7 @@ router.get('/pathConfigs',addHelpers,requiresLogin,isLoggedInUser,isLoggedInUser
    */
   res.locals.page="pathConfigs"
   res.locals.title="GiaCom System Paths Configuration"
+ 
   res.render('pathConfigs',{locals:res.locals});
 })
 module.exports = router;
