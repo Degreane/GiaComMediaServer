@@ -46,8 +46,22 @@
                     <div class="panel-heading text-center" role="tab" id="headingThree"> 
                         <h4 class="panel-title"> <a href="#collapseThree" class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" aria-controls="collapseThree"> System </a> </h4> 
                     </div>                     
-                    <div class="collapse panel-collapse" role="tabpanel" id="collapseThree" aria-labelledby="headingThree"> 
-                        <div class="panel-body"> Panel3 Body</div>                         
+                    <div class="collapse panel-collapse <% if(['pathConfigs'].indexOf(locals.page) !== -1 ) { %> in <% } %> " role="tabpanel" id="collapseThree" aria-labelledby="headingThree"> 
+                        <div class="panel-body"> 
+                            
+                            <div class="list-group">
+                                <% if (['sysAdmin','siteAdmin','admin'].indexOf(locals.loggedInUser.uType) !== -1 ) { %>
+                                    <a href='/pathConfigs?filter=\'{"type":"path"}\')' class="list-group-item text-center <% if (locals.page == 'pathConfigs') { %>
+                                        active <% } %>" >Paths</a>
+                                <% } else { %>
+                                    <a href="#" class="list-group-item text-center <% if (locals.page == 'pathConfigs') { %>
+                                        active <% } %> disabled bg-light text-danger" >Paths</a>
+                                <% } %>
+                                
+                                
+                            </div>
+                            
+                        </div>                         
                     </div>                     
                 </div>                 
                 <div class="panel panel-default"> 

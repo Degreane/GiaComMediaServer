@@ -4,6 +4,7 @@ var configSchema = new mongoose.Schema({
     'key': { type: String ,required:true,unique:true},
     'value': { type:String,required:true},
     'comment':{type:String},
+    'type':{type:String,enum:['path']},
     'createdAt':{type:Date,default:new moment()},
     'updatedAt': {type:Date,default: new moment()},
     'createdBy': {
@@ -39,7 +40,7 @@ module.exports = configModel;
  * define configuration as key, value fields  
  * ToDo : Implement at first the configuration that specifies where to get/put paths.
  *          Path for Series
- *          Path for movies
+ *          Path for Movies
  *          Path for TV Channels
  *      Doing so enables us to avoid having to push/pull upon changes and makes changes more dynamic.
  *      But doing so deems us to create a new configuration pannel that populates this collection approperiately

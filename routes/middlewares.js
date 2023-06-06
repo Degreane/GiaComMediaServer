@@ -489,8 +489,15 @@ var getUser = async function(req,res,next){
 }
 var getConfig = async function(req,res,next){
     const configModel=require('../models/config');
+    var filter;
+    if (typeof(res.locals) !== 'undefined' && typeof(res.locals.query) !== 'undefined' && typeof(res.locals.query.filter) !== 'undefined') {
+        filter=JSON.parse(res.locals.query.filter)
+    }else{
+        filter={}
+    }
     //Investigate whether we should isue await first.
-    let response=await configModel.getConfig({});
+    console.log("the Filter is",filter )
+    let response=await configModel.getConfig(filter);
     if (res.hasOwnProperty('locals')){
         res.locals['config']=response;
     }else{

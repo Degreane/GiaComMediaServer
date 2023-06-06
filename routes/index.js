@@ -404,7 +404,7 @@ An Episode:
 
 
 */
-router.get('/series',addHelpers,isLoggedInUser,getParams, getSeriesList ,getConfig,function(req,res,next){
+router.get('/series',addHelpers,isLoggedInUser,getParams, getSeriesList ,function(req,res,next){
   /**
     Get The Series
     1- Check if logged in user sets
@@ -420,7 +420,7 @@ router.get('/series',addHelpers,isLoggedInUser,getParams, getSeriesList ,getConf
 define path to get page new series
 
 */
-router.get('/newSeries',addHelpers, requiresLogin,isLoggedInUser,isLoggedInUserEnabled,setLoggedInUserSession,function(req,res,next){
+router.get('/newSeries',addHelpers, requiresLogin,isLoggedInUser,isLoggedInUserEnabled,setLoggedInUserSession,getConfig,function(req,res,next){
   res.locals.page="Series";
   res.locals.title="GiaCom Series (New Series)";
   res.locals.newSeries=true
@@ -456,5 +456,19 @@ router.get('/files',addHelpers,requiresLogin,isLoggedInUser,isLoggedInUserEnable
   
   // console.log(filesInFolder)
   res.json( filesInFolder(folderName,include,exclude,filter))
+})
+router.get('/pathConfigs',addHelpers,requiresLogin,isLoggedInUser,isLoggedInUserEnabled,getParams,getConfig,function(req,res,next){
+  /**
+   * Getting Page of Configs 
+   * /-----------------------\
+   * | Cfg Name || Value     |
+   * |----------||-----------|
+   * |SeriePath || /movies/..|
+   * \----------||-----------/
+   * 
+   */
+  res.locals.page="pathConfigs"
+  res.locals.title="GiaCom System Paths Configuration"
+  res.render('pathConfigs',{locals:res.locals});
 })
 module.exports = router;
