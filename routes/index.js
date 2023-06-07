@@ -69,7 +69,7 @@ router.get('/options',addHelpers,requiresLogin,isLoggedInUserEnabled,isLoggedInU
   // console.log(res.locals)
   res.render('options',{locals:res.locals})
 });
-router.get('/profile',requiresLogin,isLoggedInUserEnabled,function(req,res,next){
+router.get('/profile',addHelpers,requiresLogin,isLoggedInUserEnabled,function(req,res,next){
   var locals={
     'title':'Profile GiaCom Media Server (2019)&copy;&reg;',
     'page':'profile',
@@ -79,7 +79,7 @@ router.get('/profile',requiresLogin,isLoggedInUserEnabled,function(req,res,next)
   // console.log("The Res Locals \n",locals,"\n<------")
   res.render('profile',{locals:locals});
 });
-router.post('/profile',requiresLogin,isLoggedInUserEnabled,function(req,res,next){
+router.post('/profile',addHelpers,requiresLogin,isLoggedInUserEnabled,function(req,res,next){
   var userModel=require('../models/users');
   
   var query=req.body;
@@ -116,7 +116,7 @@ router.post('/profile',requiresLogin,isLoggedInUserEnabled,function(req,res,next
   res.render('profile',{locals:locals});
 });
 
-router.get('/newUser',requiresLogin,isLoggedInUser,isLoggedInUserEnabled,function(req,res,next){
+router.get('/newUser',addHelpers,requiresLogin,isLoggedInUser,isLoggedInUserEnabled,function(req,res,next){
   /**
    * Add New User:
    * This Opens The page to add New user To the System. Nothing More.
