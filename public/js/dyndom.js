@@ -33,7 +33,12 @@ $(function(){
         });
     }
 
-    // 
+    // bind data in a node to another 
+    // data-bind="#id" <- binds the data to certain id as source when triggered 
+    // data-trigger="keyup"  <- when the #id triggers this event, values are all event types in the dom element 
+    // data-type="text" <- the type that shall be invoked when the certain type is invoked, available values are "text","html","func"
+    // for data-type="func" => a function should be defined to the global window and thus its name is specified here.
+    // the function takes one arguement (e) which is the element that triggered the event, in our case its the #id
     const ArrDataBind=$('[data-bind]');
     
     ArrDataBind.each(function(idx,elem){
@@ -58,6 +63,9 @@ $(function(){
             
         })                                                
     });
+
+    // make sure when we load the dom the data is initially empty 
+    // data-initial-empty="true"
 
     $('[data-initial-empty="true"]').each(function(ids,element){
         switch (element.nodeName) {
