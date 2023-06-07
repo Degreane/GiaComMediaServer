@@ -115,9 +115,6 @@
             font-size:x-large;
             text-shadow:  white 0px 4px 2px, white 0px -4px 2px,white -4px 0px 2px,white 4px 0px 2px,black 0px 2px 2px, black 0px -2px 2px,black -2px -0px 2px,black 2px 0px 2px;
           }
-          /*.glyphicon {
-            text-shadow: black 0px 1px 1px, black 0px -1px 1px,black -1px -0px 1px,black 1px 0px 1px, white 0px 2px 2px, white 0px -2px 2px,white -2px 0px 2px,white 2px 0px 2px;
-          }*/
           .btn:hover {
             box-shadow: inset white 0px 1px 1px, inset white 0px -1px 1px,inset white -1px -0px 1px,inset white 1px 0px 1px, inset black 0px 2px 2px, inset black 0px -2px 2px,inset black -2px 0px 2px,inset black 2px 0px 2px;
         }
@@ -135,31 +132,7 @@
             <script src="/assets/js/jquery.jplayer.min.js" ></script>
         <% } %>
     <% } %>
-    <style>
-        .modal {
-            text-align: center;
-            padding: 0!important;
-          }
-        .modal:before {
-            content: '';
-            display: inline-block;
-            height: 100%;
-            vertical-align: middle;
-            margin-right: -4px;
-          }
-          
-          .modal-dialog {
-            display: inline-block;
-            text-align: left;
-            vertical-align: middle;
-          }
-          .align-right {
-            float:right !important;
-          }
-          .align-left {
-            float:left !important;
-          }
-    </style>
+   
     <script>
       Array.prototype.clear = function(){
         while(this.lenth > 0 ){
@@ -167,5 +140,6 @@
         }
       }
     </script>
+    <script src="/assets/js/dyndom.js"></script>
     
 </head>

@@ -33,3 +33,26 @@
     color:blue;
     text-shadow: darkblue 0px 0px 64px, black 0px 0px 12px !important;
   }
+  .modal {
+    text-align: center;
+    padding: 0!important;
+  }
+.modal:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    margin-right: -4px;
+  }
+  
+  .modal-dialog {
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
+  }
+  .align-right {
+    float:right !important;
+  }
+  .align-left {
+    float:left !important;
+  }
