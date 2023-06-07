@@ -7,7 +7,7 @@ IFACES=`ip -j add sh| jq -a -M '.[] | select( .ifname != "lo" and (.ifname |cont
 IPtables=`which iptables`
 sudo ${IPtables} -F 
 for iFace in ${IFACES} ; do 
-    sudo ${IPtables} -A INPUT -i ${iFace} -p tcp --dport 27017 -j DROP
+    sudo ${IPtables} -A INPUT -i ${iFace//\"/} -p tcp --dport 27017 -j DROP
 done
 
 ## Do Redis 

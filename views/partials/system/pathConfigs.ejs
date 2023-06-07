@@ -33,7 +33,7 @@
                                             <label for="key" class="control-label col-sm-2">Name</label>
                                             <div class="col-sm-8 text-center">
                                                 <div>
-                                                    <input type="TEXT" value="" name="key" id="key" class="form-control text-center" placeholder="Path Name" aria-describedby="key_helpId" required data-initial-empty="true">
+                                                    <input type="text" value="" name="key" id="key" class="form-control text-center" placeholder="Path Name" aria-describedby="key_helpId" required data-initial-empty="true">
                                                 </div>
                                             </div>
                                         </div>
@@ -61,9 +61,22 @@
                                                     $(function(){
                                                         $('#addNew').on('click',function(e){
                                                             e.preventDefault();
-                                                            let keyField=$('#key').val();
-                                                            alert(keyField);
-                                                            //$('#newConfigForm').submit();
+                                                            // we send an ajax request to check if the key is available or not.
+                                                            const theData={
+                                                                key:$('#key').val(),
+                                                            }
+                                                            $.ajax({
+                                                                method:'post',
+                                                                data:{
+                                                                    filter:JSON.stringify(theData)
+                                                                },
+                                                                url:'/getConfig',
+                                                                success:function(data,textStatus,jqXHR){
+                                                                    if (data.hasOwnProperty('config') && data.config.length == 0 ){
+                                                                        $('#newConfigForm').submit()
+                                                                    }
+                                                                }
+                                                            })
                                                         });
                                                     });
                                                 </script>

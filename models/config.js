@@ -28,9 +28,35 @@ const getConfig = async function(filter){
         return  await config.find(query)
     }
 }
+const saveConfig= async function(fdata){
+    console.log('MODEL->saveConfig: ',fdata)
+    let config=mongoose.model('config',configSchema);
+    if (typeof(fdata)=='undefined'){
+        console.log('MODEL->saveConfig: ','Data Undefined');
+        return {result:'No Data Provided'}
+    }else if(typeof(fdata)=='object'){
+        try {
+            var conf=new config(fdata)
+            await conf.save(function(err,succ){
+                if (err){
+                    console.log(err)
+                    return {result:err}
+                }else{
+                    console.log('MODEL->saveConfig: ',succ);
+                }
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }else{
+        console.log(typeof(fdata))
+    }
+    return {}
+}
 const configModel = {
     'config':mongoose.model('config',configSchema),
     'getConfig':getConfig,
+    'saveConfig':saveConfig,
 }
 module.exports = configModel;
 

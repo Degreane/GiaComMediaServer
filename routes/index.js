@@ -2,7 +2,7 @@ var express = require('express');
 var lo = require('lodash')
 var moment=require('moment')
 var router = express.Router();
-var { getChannelAttribute,requiresLogin,isLoggedInUserEnabled,setLoggedInUserSession,userActionLog,getUserActionLog,isLoggedInUser,getMovieList,getMovieAttribute,getChannels,addHelpers,getSeriesList,addSeries,getUsers,getUser,getParams,getConfig } =require('./middlewares') ;
+var { getChannelAttribute,requiresLogin,isLoggedInUserEnabled,setLoggedInUserSession,userActionLog,getUserActionLog,isLoggedInUser,getMovieList,getMovieAttribute,getChannels,addHelpers,getSeriesList,addSeries,getUsers,getUser,getParams,getConfig,saveConfig } =require('./middlewares') ;
 var {text_truncate,pad,b64decode,b64encode,isIn,filesInFolder,padStart}= require('./helpers');
 // var {diff} = require('deep-object-diff') 
 
@@ -471,5 +471,12 @@ router.get('/pathConfigs',addHelpers,requiresLogin,isLoggedInUser,isLoggedInUser
   res.locals.title="GiaCom System Paths Configuration"
  
   res.render('pathConfigs',{locals:res.locals});
+})
+router.post('/getConfig',getParams,getConfig,function(req,res,next){
+  // console.log("POST->getData: ",JSON.stringify(res.locals,undefined,2))
+  res.json({config:res.locals.config});
+})
+router.post('/newConfig',addHelpers,requiresLogin,isLoggedInUser,isLoggedInUserEnabled,getParams,saveConfig,function(req,res,next){
+  res.redirect('/pathConfigs')
 })
 module.exports = router;

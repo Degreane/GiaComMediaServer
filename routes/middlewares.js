@@ -119,10 +119,12 @@ var getParams = async function(req,res,next){
      * getParams:
      * returns the parameters passed in the req 
      */
-    console.log("The Req Query Params "+JSON.stringify(req.query,undefined,2));
+    
     var q={};
     Object.assign(q,JSON.parse(JSON.stringify(req.query)));
+    Object.assign(q,JSON.parse(JSON.stringify(req.body)));
     res.locals['query']=q;
+    console.log("The Req Query Params "+JSON.stringify(res.locals.query,undefined,2));
     next();
 }
 var getMovieList = async function(req,res,next){
@@ -491,12 +493,20 @@ var getConfig = async function(req,res,next){
     const configModel=require('../models/config');
     var filter;
     if (typeof(res.locals) !== 'undefined' && typeof(res.locals.query) !== 'undefined' && typeof(res.locals.query.filter) !== 'undefined') {
-        filter=JSON.parse(b64decode(res.locals.query.filter))
+        try {
+            filter=JSON.parse(b64decode(res.locals.query.filter))
+        } catch (error) {
+            try {
+                filter=JSON.parse(res.locals.query.filter)
+            }catch (err){
+                filter={}
+            }
+        }
     }else{
         filter={}
     }
     //Investigate whether we should isue await first.
-    console.log("the Filter is",filter )
+    // console.log("MiddleWare->getConfig the Filter is",filter )
     let response=await configModel.getConfig(filter);
     if (res.hasOwnProperty('locals')){
         res.locals['config']=response;
@@ -505,6 +515,14 @@ var getConfig = async function(req,res,next){
         res.locals['config']=response;
     }
     next();
+}
+var saveConfig=async function(req,res,next){
+    const configModel=require('../models/config');
+    console.log("MIDDLEWARE->saveConfig : ",res.locals.query);
+    // console.log('MIDDLEWARE->saveConfig : ',req.body)
+    let saveStatus=await configModel.saveConfig(res.locals.query)
+    
+    next()
 }
 exports.getChannelAttribute=getChannelAttribute;
 exports.addHelpers=addHelpers;
@@ -523,3 +541,4 @@ exports.getUsers=getUsers;
 exports.getUser=getUser;
 exports.getParams = getParams;
 exports.getConfig=getConfig;
+exports.saveConfig=saveConfig;
