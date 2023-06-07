@@ -70,13 +70,13 @@ router.get('/options',addHelpers,requiresLogin,isLoggedInUserEnabled,isLoggedInU
   res.render('options',{locals:res.locals})
 });
 router.get('/profile',addHelpers,requiresLogin,isLoggedInUserEnabled,function(req,res,next){
-  locals['title']='Profile GiaCom Media Server (2019)&copy;&reg;';
-  locals['page']='profile';
-  locals['loggedIn']=req.session.loggedIn || null;
-  locals['loggedInUser']=req.session.loggedInUser;
+  res.locals['title']='Profile GiaCom Media Server (2019)&copy;&reg;';
+  res.locals['page']='profile';
+  res.locals['loggedIn']=req.session.loggedIn || null;
+  res.locals['loggedInUser']=req.session.loggedInUser;
   
   // console.log("The Res Locals \n",locals,"\n<------")
-  res.render('profile',{locals:locals});
+  res.render('profile',{locals:res.locals});
 });
 router.post('/profile',addHelpers,requiresLogin,isLoggedInUserEnabled,function(req,res,next){
   var userModel=require('../models/users');
