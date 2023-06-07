@@ -152,7 +152,7 @@ router.post('/newUser',requiresLogin,isLoggedInUser,isLoggedInUserEnabled,functi
         if (err !== null){
           res.render("err",err);
         }else{
-          res.send(result);
+          res.redirect('/listUsers');
         }
       })
     }
