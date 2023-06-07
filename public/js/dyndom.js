@@ -30,8 +30,10 @@ $(function(){
                 var dFunc=elem.getAttribute("data-func")|| "doDummyFunc"
                 window[dFunc](e)
             }
-        })
+        });
     }
+
+    // 
     const ArrDataBind=$('[data-bind]');
     
     ArrDataBind.each(function(idx,elem){
@@ -55,6 +57,22 @@ $(function(){
             globalEvents[id][boundTrigger].push()
             
         })                                                
-    })
+    });
+
+    $('[data-initial-empty="true"]').each(function(ids,element){
+        switch (element.nodeName) {
+            case 'TEXTAREA':
+                $(element).val("")
+                break;
+            case 'INPUT':
+                if(["text"].indexOf(element.getAttribute('type').toLowerCase())!== -1){
+                    $(element).val("")
+                }
+                break;
+            default:
+                $(element).val("")
+                break;
+        }
+    });
 });
                                     
