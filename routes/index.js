@@ -70,12 +70,11 @@ router.get('/options',addHelpers,requiresLogin,isLoggedInUserEnabled,isLoggedInU
   res.render('options',{locals:res.locals})
 });
 router.get('/profile',addHelpers,requiresLogin,isLoggedInUserEnabled,function(req,res,next){
-  var locals={
-    'title':'Profile GiaCom Media Server (2019)&copy;&reg;',
-    'page':'profile',
-    'loggedIn':req.session.loggedIn || null,
-    'loggedInUser':req.session.loggedInUser
-  }
+  locals['title']='Profile GiaCom Media Server (2019)&copy;&reg;';
+  locals['page']='profile';
+  locals['loggedIn']=req.session.loggedIn || null;
+  locals['loggedInUser']=req.session.loggedInUser;
+  
   // console.log("The Res Locals \n",locals,"\n<------")
   res.render('profile',{locals:locals});
 });
