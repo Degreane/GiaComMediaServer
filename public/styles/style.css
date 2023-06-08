@@ -56,3 +56,23 @@
   .align-left {
     float:left !important;
   }
+  .focus:focus{
+    box-shadow: darkblue 2px 2px 2px 2px , black 1px 1px 1px 1px !important;
+    padding: 5px;
+    margin: 5px;
+    border-radius:5px;
+  }
+  .focus:hover {
+    box-shadow: green 2px 2px 2px 2px , black 1px 1px 1px 1px !important;
+    margin: 5px;
+    /* border-radius:5px;
+    transform:scale3d(1.01,1.01,1.01);
+    transform-origin:left; */
+    display:inline-block;
+  }
+  .configPanel:hover {
+    box-shadow: green 0px 0px 8px 4px inset, black 0px 0px 2px 1px !important;
+    transform:scale3d(1.05,1.05,1.05);
+    transform-origin:center;
+    
+  }

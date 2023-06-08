@@ -117,12 +117,24 @@ var isLoggedInUser = function(req,res,next){
 var getParams = async function(req,res,next){
     /**
      * getParams:
-     * returns the parameters passed in the req 
+     * returns the parameters passed in the req
+     * 1- parse whatever comes from get method req.query
+     * 2- overwritten by whatever comes from req.body
+     * 3- overwritten by whatever comes from url params 
      */
     
     var q={};
+    console.log("MIDDLEWARE->getParams : URLParams :",req.params)
     Object.assign(q,JSON.parse(JSON.stringify(req.query)));
-    Object.assign(q,JSON.parse(JSON.stringify(req.body)));
+    if (req.body.stringified && req.body.stringified == "true") {
+        if (req.body.content){
+            Object.assign(q,JSON.parse(req.body.content));        
+        }
+    }else{
+        Object.assign(q,JSON.parse(JSON.stringify(req.body)));
+    }
+    
+    Object.assign(q,req.params);
     res.locals['query']=q;
     console.log("The Req Query Params "+JSON.stringify(res.locals.query,undefined,2));
     next();
@@ -491,20 +503,9 @@ var getUser = async function(req,res,next){
 }
 var getConfig = async function(req,res,next){
     const configModel=require('../models/config');
-    var filter;
-    if (typeof(res.locals) !== 'undefined' && typeof(res.locals.query) !== 'undefined' && typeof(res.locals.query.filter) !== 'undefined') {
-        try {
-            filter=JSON.parse(b64decode(res.locals.query.filter))
-        } catch (error) {
-            try {
-                filter=JSON.parse(res.locals.query.filter)
-            }catch (err){
-                filter={}
-            }
-        }
-    }else{
-        filter={}
-    }
+    var filter=res.locals.query;
+    console.log("MIDDLEWARE->getConfig : ",res.locals.query)
+    
     //Investigate whether we should isue await first.
     // console.log("MiddleWare->getConfig the Filter is",filter )
     let response=await configModel.getConfig(filter);
@@ -521,8 +522,23 @@ var saveConfig=async function(req,res,next){
     console.log("MIDDLEWARE->saveConfig : ",res.locals.query);
     // console.log('MIDDLEWARE->saveConfig : ',req.body)
     let saveStatus=await configModel.saveConfig(res.locals.query)
+    res.locals.saveConfig=saveStatus;
     
     next()
+}
+var updateConfig = async function(req,res,next){
+    const configModel=require('../models/config');
+    console.log("MIDDLEWARE->updateConfig : ",res.locals.query);
+    let updateStatus=await configModel.updateConfig(res.locals.query);
+    res.locals.updateConfig=updateStatus;
+    next()
+}
+var deleteConfig = async function(req,res,next){
+    const configModel=require('../models/config');
+    console.log('MIDDLEWARE->deleteConfig : ',res.locals.query)
+    let deleteStatus=await configModel.deleteConfig(res.locals.query);
+    res.locals.deleteConfig=deleteStatus
+    next();
 }
 exports.getChannelAttribute=getChannelAttribute;
 exports.addHelpers=addHelpers;
@@ -542,3 +558,5 @@ exports.getUser=getUser;
 exports.getParams = getParams;
 exports.getConfig=getConfig;
 exports.saveConfig=saveConfig;
+exports.updateConfig=updateConfig;
+exports.deleteConfig=deleteConfig;

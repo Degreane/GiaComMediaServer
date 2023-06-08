@@ -51,8 +51,12 @@
                             
                             <div class="list-group">
                                 <% if (['sysAdmin','siteAdmin','admin'].indexOf(locals.loggedInUser.uType) !== -1 ) { %>
-                                    <a href='/pathConfigs?filter=<%= locals.b64encode(JSON.stringify({"type":"path"})) %>' class="list-group-item text-center <% if (locals.page == 'pathConfigs') { %>
+                                    <a href='/pathConfigs/filter/path' class="list-group-item text-center <% if (locals.page == 'pathConfigs') { %>
                                         active <% } %>" >Paths</a>
+                                        <%# 
+                                        Here we need to pass it as url params instead of query 
+                                        /pathConfig/filter/:type
+                                        %>
                                 <% } else { %>
                                     <a href="#" class="list-group-item text-center <% if (locals.page == 'pathConfigs') { %>
                                         active <% } %> disabled bg-light text-danger" >Paths</a>

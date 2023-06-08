@@ -1,0 +1,121 @@
+
+
+<div class="panel panel-default configPanel" style="border-radius: 4px; border: 1px solid; box-shadow: 1px 1px 1px 1px #f7f0f0 , 2px 2px 1px 1px; padding-top: 5px;
+padding-bottom: 5px;" id="panel_<%= config._id %>">
+    <div class="panel-body">
+        <div class="media" style="border-radius: 4px; border: 1px solid; box-shadow: 1px 1px 1px 1px #f7f0f0 , 2px 2px 1px 1px; padding-top: 5px;
+        padding-bottom: 5px;">
+            <a class="pull-left" href="#">
+                <img class="media-object" src="/assets/images/settings.png" alt="Image" style="max-width:100px;">
+            </a>
+            <div class="media-body">
+                <h3 class="media-heading"><%= config.key %></h3>
+                <p>
+                    <div class=""><b>Info : </b><span contenteditable="true" id="comment_<%= config._id %>" data-display-type="html" class="focus"><%= config.comment %></span></div>
+                    <div><b>Path : </b><span contenteditable="true" id="value_<%= config.id %>" data-display-type="text" class="focus"><%= config.value %></span></div>
+                    <div class="small"><b>Created : </b><%= config.createdAt %> </div>
+                    <div class="small"><b>Edited : </b><%= config.updatedAt %> </div>
+                    <div class="small"><b>By : </b><%= config.createdBy.uFirstName+ " "+ config.createdBy.uLastName %> </div>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="panel-footer" style="background-color:unset;">
+        <div style="display:flex; justify-content: end; background-color:unset;gap:5px;"> 
+            <a class="btn btn-primary" id="Save_<%= config._id %>">
+                <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+                Save
+            </a>
+            <a class="btn btn-danger" id="Delete_<%= config._id %>"> 
+                <span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
+                Delete
+            </a>
+        </div>
+        
+        <div class="alert alert-danger hidden" id="alert_danger_<%= config._id %>">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <strong>
+                
+                <span class="glyphicon glyphicon-erase" aria-hidden="true"></span>
+                Delete ? 
+            </strong> 
+            <div style="display:flex; justify-content: space-around;">
+                <a class="btn btn-danger" id="delete_yes_<%= config._id %>"><span class="glyphicon glyphicon-fire" ></span> Yes</a>
+                <a class="btn btn-info" id="delete_no_<%= config._id %>"><span class="glyphicon glyphicon-ok" ></span> No</a>
+            </div>
+        </div>
+        <div class="alert alert-success hidden" id="alert_success_<%= config._id %>">
+            <button type="button" class="close" data-dismiss="none" aria-hidden="true" id="success_close_<%= config._id %>">&times;</button>
+            <strong class="text-success"> 
+            <span class="glyphicon glyphicon-check" aria-hidden="true"></span> Updated
+            </strong> Config <span class="text-bolder"><%= config.key %></span> Successfully ...
+        </div>
+    </div>
+    <script>
+        $(function(){
+            var config=<%- JSON.stringify(config) %>;
+            $('#Save_'+config._id).on('click',function(e){
+                e.preventDefault();
+                // if stringified is true then the content holds the stringified json content
+                // if stringified is not true or undefined then all data sent is just json data and should not be touched.
+                config.comment=unescapeHtml($('#comment_'+config._id).html());
+                config.value=$('#value_'+config._id).text().trim();
+                $.ajax({
+                    method:'post',
+                    data:{
+                        content:JSON.stringify({
+                            filter:{
+                                _id:config._id,
+                            },
+                            update:{
+                                comment:config.comment,
+                                value:config.value
+                            }
+                        }),
+                        stringified:true,
+                    }
+                    ,
+                    url:'/updateConfig',
+                    success:function(data,textStatus,jqXHR){
+                        $('#alert_success_'+config._id).removeClass('hidden');
+                        setTimeout(function(){
+                            window.location.reload();
+                        },3000)
+                    }
+                })
+            });
+            $('#success_close_'+config._id).on('click',function(e){
+                e.preventDefault();
+                $('#alert_success_'+config._id).addClass('hidden');
+            })
+            $('#Delete_'+config._id).on('click',function(e){
+                e.preventDefault();
+                $('#alert_danger_'+config._id).removeClass('hidden');
+            })
+            $('#delete_yes_'+ config._id).on('click',function(e){
+                e.preventDefault();
+                $.ajax({
+                    method:'post',
+                    url:'/deleteConfig',
+                    data:{
+                        content:JSON.stringify({filter:{_id:config._id,},}),
+                        stringified:true,
+                    },
+                    success:function(data,textStatus,jqXHR){
+                        window.location.reload();
+                    }
+                })
+            })
+            $('#delete_no_'+ config._id).on('click',function(e){
+                e.preventDefault();
+                $('#alert_danger_'+config._id).addClass('hidden');
+            })
+        })
+    </script>
+</div>
+
+
+
+
+
+

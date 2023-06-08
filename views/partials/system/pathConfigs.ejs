@@ -1,13 +1,20 @@
 
-<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+<div class="col-xs-10 col-sm-10 col-md-8 col-lg-8">
     
     <div class="jumbotron">
-        <div class="container">
-            <pre> <%= JSON.stringify(locals.config,undefined,2) %></pre>
+        <div class="container-fluid">
+            
             <% if (locals.config.length == 0) { %> 
             <%# No Configs Found In the System  %>
                 <h4 class="text-center text-danger" style="border-radius: 4px; border: 1px solid; box-shadow: 1px 1px 1px 1px #f7f0f0 , 2px 2px 1px 1px; padding-top: 5px;
-                padding-bottom: 5px;"><b><i>No System Configured Paths Found</i></b><span class="bg-info text-primary" style="border-radius: 5px;">&nbsp;</span></h4>
+                padding-bottom: 5px;">
+                    <b>
+                        <i>No System Configured Paths Found</i>
+                    </b>
+                    <span class="bg-info text-primary" style="border-radius: 5px;">
+                        <span class="badge">0</span>
+                    </span>
+                </h4>
                 <%# Check if current user is any of admin,systemAdmin,siteAdmin %>
                 <% if (['admin','sysAdmin','siteAdmin'].indexOf(locals.loggedInUser.uType) !== -1) { %>
                      <%# Adding New Config should trigger a modal page  %>
@@ -52,7 +59,9 @@
                                                     <textarea type="text" value="" name="comment" id="comment" class="form-control text-center" placeholder="description " aria-describedby="comment_helpId" required data-initial-empty="true"></textarea>
                                                 </div>
                                             </div>
-                                        </div> 
+                                        </div>
+                                        <input type="hidden" value="<%= locals.loggedInUser._id %>" name="createdBy" id="createdBy" class="form-control text-center" placeholder="Path" aria-describedby="path_helpId" >
+                                        <input type="hidden" value="path" name="type" id="type" class="form-control text-center" placeholder="Path" aria-describedby="path_helpId" >
                                         <hr/>
                                         <div class="form-group">
                                             <div class="col-sm-10 col-sm-offset-2" style="text-align:right;">
@@ -68,7 +77,7 @@
                                                             $.ajax({
                                                                 method:'post',
                                                                 data:{
-                                                                    filter:JSON.stringify(theData)
+                                                                    theData
                                                                 },
                                                                 url:'/getConfig',
                                                                 success:function(data,textStatus,jqXHR){
@@ -93,8 +102,126 @@
                      
                 <% } %>
             <% } else { %>
+                <%# showing the title  %>
                 <h4 class="text-center" style="border-radius: 4px; border: 1px solid; box-shadow: 1px 1px 1px 1px #f7f0f0 , 2px 2px 1px 1px; padding-top: 5px;
-                padding-bottom: 5px;"><b><i>System Configured Paths</i></b><span class="bg-info text-primary" style="border-radius: 5px;">&nbsp;</span></h4>
+                padding-bottom: 5px;">
+                    <b>
+                        <i>System Configured Paths</i>
+                    </b>
+                    <span class="bg-info text-primary" style="border-radius: 5px;">
+                        <span class="badge"><%= locals.config.length %></span>
+                    </span>
+                </h4>
+                <% if (['admin','sysAdmin','siteAdmin'].indexOf(locals.loggedInUser.uType) !== -1) { %>
+                    <%# Adding New Config should trigger a modal page  %>
+                    
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="col-xs-2 text-left">
+                                <img src="/assets/images/block-menu-svgrepo-com.png" style="max-width:32px;" />
+                            </div>
+                            <div class="col-xs-10 text-right">
+                                <a class="btn btn-primary" data-toggle="modal" href='#modal-id'><span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span> Add New</a>        
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                    <div class="row">
+                        
+                        
+                        
+                    </div>
+                    
+                    
+                    <div class="modal fade" id="modal-id">
+                       <div class="modal-dialog modal-lg">
+                           <div class="modal-content">
+                               <div class="modal-header">
+                                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                   <h4 class="modal-title text-center">New Path Config (<span id="SpanKey" data-bind="#key" data-type="text" data-trigger="keyup" contenteditable="true"></span>)</h4>
+                                   
+                               </div>
+                               <div class="modal-body">
+                                   <%# Modal body should hold a form with fields:
+                                       1- key
+                                       2- value
+                                       3- comment
+                                       4- enabled
+                                   %>
+                                   
+                                   <form action="/newConfig" method="POST" class="form-horizontal" role="form" id="newConfigForm">
+                                       <div class="form-group">
+                                           <label for="key" class="control-label col-sm-2">Name</label>
+                                           <div class="col-sm-8 text-center">
+                                               <div>
+                                                   <input type="text" value="" name="key" id="key" class="form-control text-center" placeholder="Path Name" aria-describedby="key_helpId" required data-initial-empty="true">
+                                               </div>
+                                           </div>
+                                       </div>
+                                       <div class="form-group">
+                                           <label for="value" class="control-label col-sm-2">Path </label>
+                                           <div class="col-sm-8 text-center">
+                                               <div>
+                                                   <input type="text" value="" name="value" id="value" class="form-control text-center" placeholder="Path" aria-describedby="path_helpId" required data-initial-empty="true">
+                                               </div>
+                                           </div>
+                                       </div>
+                                       <div class="form-group">
+                                           <label for="comment" class="control-label col-sm-2">Description</label>
+                                           <div class="col-sm-8 text-center">
+                                               <div>
+                                                   <textarea type="text" value="" name="comment" id="comment" class="form-control text-center" placeholder="description " aria-describedby="comment_helpId" required data-initial-empty="true"></textarea>
+                                               </div>
+                                           </div>
+                                       </div>
+                                       <input type="hidden" value="<%= locals.loggedInUser._id %>" name="createdBy" id="createdBy" class="form-control text-center" placeholder="Path" aria-describedby="path_helpId" >
+                                       <input type="hidden" value="path" name="type" id="type" class="form-control text-center" placeholder="Path" aria-describedby="path_helpId" >
+                                       <hr/>
+                                       <div class="form-group">
+                                           <div class="col-sm-10 col-sm-offset-2" style="text-align:right;">
+                                               <button type="submit" id="addNew" class="btn btn-primary">Submit</button>
+                                               <script>
+                                                   $(function(){
+                                                       $('#addNew').on('click',function(e){
+                                                           e.preventDefault();
+                                                           // we send an ajax request to check if the key is available or not.
+                                                           const theData={
+                                                               key:$('#key').val(),
+                                                           }
+                                                           $.ajax({
+                                                               method:'post',
+                                                               data:{
+                                                                   theData
+                                                               },
+                                                               url:'/getConfig',
+                                                               success:function(data,textStatus,jqXHR){
+                                                                   if (data.hasOwnProperty('config') && data.config.length == 0 ){
+                                                                       $('#newConfigForm').submit()
+                                                                   }
+                                                               }
+                                                           })
+                                                       });
+                                                   });
+                                               </script>
+                                               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                           </div>
+                                       </div>
+                                   </form>
+                                   
+                               </div>
+                               
+                           </div>
+                       </div>
+                    </div>
+                    
+               <% } %>
+                <% var tpo={}; tpo['loggedInUser']=locals.loggedInUser; %>
+                <% locals.config.forEach(element => { %>
+                    <% tpo['config']=element; %>
+                    <%- include('configComponent',tpo); %>
+                    
+                <% }) %>
             <% } %>
             
         </div>

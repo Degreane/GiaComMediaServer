@@ -22,10 +22,10 @@ const getConfig = async function(filter){
     let config=mongoose.model('config',configSchema);
     if (typeof(filter) == 'undefined'){
         query = {}
-        return  await config.find(query)
+        return  await config.find(query).populate('createdBy')
     }else if(typeof(filter) == 'object' && Array.isArray(filter) == false) {
         query=filter
-        return  await config.find(query)
+        return  await config.find(query).populate('createdBy')
     }
 }
 const saveConfig= async function(fdata){
@@ -53,10 +53,55 @@ const saveConfig= async function(fdata){
     }
     return {}
 }
+const updateConfig=async function(fdata){
+    console.log('MODEL->updateConfig : ',fdata)
+    /**
+     * fdata should always be as such:
+     * {
+     *      filter: {
+     *          field:xyz
+     *      },
+     *      update: {
+     *          field: abc
+     *      }
+     * }
+     */
+    if(fdata.hasOwnProperty('filter') && fdata.hasOwnProperty('update')){
+        const config=mongoose.model('config',configSchema);
+        try{
+            fdata.update['updatedAt']=new moment();
+            let result=await config.updateMany(fdata.filter,{$set:fdata.update});
+            console.log(result);
+            return {result:result}
+        }catch(err){
+            console.log(err);
+            return {result:false}
+        }
+        
+
+    }
+
+}
+const deleteConfig=async function(fdata){
+    console.log('MODEL->deleteCOnfig : ',fdata);
+    if(fdata.hasOwnProperty('filter')){
+        const config=mongoose.model('config',configSchema);
+        try {
+            let result=await config.deleteMany(fdata.filter);
+            console.log('MODEL->deleteConfig (Deleted): ',result);
+            return {result:result}
+        }catch(e){
+            console.log('MODEL->deleteConfig (Err): ',e);
+            return {result:false}
+        }
+    }
+}
 const configModel = {
     'config':mongoose.model('config',configSchema),
     'getConfig':getConfig,
     'saveConfig':saveConfig,
+    'updateConfig':updateConfig,
+    'deleteConfig':deleteConfig,
 }
 module.exports = configModel;
 

@@ -11,6 +11,22 @@ var globalEvents={}
 var doDummyFunc=function(e){
     console.log(e)
 }
+var escapeHtml = function(unsafe) {
+    return unsafe
+         .replace(/&/g, "&amp;")
+         .replace(/</g, "&lt;")
+         .replace(/>/g, "&gt;")
+         .replace(/"/g, "&quot;")
+         .replace(/'/g, "&#039;");
+ }
+
+var unescapeHtml=function (safe) {
+    return safe
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#039;/g, "'");
+ }
 $(function(){
     
     const triggerEvent=function(id,boundTrigger,e){
@@ -82,5 +98,16 @@ $(function(){
                 break;
         }
     });
+    $('[data-display-type="html"]').each(function(ids,element){
+        var currentData=$(element).html();
+        $(element).html(unescapeHtml(currentData + " ")) ;
+        $(element).on('blur',function(){
+            var currentData=$(element).html();
+            // alert(unescapeHtml(currentData))
+            $(element).html(unescapeHtml(currentData + " ")) ;
+        });
+    })
+   
+    
 });
                                     

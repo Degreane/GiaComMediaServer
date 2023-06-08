@@ -2,7 +2,28 @@ var express = require('express');
 var lo = require('lodash')
 var moment=require('moment')
 var router = express.Router();
-var { getChannelAttribute,requiresLogin,isLoggedInUserEnabled,setLoggedInUserSession,userActionLog,getUserActionLog,isLoggedInUser,getMovieList,getMovieAttribute,getChannels,addHelpers,getSeriesList,addSeries,getUsers,getUser,getParams,getConfig,saveConfig } =require('./middlewares') ;
+var { 
+      getChannelAttribute,
+      requiresLogin,
+      isLoggedInUserEnabled,
+      setLoggedInUserSession,
+      userActionLog,
+      getUserActionLog,
+      isLoggedInUser,
+      getMovieList,
+      getMovieAttribute,
+      getChannels,
+      addHelpers,
+      getSeriesList,
+      addSeries,
+      getUsers,
+      getUser,
+      getParams,
+      getConfig,
+      saveConfig,
+      updateConfig,
+      deleteConfig,
+   } =require('./middlewares') ;
 var {text_truncate,pad,b64decode,b64encode,isIn,filesInFolder,padStart}= require('./helpers');
 // var {diff} = require('deep-object-diff') 
 
@@ -456,6 +477,11 @@ router.get('/files',addHelpers,requiresLogin,isLoggedInUser,isLoggedInUserEnable
   // console.log(filesInFolder)
   res.json( filesInFolder(folderName,include,exclude,filter))
 })
+router.get('/pathConfigs/filter/:type',addHelpers,requiresLogin,isLoggedInUser,isLoggedInUserEnabled,getParams,getConfig,function(req,res,next){
+  res.locals.page="pathConfigs";
+  res.locals.title="GiaCom System Paths Configuration";
+  res.render('pathConfigs',{locals:res.locals});
+})
 router.get('/pathConfigs',addHelpers,requiresLogin,isLoggedInUser,isLoggedInUserEnabled,getParams,getConfig,function(req,res,next){
   /**
    * Getting Page of Configs 
@@ -477,5 +503,11 @@ router.post('/getConfig',getParams,getConfig,function(req,res,next){
 })
 router.post('/newConfig',addHelpers,requiresLogin,isLoggedInUser,isLoggedInUserEnabled,getParams,saveConfig,function(req,res,next){
   res.redirect('/pathConfigs')
+});
+router.post('/updateConfig',addHelpers,requiresLogin,isLoggedInUser,isLoggedInUserEnabled,getParams,updateConfig,function(req,res,next){
+  res.json(res.locals.updateConfig)
+})
+router.post('/deleteConfig',addHelpers,requiresLogin,isLoggedInUser,isLoggedInUserEnabled,getParams,deleteConfig,function(req,res,next){
+  res.json(res.locals.deleteConfig)
 })
 module.exports = router;
