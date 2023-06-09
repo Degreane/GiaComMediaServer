@@ -391,6 +391,7 @@ var getChannelAttribute= async function(req,res,next){
     }
 }
 var verifyObjectID= async function(id){
+    console.log('MIDDLEWARE->verifyObjectID : query Id  ',id)
     const mongoose=require('mongoose');
     return mongoose.isValidObjectId(id);
 }
@@ -404,18 +405,24 @@ var getSeriesList = async function(req,res,next){
      * 1-2 Get all Series 
      */
     var query=res.locals.query?res.locals.query : {};
+    console.log('MIDDLEWARE->getSeriesList : StartUp ',JSON.stringify(query,undefined,2));
     //console.log("Queried "+JSON.stringify(query,undefined,2));
     if (query.id ) {
+        console.log('MIDDLEWARE->getSeriesList : query Id ?? ',JSON.stringify(query,undefined,2))
         if (await verifyObjectID(query.id)){
-            
+            // console.log('MIDDLEWARE->getSeriesList : query Id Verified ',JSON.stringify(query,undefined,2))
             const Series=require('../models/series');
-            res.locals['serie']=await Series.findById(query.id);
+            const Config=require('../models/config');
+            // console.log('MIDDLEWARE->getSeriesList : (Type OF Config) ',JSON.stringify(Config,undefined,2))
+            res.locals['serie']=await Series.findById(query.id).populate('seasons.episodes.basePath');
+            console.log('MIDDLEWARE->getSeriesList : ',JSON.stringify(res.locals.serie,undefined,2));
             
         }else{
             res.locals['Err']=new Error('Invalid Request Series, ErrCode:  '+query.id);
         }
         
     }else{
+        console.log('MIDDLEWARE->getSeriesList : No query Id  ',JSON.stringify(query,undefined,2))
         if(typeof(req.session.series)=='undefined') {
             req.session.series={};
         }
@@ -502,6 +509,12 @@ var getUser = async function(req,res,next){
     });
 }
 var getConfig = async function(req,res,next){
+    /**
+     * res.locals.query should be the filter we are looking for.
+     * thus it may be just of the type {key:value}
+     * or multiple key,values 
+     * {key:value,key2:value2}
+     */
     const configModel=require('../models/config');
     var filter=res.locals.query;
     console.log("MIDDLEWARE->getConfig : ",res.locals.query)

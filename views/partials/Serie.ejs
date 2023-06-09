@@ -12,7 +12,8 @@
 				'number': Number,
 				'title': String,
 				'description': String,
-				'file': String	
+				'file': String,
+				'basePath': ref:config	
 			}]
 		}
 	]}	
@@ -50,6 +51,7 @@ if (locals.newSeries) {
 					$(function(){
 						/**
 							Update Serie Title bar whenever the Serie title input changes.
+							ToDo: Use Functions from dyndom.js
 						*/
 						$('#title').on('keyup',function(e){
 							e.preventDefault();
@@ -295,8 +297,8 @@ if (locals.newSeries) {
     </div>
 	
 	
-	<%- include('episodeModal.ejs') %>
-
+	<%- include('Serie/episodeModal.ejs') %>
+	
 	<%# If we have a padStart then include padStart javascript library in the page %>
 	<% if (locals.padStart) { %>
 		<script>
@@ -305,9 +307,10 @@ if (locals.newSeries) {
 		</script>
 	<% } %>
 	<script>
+		var rootNode = $('#FolderList')
 		$(function(){
 			var folder={};
-			var rootNode = $('#FolderList')
+			
 			/**
 				Similar to mapEpisodeTable but for seasons,
 				this function maps the seasons table provided by the theSeasons[] values 
@@ -477,20 +480,23 @@ if (locals.newSeries) {
 				$('#epEdit').hide();
 				$('#epFile').val("");
 				$('#epNumber').val("");
-				$.ajax('/files',{
-					'method':'get',
-					'data':{
-						folder:seriesFolder,
-						include:seriesFileTypeIncludes
-					},
-					success:function(data,textStatus,jqXHR){
-						folder=data
-						mapFolder(folder,rootNode)
-					},
-					error:function(jqXHR,textStatus,err){
-						$('body').append('<div class="alert alert-danger alert-dismissable ">'+err+'</div>')
-					}
-				})
+				if (seriesFolder !== null){
+					$.ajax('/files',{
+						'method':'get',
+						'data':{
+							folder:seriesFolder,
+							include:seriesFileTypeIncludes
+						},
+						success:function(data,textStatus,jqXHR){
+							folder=data
+							mapFolder(folder,rootNode)
+						},
+						error:function(jqXHR,textStatus,err){
+							$('body').append('<div class="alert alert-danger alert-dismissable ">'+err+'</div>')
+						}
+					})
+				}
+				
 			})
 			
 			
@@ -516,6 +522,13 @@ if (locals.newSeries) {
 					$('#epFileDiv').addClass('has-success');$('#epFileDiv').removeClass('has-error');
 					$('#epFileDiv').parent().removeClass('bg-danger');
 				}
+				if($('#inputbasePath').val().trim()==""){
+					$('#inputbasePath').addClass('has-error');$('#inputbasePath').removeClass('has-success');
+					$('#epbasePathDiv').parent().addClass('bg-danger');
+				}else{
+					$('#inputbasePath').addClass('has-success');$('#inputbasePath').removeClass('has-error');
+					$('#epbasePathDiv').parent().removeClass('bg-danger');
+				}
 				if ($('#epForm').find('.has-error').length > 0) {
 					alert('Fill Corresponding needed fields');
 				}else{
@@ -524,6 +537,7 @@ if (locals.newSeries) {
 					ep.number=$('#epNumber').val()
 					ep.file=$('#epFile').val()
 					ep.title="E"+padStart(ep.number,2,"0");
+					ep.basePath=$('#inputbasePath').val();
 					
 					console.log(theEpisodes)
 					

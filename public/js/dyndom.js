@@ -44,7 +44,7 @@ $(function(){
                 elem.innerHTML=ElementToWorkWith.val()
             }else if(dType=="func"){
                 var dFunc=elem.getAttribute("data-func")|| "doDummyFunc"
-                window[dFunc](e)
+                elem.innerText=window[dFunc](e) || ""
             }
         });
     }

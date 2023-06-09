@@ -17,6 +17,20 @@
                                 </div>
                             </div>		
                         </div>
+                        
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <div class="form-group" id="epbasePathDiv">
+                                <label class="control-label" for="">Base Path <span  class="text-success" id="basePathRoute" data-bind="#inputbasePath" data-trigger="change" data-type="func" data-func="populateNewSeriesPath"></span></label>
+                                
+                                <select name="basePath" id="inputbasePath" class="form-control" required="required" data-initial-empty="true">
+                                    <option value="">...</option>
+                                    <% locals.config.forEach(function(elem,idx) { %>
+                                        <option value="<%= elem._id %>"  data-basePath="<%= elem.value %>"><%= elem.key %></option>
+                                    <% }) %>
+                                </select>
+                            </div>
+                        </div>
+                        
                     </div>
                     <div class="row">
                         <div class="col-md-12">
@@ -50,8 +64,50 @@
             </div>
         </div>
     </div>
+    
 </div>
 <script>
+    var populateNewSeriesPath=function(e){
+        /**
+            1- Here We populate the corresponding Base Path returning the value that was selected from the: 
+            <select>
+                <option data-basePath></option>
+            </select>
+            2- Set the content of global variable seriesFolder to the value in the select data-basePath
+            3- issue an Ajax Request to grab the folder heirarchy 
+            4- do folderMap 
+            
+        */
+        e.preventDefault();
+        seriesFolder=e.currentTarget.selectedOptions[0].getAttribute('data-basePath');
+        if(seriesFolder !=="" && seriesFolder!== null){
+            $.ajax({
+                method:'get',
+                url:'/files',
+                data: {
+                    folder:seriesFolder,
+                    include:seriesFileTypeIncludes
+                },
+                success:function(data,textStatus,jqXHR){
+                    if(data.hasOwnProperty('error')) {
+                        alert(JSON.stringify(data,undefined,2));
+                        console.log(e.currentTarget)
+                        $("#inputbasePath").val("")
+                    }else{
+                        folder=data
+                        rootNode.empty();
+                        mapFolder(folder,rootNode)
+                    }
+                },
+                error:function(jqXHR,textStatus,errorThrown){
+                    // Upon Error We need to show a message to the User about the Error.
+                    alert(JSON.stringify(errorThrown,undefined,2))
+                }
+            })
+        }
+        
+        return seriesFolder;
+    }
     $(function(){
         /**
             Once Clicking on the update of the Episode function:

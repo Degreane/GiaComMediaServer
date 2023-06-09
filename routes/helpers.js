@@ -147,19 +147,46 @@ var rId = function () {
 
 /**
  * @description Map folder and return object of files and folders
- * @argument folder 
+ * @argument folder
+ * 
+ * Check if folder Exists first
  */
 
-var filesInFolder =  function(folder,include,exclude,filter){
-  var folderMap=require('map-folder');
+var filesInFolder =   function(folder,include,exclude,filter){
+  const folderMap=require('map-folder');
+  const fs=require('fs');
+  const path=require('path');
+  let result=null;
+  try {
+    // checking the sanity of the path
+    const pathObj=path.parse(folder);
+    console.log('HELPERS->filesInFolder : ',JSON.stringify(pathObj,undefined,2));
 
-  var result =  folderMap(folder,{
-    include:include,
-    exclude:exclude,
-    filter:filter,
-  });
-  console.log("The result of folder-map is \nInclude:",include,"\n",result,"\n<-----------------\n");
-  return result;
+  } catch (error) {
+    // in case of error then map folder to root
+    console.log('HELPERS->filesInFolder : ',JSON.stringify(error,undefined,2));
+    result={
+      error:JSON.stringify(error),
+    };
+    return result;
+  }
+    try {
+      var stats= fs.statSync(folder);
+      console.log('HELPERS->filesInFolder : ',JSON.stringify(stats,undefined,2))
+      result=folderMap(folder,{
+        include:include,
+        exclude:exclude,
+        filter:filter,
+      });
+      console.log("HELPERS->filesInFolder : ",JSON.stringify(include),"\n",JSON.stringify(result));
+      return result;
+    } catch (error) {
+      console.log('HELPERS->filesInFolder : ',JSON.stringify(error,undefined,2))
+      result={
+        error:JSON.stringify(error),
+      };
+      return result;
+    }
 }
 
 /**

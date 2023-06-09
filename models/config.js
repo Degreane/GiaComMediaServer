@@ -19,6 +19,7 @@ const getConfig = async function(filter){
      * filter should always be an object
      */
     let query;
+    console.log('MODEL->getConfig : ',filter)
     let config=mongoose.model('config',configSchema);
     if (typeof(filter) == 'undefined'){
         query = {}
@@ -96,14 +97,14 @@ const deleteConfig=async function(fdata){
         }
     }
 }
-const configModel = {
-    'config':mongoose.model('config',configSchema),
-    'getConfig':getConfig,
-    'saveConfig':saveConfig,
-    'updateConfig':updateConfig,
-    'deleteConfig':deleteConfig,
-}
-module.exports = configModel;
+// const configModel = {
+//     'config':mongoose.model('config',configSchema),
+//     'getConfig':getConfig,
+//     'saveConfig':saveConfig,
+//     'updateConfig':updateConfig,
+//     'deleteConfig':deleteConfig,
+// }
+// module.exports = configModel;
 
 
 /** 
@@ -116,3 +117,10 @@ module.exports = configModel;
  *      Doing so enables us to avoid having to push/pull upon changes and makes changes more dynamic.
  *      But doing so deems us to create a new configuration pannel that populates this collection approperiately
  */
+// module.exports=mongoose.model('config',configSchema);
+
+exports.config=mongoose.model('config',configSchema);
+exports.getConfig=getConfig;
+exports.saveConfig=saveConfig;
+exports.updateConfig=updateConfig;
+exports.deleteConfig=deleteConfig;

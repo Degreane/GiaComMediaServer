@@ -440,7 +440,12 @@ router.get('/series',addHelpers,isLoggedInUser,getParams, getSeriesList ,functio
 define path to get page new series
 
 */
-router.get('/newSeries',addHelpers, requiresLogin,isLoggedInUser,isLoggedInUserEnabled,setLoggedInUserSession,getConfig,function(req,res,next){
+router.get('/newSeries',addHelpers, requiresLogin,isLoggedInUser,isLoggedInUserEnabled,setLoggedInUserSession,function(req,res,next){
+  res.locals.query={
+    type:'path'
+  }
+  next()
+},getConfig,function(req,res,next){
   res.locals.page="Series";
   res.locals.title="GiaCom Series (New Series)";
   res.locals.newSeries=true
