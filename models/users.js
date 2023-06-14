@@ -17,7 +17,17 @@ var userSchema = new mongoose.Schema({
     'uOnline': {type:Boolean,default:false},
     'uGroup':{type:Array,default:[]}
 });
-module.exports = mongoose.model('users',userSchema);
+const users=mongoose.model('users',userSchema);
+
+const getRecord= async function(query){
+    return await users.findOne(query).populate('uCreatedBy');
+}
+const getRecords=async function(query){
+    return await users.find(query).populate('uCreatedBy');
+}
+exports.users = users;
+exports.getRecord=getRecord;
+exports.getRecords=getRecords;
 /*
 {
     _id: 5e1b69dbd39c1125786c5d5f,

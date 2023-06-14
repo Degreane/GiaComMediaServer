@@ -23,6 +23,7 @@ var {
       saveConfig,
       updateConfig,
       deleteConfig,
+      logInUser,
    } =require('./middlewares') ;
 var {text_truncate,pad,b64decode,b64encode,isIn,filesInFolder,padStart}= require('./helpers');
 // var {diff} = require('deep-object-diff') 
@@ -44,7 +45,7 @@ router.get('/',isLoggedInUser,getMovieList, function(req,res,next){
 /*
  Get Login Page
 */
-router.get('/login',function(req,res,next){
+router.get('/login',logInUser,function(req,res,next){
   var locals={
     'title':'GiaCom Media Server (2019)&copy;&reg;',
     'page':'login'
@@ -52,28 +53,14 @@ router.get('/login',function(req,res,next){
   res.render('login',{locals:locals});
 })
 router.post('/login',function(req,res,next){
-  var locals={
-    'title':'Login - GiaCom Media Server (2019)&copy;&reg;',
-    'page':'login'
-  }
-  var userModel=require('../models/users')
-  var query=req.body || {};
-  query['uEnabled']=true;
-  userModel.findOne(query).populate('uCreatedBy').exec(function(err,result){
-    if(err){
-      console.log(err);
-      res.redirect('/');
-    }else{
-      if(result !== null){
-        req.session.loggedIn=true;
-        req.session.loggedInUser=result;
-        res.redirect('/');
-      }else{
-        res.render('login',{locals:locals});
-      }
-    }
-  });
   
+  if (req.session.hasOwnProperty('loggedInUser') && req.session.loggedInUser == true){
+    res.redirect('/');
+  }else if(res.locals.page == 'login') {
+    res.render('login',{locals:res.locals});
+  }else{
+    res.redirect('/');
+  }
 });
 router.get('/logout',requiresLogin,function(req,res,next){
   delete req.session.loggedIn;

@@ -1,4 +1,5 @@
-var mongoose = require('mongoose')
+const mongoose = require('mongoose');
+
 mongoose.connect('mongodb://127.0.0.1:27017/GiaCom',{
     // useNewUrlParser:true,
     // useUnifiedTopology: true,
@@ -17,8 +18,9 @@ db.on('error',function(err){
 })
 db.once('open',function(){
     console.log('Mongoose Connection successful')
-    var usersModel=require('./users')
-    usersModel.findOne({'uType':'sysAdmin'},function(err,result){
+    var usersModel=require('./users');
+    
+    usersModel.users.findOne({'uType':'sysAdmin'},function(err,result){
         if(err){
             console.log(err)
         }else if (result == null){
@@ -48,4 +50,17 @@ db.once('open',function(){
             })
         }
     })
-})
+});
+exports.configs=require('./config');
+exports.users= require('./users');
+exports.channels=require('./channels');
+exports.movies=require('./movies');
+exports.series=require('./series');
+exports.userlogs=require('./userlogs');
+
+
+
+/**
+ * ToDo: Should find a way to export all as a single Model.
+ * half done above by exporting the required models.
+ */

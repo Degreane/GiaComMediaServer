@@ -2,7 +2,8 @@ const _= require('lodash');
 const fs=require('fs');
 const path = require('path');
 var {text_truncate,pad,b64decode,b64encode,isIn,random,padStart}= require('./helpers');
-const { prototype } = require('events');
+const {configs,users,userlogs,channels,movies,series}=require('../models/index');
+require('events');
 
 var requiresLogin = function(req,res,next){
     if (!req.session.loggedIn){
@@ -20,21 +21,19 @@ var isLoggedInUserEnabled = function(req,res,next){
         next();
     }
 };
-var setLoggedInUserSession = function(req,res,next){
+var setLoggedInUserSession = async function(req,res,next){
     if (!req.session.loggedIn){
         res.redirect('/login');
     }else{
-        var userModel=require('../models/users')
-        userModel.findById(req.session.loggedInUser['_id']).populate('uCreatedBy').exec(function(err,user){
-            if(err){
-                next(err);
-            }else{
-                // console.log(user);
-                req.session.loggedInUser=user;
-                res.locals.loggedInUser=req.session.loggedInUser;
-                next();
-            }
-        })
+        await users.getRecord({'_id':req.session.loggedInUser['_id']}).then(function(result){
+            console.log('MIDDLEWARE->setLoggeInUserSession : ',JSON.stringify(result,undefined,2));
+            req.session.loggedInUser=result;
+            res.locals.loggedInUser=req.session.loggedInUser;
+            next();
+        }).catch(function(err){
+            console.log('MIDDLEWARE->setLoggeInUserSession : ',JSON.stringify(err,undefined,2));
+            next(err);
+        });
     }
 };
 var userActionLog = function(req,res,next){
@@ -452,41 +451,33 @@ var getSeriesList = async function(req,res,next){
 }
 var addSeries = async function(req,res,next){
     // console.log("Setting New Series To list");
-    const serieSchema=require('../models/series');
     console.log(req.body['serie']);
     var theSerie;
     if (isIn('serie',Object.keys(req.body))){
         theSerie=req.body['serie'];
-        console.log('Adding Serie ',theSerie);
-        try {
-            const Result=await serieSchema.create(JSON.parse(theSerie));
-            console.log("Document Created ",Result);
-        }catch (error){
-            console.log('Error While Adding Serie',error);
-            next(error);
-        }
-        
-        
+        console.log('MIDDLEWARE->addSeries : ',theSerie);
+        series.create(JSON.parse(theSerie)).then(result=>{
+            console.log('MIDDLEWARE->addSeries : ',JSON.stringify(result,undefined,2));
+            next();
+        }).catch(err=>{
+            console.log('MIDDLEWARE->addSeries ERR : ',JSON.stringify(err,undefined,2));
+            next(err)
+        })
     }
-    next();
     // When Setting New Series we just Insert The title of the Series
 }
+/** End of Series Management */
+
+/** Users management */
 var getUsers = async function(req,res,next) {
-    var userSchema=require('../models/users');
-    userSchema.find(function(err,result){
-        if (err !== null){
-            next(err)
-        }else{
-            if (typeof(res.locals) == 'undefined') {
-                res.locals={}
-            }
-            res.locals['users']=result;
-            //console.log(res.locals)
-            next();
-        }
-    });
-    // console.log(users);
-    // next();
+    await users.getRecords({}).then(function(result){
+        if (typeof(res.locals) == 'undefined') {
+            res.locals={};
+        }res.locals['users']=result;
+        next();
+    }).catch(function(err){
+        next(err);
+    })
 }
 var getUser = async function(req,res,next){
     var userSchema = require('../models/users');
@@ -497,17 +488,42 @@ var getUser = async function(req,res,next){
     if (id2Check == null){
         res.locals['user']={'Err':'No Id Specified in Query'}
     }
-    userSchema.findById(id2Check).populate('uCreatedBy').exec(function(err,result){
-        if (err !== null){
-            res.locals['user']={'Err':err}
-        }else if(result == null){
+    await users.getRecord({'_id':id2Check}).then(function(result){
+        if(result == null){
             res.locals['user']={'Err':'No User with id ('+id2Check+')'}
         }else {
             res.locals['user']=result;
         }
+        
+    }).catch(function(err){
+        res.locals['user']={'Err':err}
+    });
+    next();
+}
+const logInUser = async function(req,res,next){
+    let query=req.body || {};
+    query['uEnabled']=true;
+    
+    await users.getRecord(query).then(function(result){
+        if(result !== null){
+            req.session.loggedIn=true;
+            req.session.loggedInUser=result;
+            next();
+        }else{
+            res.locals={
+                'title':'Login - GiaCom Media Server (2019)&copy;&reg;',
+                'page':'login'
+            }
+            next();
+        }
+    }).catch(function(err){
         next();
     });
 }
+/** End Of Managing Users */
+
+/** Managing Configs */
+
 var getConfig = async function(req,res,next){
     /**
      * res.locals.query should be the filter we are looking for.
@@ -515,44 +531,50 @@ var getConfig = async function(req,res,next){
      * or multiple key,values 
      * {key:value,key2:value2}
      */
-    const configModel=require('../models/config');
+    
     var filter=res.locals.query;
     console.log("MIDDLEWARE->getConfig : ",res.locals.query)
     
     //Investigate whether we should isue await first.
     // console.log("MiddleWare->getConfig the Filter is",filter )
-    let response=await configModel.getConfig(filter);
-    if (res.hasOwnProperty('locals')){
-        res.locals['config']=response;
-    }else{
-        res['locals']={}
-        res.locals['config']=response;
-    }
+    await configs.getConfig(filter).then(result => {
+        if (res.hasOwnProperty('locals')){
+            res.locals['config']=result;
+        }else{
+            res['locals']={}
+            res.locals['config']=result;
+        }
+    });
     next();
 }
+
 var saveConfig=async function(req,res,next){
-    const configModel=require('../models/config');
     console.log("MIDDLEWARE->saveConfig : ",res.locals.query);
     // console.log('MIDDLEWARE->saveConfig : ',req.body)
-    let saveStatus=await configModel.saveConfig(res.locals.query)
-    res.locals.saveConfig=saveStatus;
-    
-    next()
-}
-var updateConfig = async function(req,res,next){
-    const configModel=require('../models/config');
-    console.log("MIDDLEWARE->updateConfig : ",res.locals.query);
-    let updateStatus=await configModel.updateConfig(res.locals.query);
-    res.locals.updateConfig=updateStatus;
-    next()
-}
-var deleteConfig = async function(req,res,next){
-    const configModel=require('../models/config');
-    console.log('MIDDLEWARE->deleteConfig : ',res.locals.query)
-    let deleteStatus=await configModel.deleteConfig(res.locals.query);
-    res.locals.deleteConfig=deleteStatus
+    await configs.saveConfig(res.locals/query).then(result=>{
+        console.log('MIDDLEWRE->saveConfig : ',JSON.stringify(result,undefined,2));
+        res.locals.saveConfig=result;
+    })
     next();
 }
+var updateConfig = async function(req,res,next){
+    console.log("MIDDLEWARE->updateConfig : ",res.locals.query);
+    await configs.updateConfig(res.locals.query).then(result=>{
+        res.locals.updateConfig=result;
+    })
+    next();
+}
+var deleteConfig = async function(req,res,next){
+    console.log('MIDDLEWARE->deleteConfig : ',res.locals.query)
+    let deleteStatus=await configModel.deleteConfig(res.locals.query);
+    await configs.deleteConfig(res.locals.query).then(result=>{
+        res.locals.deleteConfig=result;
+    })
+    next();
+}
+/** End Of Managing Configs */
+
+
 exports.getChannelAttribute=getChannelAttribute;
 exports.addHelpers=addHelpers;
 exports.getChannels=getChannels;
@@ -573,3 +595,4 @@ exports.getConfig=getConfig;
 exports.saveConfig=saveConfig;
 exports.updateConfig=updateConfig;
 exports.deleteConfig=deleteConfig;
+exports.logInUser=logInUser;
