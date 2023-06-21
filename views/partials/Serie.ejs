@@ -341,9 +341,11 @@ if (locals.newSeries) {
 							$('#sTitle').val(theSeason.title);
 							theSeason.description ? $('#description').val(theSeason.description):$('#description').val("")
 							if (theSeason.episodes && theSeason.episodes instanceof Array) {
-								theEpisodes=theSeason.episodes;}else{theEpisodes=[];}
-								mapEpisodeTable()
-							//theEpisodes=theSeason.episodes
+								theEpisodes=theSeason.episodes;
+							}else{
+								theEpisodes=[];
+							}
+							mapEpisodeTable()
 							$('#newSeason').show();
 						})
 						tdC1Edit.append('<span class="glyphicon glyphicon-edit"/>');
@@ -368,10 +370,9 @@ if (locals.newSeries) {
 					});
 				}
 			}
-			<% if (locals.editSeries) { %>
-				console.log(theSerie.seasons);
+			if (typeof editSeries !== 'undefined') {
 				mapSeasonTable();
-			<% } %>
+			}
 			/**
 				Maps The Episode Hash into the Episode table in the Season selected
 			*/
