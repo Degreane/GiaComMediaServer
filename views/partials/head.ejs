@@ -28,7 +28,7 @@
     <script src="/assets/js/jquery-1.12.4.min.js"></script>
     <!--SCRIPTS END-->
     <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
-   <% if (typeof(locals.newSeries) !== 'undefined' || ['pathConfigs'].indexOf(locals.page) !== -1) { %>
+   <% if (typeof(locals.newSeries) !== 'undefined' || typeof(locals.editSeries) !== 'undefined'|| ['pathConfigs'].indexOf(locals.page) !== -1) { %>
     <link rel="stylesheet" href="/assets/styles/options.css">
    <% } %>
     <% if (typeof(locals.movie) !== 'undefined' || typeof(locals.channel) !== 'undefined' || typeof(locals.series) !== 'undefined') { %>

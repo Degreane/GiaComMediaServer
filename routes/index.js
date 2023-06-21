@@ -16,6 +16,7 @@ var {
       addHelpers,
       getSeriesList,
       addSeries,
+      getSeries,
       getUsers,
       getUser,
       getParams,
@@ -24,6 +25,7 @@ var {
       updateConfig,
       deleteConfig,
       logInUser,
+      
    } =require('./middlewares') ;
 var {text_truncate,pad,b64decode,b64encode,isIn,filesInFolder,padStart}= require('./helpers');
 // var {diff} = require('deep-object-diff') 
@@ -389,6 +391,8 @@ router.get("/editUser",addHelpers,requiresLogin,isLoggedInUser,isLoggedInUserEna
 })
 
 /**
+ * Series Definition Routes 
+ * 
 Defining Series:
 A Series:
   - Title
@@ -418,10 +422,18 @@ router.get('/series',addHelpers,isLoggedInUser,getParams, getSeriesList ,functio
     2- Check if we have a get Query id   
     2-1 return the Serie of certain id 
     2-2 Get the Series List from the mongodb Database
+    3-3 Check if header accepts is application/json
   */
+//  console.log(req.headers)
+ if (req.headers['accept'] == 'application/json'){
+  console.log('Sending JSON ')
+  res.json({series:res.locals.serie})
+ }else{
   res.locals.page="Series";
   res.locals.title="GiaCom Series";
   res.render('series',{locals:res.locals})
+ }
+  
 });
 /**
 define path to get page new series
@@ -445,6 +457,16 @@ router.post('/newSerie',addHelpers,requiresLogin,isLoggedInUser,isLoggedInUserEn
   res.locals.title="GiaCom Series (New Series Added)";
   res.locals.newSeries=false;
   res.json({locals:res.locals});
+})
+router.get('/editSerie',addHelpers,requiresLogin,isLoggedInUser,isLoggedInUserEnabled,getParams,getSeries,function(req,res,next){
+  res.locals.query={
+    type:'path'
+  }
+  next()
+},getConfig,function(req,res,next){
+
+  console.log('ROUTES->editSerie : ',JSON.stringify(res.locals,undefined,2))
+  res.render('editSeries',{locals:res.locals});
 })
 
 router.get('/files',addHelpers,requiresLogin,isLoggedInUser,isLoggedInUserEnabled,function(req,res,next){

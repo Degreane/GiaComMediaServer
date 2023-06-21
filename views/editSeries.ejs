@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <%- include('partials/head',locals) %>
+  
+  <body>
+    <!-- Header Navbar -->
+    <%- include('partials/navbar',locals) %>
+    <div class="container-fluid" style="margin-bottom: 50px;">
+        <div class="row">
+            <%- include('partials/Serie',locals) %>
+        </div>
+    </div>
+    
+    <!-- Footer NavBar  -->
+    <%- include('partials/footer_navbar') %>
+    <!-- Foot Scripts JavaScripts -->
+    <%- include('partials/foot') %>
+  </body>
+  <script>
+      var editSeries=true;
+      var mapEpisodeTable;
+      var mapSeasonTable;
+      var mapFolder;
+      var selectedEpIdx=null;
+      const newSerie = true;
+      var theSerie={};
+      var theSeasons=[];
+      var theEpisodes=[];
+      var seriesFolder = null;
+      const seriesFileTypeIncludes=['.mp4'];
+      $.ajax({
+        async:false,
+        headers:{
+            Accept:"application/json",
+        },
+        
+        method:'GET',
+        url:'/series?id=<%= locals.Serie._id %>',
+        success:function(data,textStatus,jqXHR){
+            if (typeof data == 'object'){
+                theSerie=data.series;
+                theSeasons=theSerie.seasons;
+            }else{
+                window.location.replace("/series");
+            }
+        },
+        error:function(jqXHR,textStatus,errorThrown){
+            alert(JSON.stringify(errorThrown,undefined,2))
+            window.location.replace("/series");
+        }
+      })
+  </script>
+  
+</html>

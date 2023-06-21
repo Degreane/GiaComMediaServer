@@ -410,10 +410,11 @@ var getSeriesList = async function(req,res,next){
         console.log('MIDDLEWARE->getSeriesList : query Id ?? ',JSON.stringify(query,undefined,2))
         if (await verifyObjectID(query.id)){
             // console.log('MIDDLEWARE->getSeriesList : query Id Verified ',JSON.stringify(query,undefined,2))
-            const Series=require('../models/series');
-            const Config=require('../models/config');
+            // const Series=require('../models/series');
+            // const Config=require('../models/config');
             // console.log('MIDDLEWARE->getSeriesList : (Type OF Config) ',JSON.stringify(Config,undefined,2))
-            res.locals['serie']=await Series.findById(query.id).populate('seasons.episodes.basePath');
+            res.locals['serie']=await series.getSerie(query.id);
+            // .findById(query.id).populate('seasons.episodes.basePath');
             console.log('MIDDLEWARE->getSeriesList : ',JSON.stringify(res.locals.serie,undefined,2));
             
         }else{
@@ -438,7 +439,7 @@ var getSeriesList = async function(req,res,next){
             //console.log('Skip ',skip);
         }
         try {
-            const Series=require('../models/series')
+            const {Series}=require('../models/series')
             
             res.locals.series['count']=await Series.countDocuments(query);
             res.locals.series['list']=await Series.find(query).sort({title:'asc'}).skip(skip).limit(24);
@@ -447,6 +448,14 @@ var getSeriesList = async function(req,res,next){
             res.locals['series']={'Err':JSON.stringify(error)};
         }
     }
+    next();
+}
+var getSeries = async function(req,res,next){
+    let query=res.locals.query
+    console.log('MIDDLEWARES->getSeries : ',query)
+    let Serie=await series.getSerie(query.id);
+    res.locals['editSeries'] = true
+    res.locals['Serie']=Serie
     next();
 }
 var addSeries = async function(req,res,next){
@@ -575,18 +584,19 @@ var deleteConfig = async function(req,res,next){
 /** End Of Managing Configs */
 
 
-exports.getChannelAttribute=getChannelAttribute;
-exports.addHelpers=addHelpers;
-exports.getChannels=getChannels;
-exports.getMovieAttribute=getMovieAttribute;
-exports.getMovieList=getMovieList;
-exports.isLoggedInUser=isLoggedInUser;
-exports.requiresLogin=requiresLogin;
-exports.isLoggedInUserEnabled=isLoggedInUserEnabled;
-exports.setLoggedInUserSession=setLoggedInUserSession;
+exports.getChannelAttribute = getChannelAttribute;
+exports.addHelpers = addHelpers;
+exports.getChannels = getChannels;
+exports.getMovieAttribute = getMovieAttribute;
+exports.getMovieList = getMovieList;
+exports.isLoggedInUser = isLoggedInUser;
+exports.requiresLogin = requiresLogin;
+exports.isLoggedInUserEnabled = isLoggedInUserEnabled;
+exports.setLoggedInUserSession = setLoggedInUserSession;
 exports.userActionLog=userActionLog;
 exports.getUserActionLog=getUserActionLog;
 exports.getSeriesList=getSeriesList;
+exports.getSeries=getSeries;
 exports.addSeries=addSeries;
 exports.getUsers=getUsers;
 exports.getUser=getUser;

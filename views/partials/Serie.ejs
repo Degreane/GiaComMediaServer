@@ -24,8 +24,11 @@ var serieToBeEdited = {};
 if (locals.newSeries) {
 	serieToBeEdited={};
 }else if (locals.editSeries) {
-	serieToBeEdited = locals.theSerie;
+	serieToBeEdited = locals.Serie;
 }
+%>
+<%# 
+	If locals.editSeries is true then we need to issue a javascript to get the serie and populate it in the "theSerie" global variable
 %>
 <div class="container col-12 col-md-12 col-sm-12 ">
     <div class="jumbotron " style="padding-top:5px;">
@@ -192,7 +195,7 @@ if (locals.newSeries) {
 						<div class="form-group">
 							<label for="description" class="col-md-2">Season Description</label>
 							<div class="col-md-10"> 
-								<input type="description" min="0" step="1" name="description" id="description" class="form-control" placeholder="Season Description" aria-describedby="description_helpId" required>
+								<input type="text" name="description" id="description" class="form-control" placeholder="Season Description" aria-describedby="description_helpId" required>
 							</div>
 						</div>
 						<div class="form-group col-md-12" style="border-radius: 5px; box-shadow: 1px 1px 1px 1px #f9f3f3 , 2px 2px 1px 1px #000000; border: 1px solid #000000;float:unset;margin-bottom:15px;">
@@ -303,7 +306,7 @@ if (locals.newSeries) {
 	<% if (locals.padStart) { %>
 		<script>
 			// load padStart from EJS 
-			var padStart = <%- locals.padStart %>
+			var padStart = <%- locals.padStart %>;
 		</script>
 	<% } %>
 	<script>
@@ -330,6 +333,19 @@ if (locals.newSeries) {
 						tdC1Edit.attr('id',idx);
 						tdC1Edit.attr('href','#');
 						tdC1Edit.text('Edit ');
+						tdC1Edit.on('click',function(e){
+							e.preventDefault();
+							var theSeason=theSeasons[e.currentTarget.id];
+							console.log(theSeason)
+							$('#sNumber').val(theSeason.number);
+							$('#sTitle').val(theSeason.title);
+							theSeason.description ? $('#description').val(theSeason.description):$('#description').val("")
+							if (theSeason.episodes && theSeason.episodes instanceof Array) {
+								theEpisodes=theSeason.episodes;}else{theEpisodes=[];}
+								mapEpisodeTable()
+							//theEpisodes=theSeason.episodes
+							$('#newSeason').show();
+						})
 						tdC1Edit.append('<span class="glyphicon glyphicon-edit"/>');
 						tdC1Edit.addClass('btn btn-xs btn-default align-right');
 						tdC1.text(value.title);
@@ -352,6 +368,10 @@ if (locals.newSeries) {
 					});
 				}
 			}
+			<% if (locals.editSeries) { %>
+				console.log(theSerie.seasons);
+				mapSeasonTable();
+			<% } %>
 			/**
 				Maps The Episode Hash into the Episode table in the Season selected
 			*/
