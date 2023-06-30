@@ -560,7 +560,7 @@ var getConfig = async function(req,res,next){
 var saveConfig=async function(req,res,next){
     console.log("MIDDLEWARE->saveConfig : ",res.locals.query);
     // console.log('MIDDLEWARE->saveConfig : ',req.body)
-    await configs.saveConfig(res.locals/query).then(result=>{
+    await configs.saveConfig(res.locals.query).then(result=>{
         console.log('MIDDLEWRE->saveConfig : ',JSON.stringify(result,undefined,2));
         res.locals.saveConfig=result;
     })

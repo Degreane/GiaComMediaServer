@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-
-mongoose.connect('mongodb://127.0.0.1:27017/GiaCom',{
+if (process.env.AUTH_ENABLED) {
+    mongoose.connect('mongodb://127.0.0.1:27017/GiaCom',{
     // useNewUrlParser:true,
     // useUnifiedTopology: true,
     // useCreateIndex:true,
@@ -12,6 +12,21 @@ mongoose.connect('mongodb://127.0.0.1:27017/GiaCom',{
       "pass": "shta2telik"
     
 });
+
+}else{
+    mongoose.connect('mongodb://127.0.0.1:27017/GiaCom',{
+    // useNewUrlParser:true,
+    // useUnifiedTopology: true,
+    // useCreateIndex:true,
+    // useFindAndModify:false,
+    // "auth": {
+    //     "authSource": "admin"
+    //   },
+    //   "user": "psycho",
+    //   "pass": "shta2telik"
+    
+});
+}
 var db=mongoose.connection;
 db.on('error',function(err){
     console.log(err)
@@ -25,7 +40,7 @@ db.once('open',function(){
             console.log(err)
         }else if (result == null){
             console.log('We Need To Create A New User')
-            var newUser= new usersModel({
+            var newUser= new usersModel.users({
                 uType: 'sysAdmin',
                 uEnabled: true,
                 uOnline: false,
